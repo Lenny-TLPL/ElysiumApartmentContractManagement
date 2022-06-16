@@ -109,7 +109,6 @@
                                     <i class="ti-close"></i>
                                 </a>
                             </form>
-                            
                         </li>
                     </ul>
                     <!-- ============================================================== -->
@@ -353,13 +352,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Resident
-                                <span style="float:right"  >
-                                    <a href="addCustomer.jsp">
-                                        <i class="mdi mdi-plus-circle-outline"></i>Add
-                                    </a>
-                                </span>
-                            </h4>
+                            <h4 class="card-title">Resident</h4>
                         </div>
                         <div class="table-responsive">
                             <table class="table">

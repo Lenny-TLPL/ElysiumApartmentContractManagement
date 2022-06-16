@@ -69,11 +69,11 @@
                             </b>
                             <!--End Logo icon -->
                             <!-- Logo text -->
-                            <span class="logo-text">
-                                <!-- dark Logo text -->
-                                <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo text -->
-                                <img src="assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                            <span class="logo-text" >
+<!--                                 dark Logo text -->
+                                <img src="assets/images/logo-text.png" a lt="homepage" class="dark-logo" />
+<!--                                 Light Logo text -->
+                                <img src="assets/images/logo-light-text.png" class="light-logo" alt="homepage" />                               
                             </span>
                         </a>
                     </div>
@@ -96,7 +96,8 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        <li class="nav-item search-box">
+                        
+<!--                        <li class="nav-item search-box">
                             <a class="nav-link waves-effect waves-dark" href="javascript:void(0)">
                                 <div class="d-flex align-items-center">
                                     <i class="mdi mdi-magnify font-20 me-1"></i>
@@ -111,7 +112,7 @@
                                     <i class="ti-close"></i>
                                 </a>
                             </form>
-                        </li>
+                        </li>-->
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
@@ -120,7 +121,7 @@
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
+<!--                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31">
                             </a>
@@ -132,7 +133,7 @@
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email me-1 ms-1"></i>
                                     Inbox</a>
                             </ul>
-                        </li>
+                        </li>-->
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
@@ -159,19 +160,19 @@
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+<!--                        <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pagesProfile.jsp"
                                 aria-expanded="false">
                                 <i class="mdi mdi-account-network"></i>
                                 <span class="hide-menu">Profile</span>
                             </a>
-                        </li>
-                        <li class="sidebar-item">
+                        </li>-->
+<!--                        <li class="sidebar-item">
                             <a class="nav-link dropdown-toggle sidebar-link waves-effect waves-dark sidebar-link pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="mdi mdi-account-network"></i>
                                 <span class="hide-menu">Profile</span>
                             </a>
-                            <!-- dÃ¹ng loáº¡i submit gá»­i param  -->
+                             dÃ¹ng loáº¡i submit gá»­i param  
                             <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item dropdown_navbar_item" href="javascript:void(0)">
                                     <span class="waves-effect waves-dark">My Profile</span></a>
@@ -180,15 +181,50 @@
                                 <a class="dropdown-item dropdown_navbar_item" href="javascript:void(0)">
                                     <span class="waves-effect waves-dark">My Profile</span></a>
                             </ul>
+                        </li>-->                        
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="employee.jsp"
+                                aria-expanded="false">
+                                <i class="mdi mdi-account-network"></i>
+                                <span class="hide-menu">Employee</span>
+                            </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="customer.jsp"
                                 aria-expanded="false">
                                 <i class="mdi mdi-account-network"></i>
-                                <span class="hide-menu">Customer</span>
+                                <span class="hide-menu">Customer/Resident</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="apartment.jsp"
+                                aria-expanded="false">
+                                <i class="mdi mdi-account-network"></i>
+                                <span class="hide-menu">Apartment</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="service.jsp"
+                                aria-expanded="false">
+                                <i class="mdi mdi-account-network"></i>
+                                <span class="hide-menu">Service</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="contract.jsp"
+                                aria-expanded="false">
+                                <i class="mdi mdi-account-network"></i>
+                                <span class="hide-menu">Contract</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="notification.jsp"
+                                aria-expanded="false">
+                                <i class="mdi mdi-account-network"></i>
+                                <span class="hide-menu">Notification</span>
+                            </a>
+                        </li>
+<!--                        <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="formBasic.jsp"
                                 aria-expanded="false">
                                 <i class="mdi mdi-arrange-bring-forward"></i>
@@ -222,7 +258,7 @@
                                 <i class="mdi mdi-alert-outline"></i>
                                 <span class="hide-menu">404</span>
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

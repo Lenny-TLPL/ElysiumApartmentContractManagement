@@ -22,7 +22,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>addCustomer.jsp</welcome-file>
+        <welcome-file>dashboard.jsp</welcome-file>
     </welcome-file-list>
     <resource-ref>
         <res-ref-name>DBCon</res-ref-name>

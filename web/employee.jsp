@@ -109,7 +109,6 @@
                                     <i class="ti-close"></i>
                                 </a>
                             </form>
-                            
                         </li>
                     </ul>
                     <!-- ============================================================== -->
@@ -277,7 +276,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-5 align-self-center">
-                        <h4 class="page-title">Customer/Resident</h4>
+                        <h4 class="page-title">Employee</h4>
                     </div>
                     <div class="col-7 align-self-center">
                         <div class="d-flex align-items-center justify-content-end">
@@ -312,7 +311,7 @@
                                         <i class="mdi mdi-plus-circle-outline"></i>Add
                                     </a>
                                 </span>
-                            </h4>                
+                            </h4>                                                                                    
                         </div>
                         <div class="table-responsive">
                             <table class="table">
@@ -353,13 +352,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Resident
-                                <span style="float:right"  >
-                                    <a href="addCustomer.jsp">
-                                        <i class="mdi mdi-plus-circle-outline"></i>Add
-                                    </a>
-                                </span>
-                            </h4>
+                            <h4 class="card-title">Resident</h4>
                         </div>
                         <div class="table-responsive">
                             <table class="table">

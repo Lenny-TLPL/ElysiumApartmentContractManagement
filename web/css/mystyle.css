@@ -1,4 +1,8 @@
-
+.formBorder{
+    border-width:0px;
+    border:none;
+    outline:none;
+}
 .dropdown_navbar_item.active, .dropdown_navbar_item:active {
     background-color:#1F2D3B;
     color:#fff;
