@@ -4,59 +4,57 @@
  */
 package sample.DTO;
 
-import java.util.Date;
-
-
-
-
 /**
  *
  * @author Phi Long
  */
-public class UserDTO {
+public class UserError {
     private String userID ;   
     private String fullName ;
     private String email ;
     private String phone ;
     private String address ;
-    private Date birthDay;
+    private String birthday;
     private String citizenID;
     private String gender;
     private String password;
-    private Date dateJoin;
-    private boolean status;
-    private int roleID;
-
-    public UserDTO(String userID, String fullName, String email, String phone, String address, Date birthDay, String citizenID, String gender, String password, Date dateJoin, boolean status, int roleID) {
-        this.userID = userID;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.birthDay = birthDay;
-        this.citizenID = citizenID;
-        this.gender = gender;
-        this.password = password;
-        this.dateJoin = dateJoin;
-        this.status = status;
-        this.roleID = roleID;
-    }
-
-    public UserDTO() {
+    private String dateJoin;
+    private String status;
+    private String roleName;
+    private String errorMessage;
+    
+    public UserError() {
         this.userID = "";
         this.fullName = "";
         this.email = "";
         this.phone = "";
         this.address = "";
-        this.birthDay = null;
+        this.birthday = "";
         this.citizenID = "";
         this.gender = "";
         this.password = "";
-        this.dateJoin = null;
-        this.status = false;
-        this.roleID = 0;
+        this.dateJoin = "";
+        this.status = "";
+        this.roleName = "";
+        this.errorMessage = "";
     }
 
+    public UserError(String userID, String fullName, String email, String phone, String address, String birthday, String citizenID, String gender, String password, String dateJoin, String status, String roleName, String errorMessage) {
+        this.userID = userID;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.birthday = birthday;
+        this.citizenID = citizenID;
+        this.gender = gender;
+        this.password = password;
+        this.dateJoin = dateJoin;
+        this.status = status;
+        this.roleName = roleName;
+        this.errorMessage = errorMessage;
+    }
+    
     public String getUserID() {
         return userID;
     }
@@ -97,12 +95,12 @@ public class UserDTO {
         this.address = address;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public String getCitizenID() {
@@ -129,28 +127,35 @@ public class UserDTO {
         this.password = password;
     }
 
-    public Date getDateJoin() {
+    public String getDateJoin() {
         return dateJoin;
     }
 
-    public void setDateJoin(Date dateJoin) {
+    public void setDateJoin(String dateJoin) {
         this.dateJoin = dateJoin;
     }
 
-    public boolean isStatus() {
+    public String isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public int getRoleID() {
-        return roleID;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
-    
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

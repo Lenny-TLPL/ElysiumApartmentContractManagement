@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.DAO.RoleDAO;
 import sample.DAO.UserDAO;
 import sample.DTO.UserDTO;
 
@@ -25,7 +26,7 @@ public class LoginController extends HttpServlet {
     private static final String EM ="Employee";
     private static final String BM = "Board Manager";
     private static final String USER_PAGE = "index.jsp";
-    private static final String ADMIN_PAGE = "about.jsp";
+    private static final String ADMIN_PAGE = "adminMainPage.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,13 +44,15 @@ public class LoginController extends HttpServlet {
             String userID=request.getParameter("userID");
             String password=request.getParameter("password");
             UserDAO dao=new UserDAO();
+            RoleDAO roleDao=new RoleDAO();
             UserDTO loginUser=new UserDTO();
             loginUser=dao.checkLogin(userID, password);
             if (loginUser!=null)
             {
                 HttpSession session=request.getSession();
                 session.setAttribute("LOGIN_USER", loginUser);
-                String roleName=loginUser.getRoleName();
+                String roleName=roleDao.getUserRole(loginUser.getRoleID());
+                session.setAttribute("LOGIN_USER_ROLE", roleName);
                 if (CUS.equals(roleName)||RES.equals(roleName))
                 {
                     url=USER_PAGE;

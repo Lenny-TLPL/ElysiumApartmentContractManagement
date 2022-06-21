@@ -8,6 +8,14 @@
         <servlet-name>AddController</servlet-name>
         <servlet-class>sample.controllers.AddController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchController</servlet-name>
+        <servlet-class>sample.controllers.SearchController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogOutController</servlet-name>
+        <servlet-class>sample.controllers.LogOutController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -24,13 +32,21 @@
         <servlet-name>AddController</servlet-name>
         <url-pattern>/AddController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchController</servlet-name>
+        <url-pattern>/SearchController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogOutController</servlet-name>
+        <url-pattern>/LogOutController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>dashboard.jsp</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
     <resource-ref>
         <res-ref-name>DBCon</res-ref-name>

@@ -43,7 +43,7 @@
           
                             <div class="form-outline mb-4">
                                 <input name="userID" type="text" id="form2Example11" class="form-control" required=""
-                                       placeholder="UserID" value="${param.userID}" />                            
+                                       placeholder="UserID or phone number" value="${param.userID}" />                            
                             </div>
           
                             <div class="form-outline mb-4">

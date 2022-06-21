@@ -9,23 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Phi Long
  */
-public class MainController extends HttpServlet {
-
-    private static final String ERROR = "error404.jsp";
-    private static final String LOGIN = "Login";
-    private static final String LOGIN_CONTROLLER = "LoginController";
-    private static final String LOGOUT = "Logout";
-    private static final String LOGOUT_CONTROLLER = "LogOutController";
-    private static final String ADD = "Add";
-    private static final String ADD_CONTROLLER = "AddController";
-    private static final String SEARCH = "Search";
-    private static final String SEARCH_CONTROLLER = "SearchController";
-
+public class LogOutController extends HttpServlet {
+    private static final String ERROR="error404.jsp";
+    private static final String SUCCESS="login.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,22 +30,17 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+        String url = ERROR;      
         try {
-            String action = request.getParameter("action");
-            if (SEARCH.equals(action)) {
-                url = SEARCH_CONTROLLER;
-            } else if (LOGIN.equals(action)) {
-                url = LOGIN_CONTROLLER;
-            } else if (ADD.equals(action)) {
-                url = ADD_CONTROLLER;
-            } else if (LOGOUT.equals(action)) {
-                url = LOGOUT_CONTROLLER;
+            HttpSession session= request.getSession(false);
+            if(session!=null){
+                session.invalidate();
+                url = SUCCESS;
             }
         } catch (Exception e) {
-            log("Error at MainController:" + e.toString());
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            log("Error at LogOutController: "+e.toString());
+        }finally{
+            response.sendRedirect(url);
         }
     }
 
