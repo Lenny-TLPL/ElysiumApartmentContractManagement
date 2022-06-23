@@ -23,6 +23,8 @@
     <body>
         <% if (request.getParameter("type") == null) {
                 response.sendRedirect("adminMainPage.jsp");
+            } else if (request.getParameter("PERMISSION_LIST") == null) {
+                request.getRequestDispatcher("MainController?action=GetMaterial&require=permission&type");
             } else {%>
         <div class="container">
             <header>Add New ${param.type}</header>
@@ -104,7 +106,7 @@
                 <%if (request.getParameter("type").equals("Customer") || request.getParameter("type").equals("Resident")) {%>
                 <div class="form second">
                     <div class="details address">
-                        <span class="title">Details</span>
+                        <span class="title">Contract with Elysium</span>
 
                         <div class="fields">
                             <div class="input-field">
@@ -193,79 +195,17 @@
                 <%} else {%>
                 <div class="form second">
                     <div class="details address">
-                        <span class="title">Address Details</span>
+                        <span class="title">Permission</span>
 
                         <div class="fields">
                             <div class="input-field">
-                                <label>Address Type</label>
-                                <input type="text" placeholder="Permanent or Temporary" required>
+                                <label><input type="checkbox" name="html" value="html" checked> HTML</label><br />
                             </div>
-
-                            <div class="input-field">
-                                <label>Nationality</label>
-                                <input type="text" placeholder="Enter nationality" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>State</label>
-                                <input type="text" placeholder="Enter your state" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>District</label>
-                                <input type="text" placeholder="Enter your district" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Block Number</label>
-                                <input type="number" placeholder="Enter block number" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Ward Number</label>
-                                <input type="number" placeholder="Enter ward number" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="details family">
-                        <span class="title">Family Details</span>
-
-                        <div class="fields">
-                            <div class="input-field">
-                                <label>Father Name</label>
-                                <input type="text" placeholder="Enter father name" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Mother Name</label>
-                                <input type="text" placeholder="Enter mother name" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Grandfather</label>
-                                <input type="text" placeholder="Enter grandfther name" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Spouse Name</label>
-                                <input type="text" placeholder="Enter spouse name" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Father in Law</label>
-                                <input type="text" placeholder="Father in law name" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Mother in Law</label>
-                                <input type="text" placeholder="Mother in law name" required>
-                            </div>
-<!--
-                            <div class="input-field">
-                                <label>Mother in Law</label>
-                                <input type="file" id="avatar" name="avatar"accept="image/*">
-                            </div>-->
+                            <!--
+                                                        <div class="input-field">
+                                                            <label>Mother in Law</label>
+                                                            <input type="file" id="avatar" name="avatar"accept="image/*">
+                                                        </div>-->
                         </div>
 
                         <div class="buttons">

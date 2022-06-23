@@ -24,6 +24,9 @@ public class UserDAO {
     private static final String GET_LIST_USER="SELECT userID, password, fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID FROM tblUser "
             + "WHERE tblUser.roleID = COALESCE((SELECT TOP 1 roleID FROM tblRole WHERE roleName COLLATE SQL_Latin1_General_CP1_CS_AS = ?),0)"
             + " AND (fullName LIKE ? OR userID LIKE ? OR citizenID LIKE ? OR phone LIKE ?)";
+    private static final String GET_LIST_LOGIN_USER_PERMMISSION="SELECT p.permissionName FROM tblUserPermission u "
+            + "INNER JOIN tblPermission p ON u.permissionID=p.permissionID  " +
+              " WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ?";
     
     public UserDTO checkLogin(String userID, String password) throws SQLException {
         UserDTO user = null;
@@ -162,6 +165,38 @@ public class UserDAO {
                     int roleID = rs.getInt("roleID");
                     user = new UserDTO(userID, fullName, email, phone, address, birthDay, citizenID, gender, password, dateJoin, status, roleID);
                     list.add(user);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    
+    public ArrayList<String> getListLoginUserPermission(String userID) throws SQLException {
+        ArrayList<String> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_LOGIN_USER_PERMMISSION);
+                stm.setString(1, userID);              
+                rs = stm.executeQuery();
+                while (rs.next()) { 
+                    String permission = rs.getString("permissionName");
+                    list.add(permission);
                 }
             }
         } catch (Exception e) {

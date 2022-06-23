@@ -10,10 +10,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.DAO.BillingHistoryDAO;
 import sample.DAO.ContractDAO;
+import sample.DAO.NotificationDAO;
+import sample.DAO.PermissionDAO;
+import sample.DAO.PrivateNotificationDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
+import sample.DTO.BillingHistoryDTO;
 import sample.DTO.ContractDTO;
+import sample.DTO.NotificationDTO;
+import sample.DTO.PermissionDTO;
+import sample.DTO.PrivateNotificationDTO;
 import sample.DTO.ServiceDTO;
 import sample.DTO.UserDTO;
 
@@ -32,12 +40,12 @@ public class SearchController extends HttpServlet {
     private static final String CONTRACT = "Contract";
     private static final String SERVICE = "Service";
     private static final String NOTIFICATION = "Notification";
-    private static final String PRIVATE_NOTIFICATION = "Private Notification";
     private static final String APARTMENT = "Apartment";
     private static final String APARTMENT_BUILDING = "Apartment Building";
     private static final String DISTRICT = "District";
     private static final String BILLING_HISTORY = "Billing History";
     private static final String USER_DEBT = "User Debt";
+    private static final String PERMISSION = "Permission";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -98,6 +106,28 @@ public class SearchController extends HttpServlet {
                     ArrayList<ContractDTO> contractList = contractDao.getListContract(search);
                     request.setAttribute("CONTRACT_LIST", contractList);
                     url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    break;
+                case NOTIFICATION:
+                    NotificationDAO notiDao = new NotificationDAO();
+                    PrivateNotificationDAO privateNotiDao = new PrivateNotificationDAO();
+                    ArrayList<NotificationDTO> notiList = notiDao.getListNotification(search);
+                    ArrayList<PrivateNotificationDTO> privateNotiList = privateNotiDao.getListPrivateNotification(search);
+                    request.setAttribute("NOTIFICATION_LIST", notiList);
+                    request.setAttribute("PRIVATE_NOTIFICATION_LIST", privateNotiList);
+                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    break;
+                case PERMISSION:
+                    PermissionDAO permissionDao = new PermissionDAO();
+                    ArrayList<PermissionDTO> permissionList = permissionDao.getListPermission(search);
+                    request.setAttribute("PERMISSION_LIST", permissionList);
+                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    break;
+                case BILLING_HISTORY:
+                    BillingHistoryDAO billDao = new BillingHistoryDAO();
+                    ArrayList<BillingHistoryDTO> billList = billDao.getListBilling(search);
+                    request.setAttribute("BILLING_HISTORY_LIST", billList);
+                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    break;
             }
              
         } catch (Exception e) {

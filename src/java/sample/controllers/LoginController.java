@@ -5,6 +5,7 @@
 package sample.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,16 +44,17 @@ public class LoginController extends HttpServlet {
         try {
             String userID=request.getParameter("userID");
             String password=request.getParameter("password");
-            UserDAO dao=new UserDAO();
+            UserDAO userDao=new UserDAO();
             RoleDAO roleDao=new RoleDAO();
-            UserDTO loginUser=new UserDTO();
-            loginUser=dao.checkLogin(userID, password);
+            UserDTO loginUser=userDao.checkLogin(userID, password);
             if (loginUser!=null)
             {
                 HttpSession session=request.getSession();
                 session.setAttribute("LOGIN_USER", loginUser);
                 String roleName=roleDao.getUserRole(loginUser.getRoleID());
+                ArrayList<String> permission = userDao.getListLoginUserPermission(userID);
                 session.setAttribute("LOGIN_USER_ROLE", roleName);
+                session.setAttribute("LOGIN_USER_PERMISSION",permission);
                 if (CUS.equals(roleName)||RES.equals(roleName))
                 {
                     url=USER_PAGE;

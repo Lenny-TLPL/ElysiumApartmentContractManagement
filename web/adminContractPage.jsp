@@ -13,7 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-         <%if (request.getAttribute("CONTRACT_LIST") == null) {
+        <%if (request.getAttribute("CONTRACT_LIST") == null) {
                 response.sendRedirect("MainController?action=Search&type=Contract&search=");
             }%>
         <div class="sidebar">
@@ -100,7 +100,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminPermissionPage.jsp">
                         <i class='bx bx-key' ></i>
                         <span class="links_name">Permission</span>
                     </a>

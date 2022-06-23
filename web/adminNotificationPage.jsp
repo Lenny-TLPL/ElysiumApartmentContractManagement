@@ -1,3 +1,6 @@
+<%@page import="sample.DTO.PrivateNotificationDTO"%>
+<%@page import="sample.DTO.NotificationDTO"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
 <html lang="en" dir="ltr">
@@ -11,6 +14,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <%if (request.getAttribute("NOTIFICATION_LIST") == null || request.getAttribute("PRIVATE_NOTIFICATION_LIST") == null) {
+                response.sendRedirect("MainController?action=Search&type=Notification&search=");
+            }%>
         <div class="sidebar">
             <div class="logo-details">
                 <i class='bx bxl-c-plus-plus'></i>
@@ -95,7 +101,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminPermissionPage.jsp">
                         <i class='bx bx-key' ></i>
                         <span class="links_name">Permission</span>
                     </a>
@@ -114,10 +120,14 @@
                     <i class='bx bx-menu sidebarBtn'></i>
                     <span class="dashboard">Dashboard</span>
                 </div>
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <i class='bx bx-search' ></i>
-                </div>
+                <form action="MainController"class="search-box">
+                    <div>
+                        <input type="hidden" name="type" value="Notification">
+                        <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
+                        <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
+                    </div>
+                </form>
+
                 <div >
                     <!--<img src="images/profile.jpg" alt="">-->
                     <span class="admin_name">${sessionScope.LOGIN_USER.fullName}</span>
@@ -126,168 +136,106 @@
             </nav>
 
             <div class="home-content">
-                <div class="overview-boxes">
-                    <div class="box">
-                        <div class="right-side">
-                            <div class="box-topic">Total Order</div>
-                            <div class="number">40,876</div>
-                            <div class="indicator">
-                                <i class='bx bx-up-arrow-alt'></i>
-                                <span class="text">Up from yesterday</span>
-                            </div>
-                        </div>
-                        <i class='bx bx-cart-alt cart'></i>
-                    </div>
-                    <div class="box">
-                        <div class="right-side">
-                            <div class="box-topic">Total Sales</div>
-                            <div class="number">38,876</div>
-                            <div class="indicator">
-                                <i class='bx bx-up-arrow-alt'></i>
-                                <span class="text">Up from yesterday</span>
-                            </div>
-                        </div>
-                        <i class='bx bxs-cart-add cart two' ></i>
-                    </div>
-                    <div class="box">
-                        <div class="right-side">
-                            <div class="box-topic">Total Profit</div>
-                            <div class="number">$12,876</div>
-                            <div class="indicator">
-                                <i class='bx bx-up-arrow-alt'></i>
-                                <span class="text">Up from yesterday</span>
-                            </div>
-                        </div>
-                        <i class='bx bx-cart cart three' ></i>
-                    </div>
-                    <div class="box">
-                        <div class="right-side">
-                            <div class="box-topic">Total Return</div>
-                            <div class="number">11,086</div>
-                            <div class="indicator">
-                                <i class='bx bx-down-arrow-alt down'></i>
-                                <span class="text">Down From Today</span>
-                            </div>
-                        </div>
-                        <i class='bx bxs-cart-download cart four' ></i>
-                    </div>
-                </div>
-
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title">Recent Sales</div>
-                        <div class="sales-details">
-                            <ul class="details">
-                                <li class="topic">Date</li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                            </ul>
-                            <ul class="details">
-                                <li class="topic">Customer</li>
-                                <li><a href="#">Alex Doe</a></li>
-                                <li><a href="#">David Mart</a></li>
-                                <li><a href="#">Roe Parter</a></li>
-                                <li><a href="#">Diana Penty</a></li>
-                                <li><a href="#">Martin Paw</a></li>
-                                <li><a href="#">Doe Alex</a></li>
-                                <li><a href="#">Aiana Lexa</a></li>
-                                <li><a href="#">Rexel Mags</a></li>
-                                <li><a href="#">Tiana Loths</a></li>
-                            </ul>
-                            <ul class="details">
-                                <li class="topic">Sales</li>
-                                <li><a href="#">Delivered</a></li>
-                                <li><a href="#">Pending</a></li>
-                                <li><a href="#">Returned</a></li>
-                                <li><a href="#">Delivered</a></li>
-                                <li><a href="#">Pending</a></li>
-                                <li><a href="#">Returned</a></li>
-                                <li><a href="#">Delivered</a></li>
-                                <li><a href="#">Pending</a></li>
-                                <li><a href="#">Delivered</a></li>
-                            </ul>
-                            <ul class="details">
-                                <li class="topic">Total</li>
-                                <li><a href="#">$204.98</a></li>
-                                <li><a href="#">$24.55</a></li>
-                                <li><a href="#">$25.88</a></li>
-                                <li><a href="#">$170.66</a></li>
-                                <li><a href="#">$56.56</a></li>
-                                <li><a href="#">$44.95</a></li>
-                                <li><a href="#">$67.33</a></li>
-                                <li><a href="#">$23.53</a></li>
-                                <li><a href="#">$46.52</a></li>
-                            </ul>
-                        </div>
-                        <div class="button">
-                            <a href="#">See All</a>
-                        </div>
-                    </div>
-                    <div class="top-sales box">
-                        <div class="title">Top Seling Product</div>
-                        <ul class="top-sales-details">
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/sunglasses.jpg" alt="">-->
-                                    <span class="product">Vuitton Sunglasses</span>
-                                </a>
-                                <span class="price">$1107</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/jeans.jpg" alt="">-->
-                                    <span class="product">Hourglass Jeans </span>
-                                </a>
-                                <span class="price">$1567</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!-- <img src="images/nike.jpg" alt="">-->
-                                    <span class="product">Nike Sport Shoe</span>
-                                </a>
-                                <span class="price">$1234</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/scarves.jpg" alt="">-->
-                                    <span class="product">Hermes Silk Scarves.</span>
-                                </a>
-                                <span class="price">$2312</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/blueBag.jpg" alt="">-->
-                                    <span class="product">Succi Ladies Bag</span>
-                                </a>
-                                <span class="price">$1456</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/bag.jpg" alt="">-->
-                                    <span class="product">Gucci Womens's Bags</span>
-                                </a>
-                                <span class="price">$2345</span>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/addidas.jpg" alt="">-->
-                                    <span class="product">Addidas Running Shoe</span>
-                                </a>
-                                <span class="price">$2345</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/shirt.jpg" alt="">-->
-                                    <span class="product">Bilack Wear's Shirt</span>
-                                </a>
-                                <span class="price">$1245</span>
-                            </li>
-                        </ul>
-                    </div>
+                        <div class="title" style="float:left">NOTIFICATION</div>
+                        <a href="#"style="float:right" >
+                            <i class="bx  bx-plus-circle" >ADD</i>
+                        </a>
+                        <table border="1" id="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Header</th> 
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>View Detail</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%  ArrayList<NotificationDTO> notificationList = (ArrayList<NotificationDTO>) request.getAttribute("NOTIFICATION_LIST");
+                                    if (notificationList != null) {
+                                        if (notificationList.size() > 0) {
+                                            for (int i = 0; i < notificationList.size(); i++) {%>
+                            <form action="MainController" method="POST">
+                                <tr>
+                                    <td> <input style="width:100%" type="number" name="notiID" value="<%=notificationList.get(i).getNotiID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="notiHeader" value="<%=notificationList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="date" name="notiDate" value="<%=notificationList.get(i).getNotiDate()%>" readonly="readonly"/></td>
+                                <input type="hidden" name="notiStatus" value="<%=notificationList.get(i).isStatus()%>" readonly="readonly"/>
+                                <%if (notificationList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
+                                    <%}%>
+                                <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
+                                <%if (notificationList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
+                                    <%}%>
+                                </tr>  
+                            </form>
+                            <%}
+                                    }
+                                }%>
+
+                            </tbody>
+                        </table>
+                    </div>                    
+                </div>
+                <br>
+                <div class="sales-boxes">
+                    <div class="recent-sales box">
+                        <div class="title" style="float:left">PRIVATE NOTIFICATION</div>
+                        <a href="#"style="float:right" >
+                            <i class="bx  bx-plus-circle" >ADD</i>
+                        </a>
+                        <table border="1" id="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>USER ID</th> 
+                                    <th>Header</th> 
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>View Detail</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%  ArrayList<PrivateNotificationDTO> PrivateNotiList = (ArrayList<PrivateNotificationDTO>) request.getAttribute("CONTRACT_LIST");
+                                    if (PrivateNotiList != null) {
+                                        if (PrivateNotiList.size() > 0) {
+                                            for (int i = 0; i < PrivateNotiList.size(); i++) {%>
+                            <form action="MainController" method="POST">
+                                <tr>
+                                    <td> <input style="width:100%" type="text" name="privateNotiID" value="<%=PrivateNotiList.get(i).getNotiID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="userID" value="<%=PrivateNotiList.get(i).getUserID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="privateNotiHeader" value="<%=PrivateNotiList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="date" name="privateNotiDate" value="<%=PrivateNotiList.get(i).getNotiDate()%>" readonly="readonly"/></td>
+                                <input type="hidden" name="privateNotiStatus" value="<%=PrivateNotiList.get(i).isStatus()%>" readonly="readonly"/>
+                                <%if (PrivateNotiList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
+                                    <%}%>
+                                <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
+                                <%if (PrivateNotiList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
+                                    <%}%>
+                                </tr>  
+                            </form>
+                            <%}
+                                    }
+                                }%>
+
+                            </tbody>
+                        </table>
+                    </div>                    
                 </div>
             </div>
         </section>

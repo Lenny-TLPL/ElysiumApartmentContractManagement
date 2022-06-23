@@ -101,7 +101,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminPermissionPage.jsp">
                         <i class='bx bx-key' ></i>
                         <span class="links_name">Permission</span>
                     </a>

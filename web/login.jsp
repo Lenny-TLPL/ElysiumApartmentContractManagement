@@ -35,7 +35,7 @@
                           <div class="text-center">
                             <img src=""
                               style="width: 185px;" alt="logo">
-                            <h4 class="mt-1 mb-5 pb-1">We are Elysium</h4>
+                            <h4 class="mt-1 mb-5 pb-1">Welcome to Elysium</h4>
                           </div>
                          
                             <form action="MainController" method="POST">

@@ -39,6 +39,7 @@ public class AddController extends HttpServlet {
     private static final String DISTRICT = "District";
     private static final String BILLING_HISTORY = "Billing History";
     private static final String USER_DEBT = "User Debt";
+    private static final String PERMISSION = "Permission";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

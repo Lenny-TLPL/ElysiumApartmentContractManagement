@@ -1,6 +1,6 @@
+
+<%@page import="sample.DTO.PermissionDTO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="sample.DTO.UserDTO"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
 <html lang="en" dir="ltr">
@@ -14,8 +14,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <%if (request.getAttribute("USER_LIST") == null) {
-                response.sendRedirect("MainController?action=Search&type=Board Manager&search=");
+        <%if (request.getAttribute("PERMISSION_LIST") == null) {
+                response.sendRedirect("MainController?action=Search&type=Permission&search=");
             }%>
         <div class="sidebar">
             <div class="logo-details">
@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Board Manager&action=Search&search=" class="active">
+                    <a href="MainController?type=Board Manager&action=Search&search=">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Board Manager</span>
                     </a>
@@ -65,7 +65,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="adminServicePage.jsp">
+                    <a href="adminServicePage.jsp" >
                         <i class='bx bx-book-alt' ></i>
                         <span class="links_name">Service</span>
                     </a>
@@ -101,7 +101,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="adminPermissionPage.jsp">
+                    <a href="adminPermissionPage.jsp" class="active">
                         <i class='bx bx-key' ></i>
                         <span class="links_name">Permission</span>
                     </a>
@@ -122,7 +122,7 @@
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
-                        <input type="hidden" name="type" value="Board Manager">
+                        <input type="hidden" name="type" value="Permission">
                         <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
                         <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
                     </div>
@@ -140,47 +140,43 @@
 
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title" style="float:left">BOARD MANAGER</div>
-                        <a href="adminAddUserPage.jsp?type=Board Manager"style="float:right" >
+                        <div class="title" style="float:left">PERMISSION</div>
+                        <a href="#"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
+                        <div class="title"></div>
                         <table border="1" id="table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>FullName</th>
-                                    <th>Phone</th>                                    
-                                    <th>Citizen ID</th>                                    
-                                    <th>DateJoin</th>
+                                    <th>Name</th>                                                                  
                                     <th>Status</th>
                                     <th>View Detail</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <%  ArrayList<UserDTO> userList = (ArrayList<UserDTO>) request.getAttribute("USER_LIST");
-                                    if (userList != null) {
-                                        if (userList.size() > 0) {
-                                            for (int i = 0; i < userList.size(); i++) {%>
+                                <%  ArrayList<PermissionDTO> permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
+                                    if (permissionList != null) {
+                                        if (permissionList.size() > 0) {
+                                            for (int i = 0; i < permissionList.size(); i++) {%>
                             <form action="MainController" method="POST">
                                 <tr>
-                                    <td> <input style="width:100%" type="text" name="userID" value="<%=userList.get(i).getUserID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="fullName" value="<%=userList.get(i).getFullName()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="phone" value="<%=userList.get(i).getPhone()%>" readonly="readonly" maxlength="11" required=""/></td>
-                                    <td> <input style="width:100%" type="text" name="citizenID" value="<%=userList.get(i).getCitizenID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="date" name="dateJoin" value="<%=userList.get(i).getDateJoin()%>" readonly="readonly"/></td>
-                                    <input type="hidden" name="status" value="<%=userList.get(i).isStatus()%>" readonly="readonly"/>
-                                    <%if(userList.get(i).isStatus()){%>
-                                    <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
-                                    <%}else{%>
-                                    <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="permissionID" value="<%=permissionList.get(i).getPermissionID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="permissionName" value="<%=permissionList.get(i).getPermissionName()%>" readonly="readonly"/></td>
+                                <input type="hidden" name="status" value="<%=permissionList.get(i).isStatus()%>" readonly="readonly"/>
+                                <%if (permissionList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
                                     <%}%>
-                                    <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                    <%if(userList.get(i).isStatus()){%>
-                                    <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
-                                    <%}else{%>
-                                    <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
+                                <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
+                                    <%if (permissionList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
                                     <%}%>
+
                                 </tr>  
                             </form>
                             <%}
