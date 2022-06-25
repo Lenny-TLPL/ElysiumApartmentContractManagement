@@ -26,7 +26,7 @@ public class LoginController extends HttpServlet {
     private static final String HR = "HR Manager";
     private static final String EM ="Employee";
     private static final String BM = "Board Manager";
-    private static final String USER_PAGE = "index.jsp";
+        private static final String USER_PAGE = "residentMainPage.jsp";
     private static final String ADMIN_PAGE = "adminMainPage.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

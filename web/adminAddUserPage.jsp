@@ -23,7 +23,7 @@
     <body>
         <% if (request.getParameter("type") == null) {
                 response.sendRedirect("adminMainPage.jsp");
-            } else if (request.getParameter("PERMISSION_LIST") == null) {
+            } else if (session.getAttribute("LOGIN_USER_PERMISSION") == null) {
                 request.getRequestDispatcher("MainController?action=GetMaterial&require=permission&type");
             } else {%>
         <div class="container">
