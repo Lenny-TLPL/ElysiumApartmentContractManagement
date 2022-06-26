@@ -20,3 +20,14 @@
 .my_image {
     height:35px;
 }
+.sidebar {
+    overflow: auto;
+}
+.header {
+    font-weight: bold;
+    color: #6b15db;
+}
+.date {
+    color: #989898;
+    font-size: 14px;
+}

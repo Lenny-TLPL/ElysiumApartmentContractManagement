@@ -3,7 +3,7 @@
     Created on : Jun 18, 2022, 1:59:07 AM
     Author     : Phi Long
 --%>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--=== Coding by CodingLab | www.codinglabweb.com === -->
 <html lang="en">

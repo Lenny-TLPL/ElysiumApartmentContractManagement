@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="sample.DTO.PrivateNotificationDTO"%>
 <%@page import="sample.DTO.NotificationDTO"%>
 <%@page import="java.util.ArrayList"%>
@@ -10,6 +11,7 @@
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <link href='css/mystyle.css' rel='stylesheet'>
         <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo1.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -31,7 +33,7 @@
                 <li>
                     <a href="adminDashBoardPage.jsp">
                         <i class='bx bx-grid-alt' ></i>
-                        <span class="links_name">Dashboard</span>
+                        <span class="links_name">Dashboardaa</span>
                     </a>
                 </li>
                 <li>
@@ -106,7 +108,8 @@
                         <span class="links_name">Permission</span>
                     </a>
                 </li>
-                <li class="log_out">
+                <li></li>
+                <li>
                     <a href="MainController?action=Logout">
                         <i class='bx bx-log-out'></i>
                         <span class="links_name">Log out</span>

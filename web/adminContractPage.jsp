@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="sample.DTO.ContractDTO"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>

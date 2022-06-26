@@ -10,11 +10,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sample.DAO.BillingHistoryDAO;
 import sample.DAO.ContractDAO;
 import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
 import sample.DAO.PrivateNotificationDAO;
+import sample.DAO.RoleDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
 import sample.DTO.BillingHistoryDTO;
@@ -31,7 +33,8 @@ import sample.DTO.UserDTO;
  */
 public class SearchController extends HttpServlet {
     private static final String ERROR = "add.jsp";
-    private static final String SUCCESS= "admin";
+    private static final String AD_SUCCESS= "admin";
+    private static final String US_SUCCESS= "user";
     private static final String CUSTOMER = "Customer";
     private static final String RESIDENT = "Resident";
     private static final String EMPLOYEE = "Employee";
@@ -64,70 +67,90 @@ public class SearchController extends HttpServlet {
             String search = request.getParameter("search");
             UserDAO dao = new UserDAO();
             ArrayList<UserDTO> list = null;
-            switch(type){
-                case BOARD_MANAGER:
-                    dao = new UserDAO();
-                    list = dao.getListUser(type,search);
-                    request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
-                case HR_MANAGER:
-                    dao = new UserDAO();
-                    list = dao.getListUser(type,search);
-                    request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
-                case EMPLOYEE:
-                    dao = new UserDAO();
-                    list = dao.getListUser(type,search);
-                    request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
-                case RESIDENT:
-                    dao = new UserDAO();
-                    list = dao.getListUser(type,search);
-                    request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
-                case CUSTOMER:
-                    dao = new UserDAO();
-                    list = dao.getListUser(type,search);
-                    request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
-                case SERVICE:
-                    ServiceDAO serviceDao = new ServiceDAO();
-                    ArrayList<ServiceDTO> serviceList = serviceDao.getListService(search);
-                    request.setAttribute("SERVICE_LIST", serviceList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
-                case CONTRACT:
-                    ContractDAO contractDao = new ContractDAO();
-                    ArrayList<ContractDTO> contractList = contractDao.getListContract(search);
-                    request.setAttribute("CONTRACT_LIST", contractList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
-                case NOTIFICATION:
+            
+            HttpSession session=request.getSession();
+            UserDTO loginUser = (UserDTO)session.getAttribute("LOGIN_USER");
+            RoleDAO roleDao=new RoleDAO();
+            String roleName=roleDao.getUserRole(loginUser.getRoleID());
+            if(CUSTOMER.equals(roleName)) {
+                switch(type) {
+                    case NOTIFICATION:
                     NotificationDAO notiDao = new NotificationDAO();
                     PrivateNotificationDAO privateNotiDao = new PrivateNotificationDAO();
                     ArrayList<NotificationDTO> notiList = notiDao.getListNotification(search);
                     ArrayList<PrivateNotificationDTO> privateNotiList = privateNotiDao.getListPrivateNotification(search);
                     request.setAttribute("NOTIFICATION_LIST", notiList);
                     request.setAttribute("PRIVATE_NOTIFICATION_LIST", privateNotiList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    url = US_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
                     break;
-                case PERMISSION:
-                    PermissionDAO permissionDao = new PermissionDAO();
-                    ArrayList<PermissionDTO> permissionList = permissionDao.getListPermission(search);
-                    request.setAttribute("PERMISSION_LIST", permissionList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
-                case BILLING_HISTORY:
-                    BillingHistoryDAO billDao = new BillingHistoryDAO();
-                    ArrayList<BillingHistoryDTO> billList = billDao.getListBilling(search);
-                    request.setAttribute("BILLING_HISTORY_LIST", billList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
-                    break;
+                }
+            }
+            else {
+                switch(type){
+                    case BOARD_MANAGER:
+                        dao = new UserDAO();
+                        list = dao.getListUser(type,search);
+                        request.setAttribute("USER_LIST", list);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case HR_MANAGER:
+                        dao = new UserDAO();
+                        list = dao.getListUser(type,search);
+                        request.setAttribute("USER_LIST", list);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case EMPLOYEE:
+                        dao = new UserDAO();
+                        list = dao.getListUser(type,search);
+                        request.setAttribute("USER_LIST", list);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case RESIDENT:
+                        dao = new UserDAO();
+                        list = dao.getListUser(type,search);
+                        request.setAttribute("USER_LIST", list);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case CUSTOMER:
+                        dao = new UserDAO();
+                        list = dao.getListUser(type,search);
+                        request.setAttribute("USER_LIST", list);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case SERVICE:
+                        ServiceDAO serviceDao = new ServiceDAO();
+                        ArrayList<ServiceDTO> serviceList = serviceDao.getListService(search);
+                        request.setAttribute("SERVICE_LIST", serviceList);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case CONTRACT:
+                        ContractDAO contractDao = new ContractDAO();
+                        ArrayList<ContractDTO> contractList = contractDao.getListContract(search);
+                        request.setAttribute("CONTRACT_LIST", contractList);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case NOTIFICATION:
+                        NotificationDAO notiDao = new NotificationDAO();
+                        PrivateNotificationDAO privateNotiDao = new PrivateNotificationDAO();
+                        ArrayList<NotificationDTO> notiList = notiDao.getListNotification(search);
+                        ArrayList<PrivateNotificationDTO> privateNotiList = privateNotiDao.getListPrivateNotification(search);
+                        request.setAttribute("NOTIFICATION_LIST", notiList);
+                        request.setAttribute("PRIVATE_NOTIFICATION_LIST", privateNotiList);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case PERMISSION:
+                        PermissionDAO permissionDao = new PermissionDAO();
+                        ArrayList<PermissionDTO> permissionList = permissionDao.getListPermission(search);
+                        request.setAttribute("PERMISSION_LIST", permissionList);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                    case BILLING_HISTORY:
+                        BillingHistoryDAO billDao = new BillingHistoryDAO();
+                        ArrayList<BillingHistoryDTO> billList = billDao.getListBilling(search);
+                        request.setAttribute("BILLING_HISTORY_LIST", billList);
+                        url = AD_SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                        break;
+                }
             }
              
         } catch (Exception e) {

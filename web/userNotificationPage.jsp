@@ -1,35 +1,37 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="sample.DTO.ServiceDTO"%>
+<%@page import="sample.DTO.PrivateNotificationDTO"%>
+<%@page import="sample.DTO.NotificationDTO"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
 <html lang="en" dir="ltr">
     <head>
         <meta charset="UTF-8">
-        <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
+        <title>Customer Notification</title>
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <link href="css/mystyle.css" rel="stylesheet">
         <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo1.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <%if (request.getAttribute("SERVICE_LIST") == null) {
-                response.sendRedirect("MainController?action=Search&type=Service&search=");
+        <%if (request.getAttribute("NOTIFICATION_LIST") == null || request.getAttribute("PRIVATE_NOTIFICATION_LIST") == null) {
+                response.sendRedirect("MainController?action=Search&type=Notification&search=");
             }%>
         <div class="sidebar">
             <div class="logo-details">
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp">
+                    <a href="userMainPage.jsp">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
             </div>
             <ul class="nav-links">
                 <li>
-                    <a href="adminDashBoardPage.jsp" >
+                    <a href="adminDashBoardPage.jsp">
                         <i class='bx bx-grid-alt' ></i>
                         <span class="links_name">Dashboard</span>
                     </a>
@@ -65,7 +67,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="adminServicePage.jsp" class="active">
+                    <a href="adminServicePage.jsp">
                         <i class='bx bx-book-alt' ></i>
                         <span class="links_name">Service</span>
                     </a>
@@ -83,7 +85,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="adminNotificationPage.jsp">
+                    <a href="#" class="active">
                         <i class='bx bx-message' ></i>
                         <span class="links_name">Notification</span>
                     </a>
@@ -106,7 +108,8 @@
                         <span class="links_name">Permission</span>
                     </a>
                 </li>
-                <li class="log_out">
+                <li></li>
+                <li>
                     <a href="MainController?action=Logout">
                         <i class='bx bx-log-out'></i>
                         <span class="links_name">Log out</span>
@@ -122,7 +125,7 @@
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
-                        <input type="hidden" name="type" value="Service">
+                        <input type="hidden" name="type" value="Notification">
                         <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
                         <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
                     </div>
@@ -134,51 +137,69 @@
 
                 </div>
             </nav>
-
+                        
             <div class="home-content">
-
-
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title" style="float:left">SERVICE</div>
+                        <div class="title">NOTIFICATION</div>
+                                <%  ArrayList<NotificationDTO> notificationList = (ArrayList<NotificationDTO>) request.getAttribute("NOTIFICATION_LIST");
+                                    if (notificationList != null) {
+                                        if (notificationList.size() > 0) {
+                                            for (int i = 0; i < notificationList.size(); i++) {%>
+                                <div class="notification">
+                                    <em class="date"><%= notificationList.get(i).getNotiDate() %> -</em> <span class="header"><%= notificationList.get(i).getNotiHeader() %>: </span>
+                                    <span><%= notificationList.get(i).getNotiContent() %></span>
+                                </div>
+                            <%}
+                                    }
+                                }%>
+
+                            </tbody>
+                        </table>
+                    </div>                    
+                </div>
+                <br>
+                <div class="sales-boxes">
+                    <div class="recent-sales box">
+                        <div class="title" style="float:left">PRIVATE NOTIFICATION</div>
                         <a href="#"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
-                        <div class="title"></div>
                         <table border="1" id="table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>                                                                  
-                                    <th>Price</th>
+                                    <th>USER ID</th> 
+                                    <th>Header</th> 
+                                    <th>Date</th>
                                     <th>Status</th>
                                     <th>View Detail</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <%  ArrayList<ServiceDTO> serviceList = (ArrayList<ServiceDTO>) request.getAttribute("SERVICE_LIST");
-                                    if (serviceList != null) {
-                                        if (serviceList.size() > 0) {
-                                            for (int i = 0; i < serviceList.size(); i++) {%>
+                                <%  ArrayList<PrivateNotificationDTO> PrivateNotiList = (ArrayList<PrivateNotificationDTO>) request.getAttribute("CONTRACT_LIST");
+                                    if (PrivateNotiList != null) {
+                                        if (PrivateNotiList.size() > 0) {
+                                            for (int i = 0; i < PrivateNotiList.size(); i++) {%>
                             <form action="MainController" method="POST">
                                 <tr>
-                                    <td> <input style="width:100%" type="text" name="serviceID" value="<%=serviceList.get(i).getServiceID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="serviceName" value="<%=serviceList.get(i).getServiceName()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="price" value="<%=serviceList.get(i).getPrice()%>" readonly="readonly"/></td>
-                                <input type="hidden" name="status" value="<%=serviceList.get(i).isStatus()%>" readonly="readonly"/>
-                                <%if (serviceList.get(i).isStatus()) {%>
+                                    <td> <input style="width:100%" type="text" name="privateNotiID" value="<%=PrivateNotiList.get(i).getNotiID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="userID" value="<%=PrivateNotiList.get(i).getUserID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="privateNotiHeader" value="<%=PrivateNotiList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="date" name="privateNotiDate" value="<%=PrivateNotiList.get(i).getNotiDate()%>" readonly="readonly"/></td>
+                                <input type="hidden" name="privateNotiStatus" value="<%=PrivateNotiList.get(i).isStatus()%>" readonly="readonly"/>
+                                <%if (PrivateNotiList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
                                     <%} else {%>
                                 <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
                                     <%}%>
                                 <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                    <%if (serviceList.get(i).isStatus()) {%>
+                                <%if (PrivateNotiList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
                                     <%} else {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
                                     <%}%>
-
                                 </tr>  
                             </form>
                             <%}
