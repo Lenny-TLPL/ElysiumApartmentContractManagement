@@ -19,6 +19,7 @@
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
         <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo1.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <body>
         <%
@@ -100,55 +101,57 @@
                         <div class="title" style="float:left">Personal</div>                       
                         <div class="container-xl px-4 mt-4"> 
                             <%-- TESTING --%>
-                            <div class="form first">
-                                <div class="details personal">
-                                    <span class="title">&nbsp;Details</span>
+                            <div class="form">
+                                <span class="title">&nbsp;Details</span>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label>Full Name </label>
+                                        <input type="text" name="fullName" class="form-control" placeholder="${sessionScope.LOGIN_USER.fullName}" disabled>     
+                                    </div>
 
-                                    <div class="fields">
-                                        <div>
-                                            <label>Full Name </label>
-                                            <input type="text" name="fullName" class="form-control" placeholder="${sessionScope.LOGIN_USER.fullName}" disabled>     
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Date of Birth  </label>
+                                        <input type="date" name="birthday" class="form-control" placeholder="${sessionScope.LOGIN_USER.birthDay}" disabled>
+                                    </div>
 
-                                        <div>
-                                            <label>Date of Birth  </label>
-                                            <input type="date" name="birthday" class="form-control" placeholder="${sessionScope.LOGIN_USER.birthDay}" disabled>
-                                        </div>
-
-                                        <div>
-                                            <label>Email  </label>
-                                            <input type="email" name="email" class="form-control" placeholder="${sessionScope.LOGIN_USER.email}" disabled>
-                                        </div>
-
-                                        <div>
-                                            <label>Phone Number  </label>
-                                            <input type="text" name="phone" class="form-control" placeholder="${sessionScope.LOGIN_USER.phone}" disabled>
-                                        </div>
-
-                                        <div>
-                                            <label>Gender  </label>
-                                            <input type="text" name="gender" class="form-control" placeholder="${sessionScope.LOGIN_USER.gender}" disabled>
-                                        </div>
-
-                                        <div>
-                                            <label>Address  </label>
-                                            <input type="text" name="address" class="form-control" placeholder="${sessionScope.LOGIN_USER.address}" disabled>
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Email  </label>
+                                        <input type="email" name="email" class="form-control" placeholder="${sessionScope.LOGIN_USER.email}" disabled>
                                     </div>
                                 </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label>Phone Number  </label>
+                                        <input type="text" name="phone" class="form-control" placeholder="${sessionScope.LOGIN_USER.phone}" disabled>
+                                    </div>
 
-                                <div class="details ID">
-                                    <div class="fields">
-                                        <div>
-                                            <label>CitizenID </label>
-                                            <input type="text" name="citizenID" class="form-control" placeholder="${sessionScope.LOGIN_USER.citizenID}" disabled>
-                                        </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Gender  </label>
+                                        <input type="text" name="gender" class="form-control" placeholder="${sessionScope.LOGIN_USER.gender}" disabled>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>Address  </label>
+                                        <input type="text" name="address" class="form-control" placeholder="${sessionScope.LOGIN_USER.address}" disabled>
+                                    </div>   
+                                </div>
+                                <div class="form-group">
+                                    <label>CitizenID </label>
+                                    <input type="text" name="citizenID" class="form-control" placeholder="${sessionScope.LOGIN_USER.citizenID}" disabled>
+                                </div>                               
+                                <div class="form-row"  >
+                                    <div class="col-auto my-1">
+                                        <button type="submit" class="btn btn-dark">Edit</button>
+                                    </div>
+                                    <div class="col-auto my-1">
+                                        <button type="button" class="btn btn-dark">Details</button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>                    
-                    </div>
+                            </div>                           
+                        </div>
+                    </div>                    
                 </div>
+            </div>
         </section>
 
         <script>
