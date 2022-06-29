@@ -98,11 +98,11 @@
             <div class="home-content">
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title" style="float:left">Personal</div>                       
+                        <div class="title" style="float:left">Personal Details</div>                       
                         <div class="container-xl px-4 mt-4"> 
                             <%-- TESTING --%>
                             <div class="form">
-                                <span class="title">&nbsp;Details</span>
+                                <span class="title">&nbsp;</span>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label>Full Name </label>
