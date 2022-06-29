@@ -27,6 +27,10 @@ public class UserDAO {
     private static final String GET_LIST_LOGIN_USER_PERMMISSION="SELECT p.permissionName FROM tblUserPermission u "
             + "INNER JOIN tblPermission p ON u.permissionID=p.permissionID  " +
               " WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ?";
+    private static final String GET_USERID="SELECT userID FROM tblUser "
+            + "WHERE tblUser.roleID = COALESCE((SELECT TOP 1 roleID FROM tblRole WHERE roleName COLLATE SQL_Latin1_General_CP1_CS_AS = ?),0)"
+            + " AND citizenID LIKE ? ";
+    private static final String DELETE_USER="DELETE FROM tblUser WHERE userID LIKE ? AND roleID=?";
     
     public UserDTO checkLogin(String userID, String password) throws SQLException {
         UserDTO user = null;
@@ -213,5 +217,62 @@ public class UserDAO {
             }
         }
         return list;
+    }
+    
+    public String getUserIDByCitizenID(String type, String citizenID) throws SQLException {
+        String userID = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_USERID);
+                stm.setString(1, type);
+                stm.setString(2, "%"+citizenID+"%");       
+                rs = stm.executeQuery();
+                if (rs.next()) { 
+                    userID = rs.getString("userID");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return userID;
+    }
+    
+    public boolean deleteUser(String userID, int roleID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(DELETE_USER);
+                ptm.setString(1, userID);
+                ptm.setInt(2, roleID);
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

@@ -150,6 +150,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>                                                                  
+                                    <th>Role Priority</th>
                                     <th>Status</th>
                                     <th>View Detail</th>
                                     <th></th>
@@ -164,6 +165,7 @@
                                 <tr>
                                     <td> <input style="width:100%" type="text" name="permissionID" value="<%=permissionList.get(i).getPermissionID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="permissionName" value="<%=permissionList.get(i).getPermissionName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="roleID" value="<%=permissionList.get(i).getRoleNamePriority()%>" readonly="readonly"/></td>    
                                 <input type="hidden" name="status" value="<%=permissionList.get(i).isStatus()%>" readonly="readonly"/>
                                 <%if (permissionList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
@@ -176,7 +178,6 @@
                                     <%} else {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
                                     <%}%>
-
                                 </tr>  
                             </form>
                             <%}

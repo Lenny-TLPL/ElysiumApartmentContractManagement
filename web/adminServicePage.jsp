@@ -140,7 +140,7 @@
                 <div class="sales-boxes">
                     <div class="recent-sales box">
                         <div class="title" style="float:left">SERVICE</div>
-                        <a href="#"style="float:right" >
+                        <a href="adminAddServicePage.jsp?type=Service"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
                         <div class="title"></div>

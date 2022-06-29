@@ -192,4 +192,6 @@ a {
         width: 100%;
     }
 }
-
+#hiddendiv{
+    display:none;
+}

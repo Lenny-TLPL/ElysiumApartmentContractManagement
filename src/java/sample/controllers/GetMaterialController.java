@@ -5,31 +5,26 @@
 package sample.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.DAO.PermissionDAO;
+import sample.DTO.PermissionDTO;
 
 /**
  *
  * @author Phi Long
  */
-@MultipartConfig
-public class MainController extends HttpServlet {
-
+public class GetMaterialController extends HttpServlet {
     private static final String ERROR = "error404.jsp";
-    private static final String LOGIN = "Login";
-    private static final String LOGIN_CONTROLLER = "LoginController";
-    private static final String LOGOUT = "Logout";
-    private static final String LOGOUT_CONTROLLER = "LogOutController";
-    private static final String ADD = "Add";
-    private static final String ADD_CONTROLLER = "AddController";
-    private static final String SEARCH = "Search";
-    private static final String SEARCH_CONTROLLER = "SearchController";
-    private static final String GET_MATERIAL = "GetMaterial";
-    private static final String GET_MATERIAL_CONTROLLER = "GetMaterialController";
-
+    private static String SUCCESS = "";
+    private static final String PERMISSION = "Permission";
+    private static final String EMPLOYEE = "Employee";
+    private static final String HR_MANAGER = "HR Manager";
+    private static final String BOARD_MANAGER = "Board Manager";
+    private static final String APARTMENT = "Apartment";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,20 +39,30 @@ public class MainController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String action = request.getParameter("action");
-            if (SEARCH.equals(action)) {
-                url = SEARCH_CONTROLLER;
-            } else if (LOGIN.equals(action)) {
-                url = LOGIN_CONTROLLER;
-            } else if (ADD.equals(action)) {
-                url = ADD_CONTROLLER;
-            } else if (LOGOUT.equals(action)) {
-                url = LOGOUT_CONTROLLER;
-            } else if (GET_MATERIAL.equals(action)) {
-                url = GET_MATERIAL_CONTROLLER;
+            String require = request.getParameter("require");
+            String redirect = request.getParameter("redirect");
+            String type = request.getParameter("type");
+            SUCCESS = redirect+"?type="+type;
+            
+            switch(require){
+                case PERMISSION:
+                    PermissionDAO permissionDao = new PermissionDAO();
+                    ArrayList<PermissionDTO> permissionList =null;
+                    if(type.equals(BOARD_MANAGER)){
+                        permissionList = permissionDao.getListPermissionWithPriority("");
+                    } else if(type.equals(HR_MANAGER)){
+                        permissionList = permissionDao.getListPermissionWithPriority(type);
+                    } else if(type.equals(EMPLOYEE)){
+                        permissionList = permissionDao.getListPermissionWithPriority(type);
+                    } 
+                   
+                    request.setAttribute("PERMISSION_LIST",permissionList);
+                    url = SUCCESS;
+//                case APARTMENT:
+//                    ApartmentDao apartmentDao = new 
             }
         } catch (Exception e) {
-            log("Error at MainController:" + e.toString());
+            log("Error at GetMaterialController:" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
