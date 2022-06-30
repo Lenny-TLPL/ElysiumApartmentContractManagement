@@ -16,6 +16,10 @@
         <servlet-name>LogOutController</servlet-name>
         <servlet-class>sample.controllers.LogOutController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetMaterialController</servlet-name>
+        <servlet-class>sample.controllers.GetMaterialController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>LogOutController</servlet-name>
         <url-pattern>/LogOutController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetMaterialController</servlet-name>
+        <url-pattern>/GetMaterialController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

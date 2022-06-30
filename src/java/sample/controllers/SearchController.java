@@ -31,8 +31,9 @@ import sample.DTO.UserDTO;
  * @author Phi Long
  */
 public class SearchController extends HttpServlet {
-    private static final String ERROR = "add.jsp";
-    private static final String SUCCESS= "admin";
+    private static final String ERROR = "error404.jsp";
+    private static final String SUCCESS_ADMIN= "admin";
+    private static final String SUCCESS_USER="user";
     private static final String CUSTOMER = "Customer";
     private static final String RESIDENT = "Resident";
     private static final String EMPLOYEE = "Employee";
@@ -59,8 +60,12 @@ public class SearchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         String url = ERROR;
         try {
+            HttpSession session = request.getSession();
+            String roleName = session.getAttribute("LOGIN_USER_ROLE").toString();
             String type = request.getParameter("type");
             String search = request.getParameter("search");
             UserDAO dao = new UserDAO();
@@ -70,43 +75,71 @@ public class SearchController extends HttpServlet {
                     dao = new UserDAO();
                     list = dao.getListUser(type,search);
                     request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case HR_MANAGER:
                     dao = new UserDAO();
                     list = dao.getListUser(type,search);
                     request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case EMPLOYEE:
                     dao = new UserDAO();
                     list = dao.getListUser(type,search);
                     request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case RESIDENT:
                     dao = new UserDAO();
                     list = dao.getListUser(type,search);
                     request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case CUSTOMER:
                     dao = new UserDAO();
                     list = dao.getListUser(type,search);
                     request.setAttribute("USER_LIST", list);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case SERVICE:
                     ServiceDAO serviceDao = new ServiceDAO();
                     ArrayList<ServiceDTO> serviceList = serviceDao.getListService(search);
                     request.setAttribute("SERVICE_LIST", serviceList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case CONTRACT:
                     ContractDAO contractDao = new ContractDAO();
                     ArrayList<ContractDTO> contractList = contractDao.getListContract(search);
                     request.setAttribute("CONTRACT_LIST", contractList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case NOTIFICATION:
                     NotificationDAO notiDao = new NotificationDAO();
@@ -115,19 +148,31 @@ public class SearchController extends HttpServlet {
                     ArrayList<PrivateNotificationDTO> privateNotiList = privateNotiDao.getListPrivateNotification(search);
                     request.setAttribute("NOTIFICATION_LIST", notiList);
                     request.setAttribute("PRIVATE_NOTIFICATION_LIST", privateNotiList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case PERMISSION:
                     PermissionDAO permissionDao = new PermissionDAO();
                     ArrayList<PermissionDTO> permissionList = permissionDao.getListPermission(search);
                     request.setAttribute("PERMISSION_LIST", permissionList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
                 case BILLING_HISTORY:
                     BillingHistoryDAO billDao = new BillingHistoryDAO();
                     ArrayList<BillingHistoryDTO> billList = billDao.getListBilling(search);
                     request.setAttribute("BILLING_HISTORY_LIST", billList);
-                    url = SUCCESS+type.replaceAll(" ", "")+"Page.jsp";
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
                     break;
             }
              

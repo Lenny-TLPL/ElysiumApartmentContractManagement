@@ -6,6 +6,7 @@ package sample.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Phi Long
  */
+@MultipartConfig
 public class MainController extends HttpServlet {
 
     private static final String ERROR = "error404.jsp";
@@ -25,6 +27,8 @@ public class MainController extends HttpServlet {
     private static final String ADD_CONTROLLER = "AddController";
     private static final String SEARCH = "Search";
     private static final String SEARCH_CONTROLLER = "SearchController";
+    private static final String GET_MATERIAL = "GetMaterial";
+    private static final String GET_MATERIAL_CONTROLLER = "GetMaterialController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,6 +42,8 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         String url = ERROR;
         try {
             String action = request.getParameter("action");
@@ -49,6 +55,8 @@ public class MainController extends HttpServlet {
                 url = ADD_CONTROLLER;
             } else if (LOGOUT.equals(action)) {
                 url = LOGOUT_CONTROLLER;
+            } else if (GET_MATERIAL.equals(action)) {
+                url = GET_MATERIAL_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController:" + e.toString());

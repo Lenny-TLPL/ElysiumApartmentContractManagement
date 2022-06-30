@@ -1,11 +1,14 @@
 <%@page import="sample.DTO.PrivateNotificationDTO"%>
 <%@page import="sample.DTO.NotificationDTO"%>
 <%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
-<html lang="en" dir="ltr">
+<!--=== Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
+<!--        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
@@ -139,7 +142,7 @@
                 <div class="sales-boxes">
                     <div class="recent-sales box">
                         <div class="title" style="float:left">NOTIFICATION</div>
-                        <a href="#"style="float:right" >
+                        <a href="adminAddNotificationPage.jsp?type=notification"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
                         <table border="1" id="table">
@@ -189,7 +192,7 @@
                 <div class="sales-boxes">
                     <div class="recent-sales box">
                         <div class="title" style="float:left">PRIVATE NOTIFICATION</div>
-                        <a href="#"style="float:right" >
+                        <a href="adminAddPrivateNotificationPage.jsp?type=Private Notification"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
                         <table border="1" id="table">

@@ -8,38 +8,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import sample.DTO.BillingHistoryDTO;
+import sample.DTO.ApartmentDTO;
 import sample.utils.DBUtils;
 
 /**
  *
  * @author Phi Long
  */
-public class BillingHistoryDAO {
-    private static final String GET_LIST_BILLING_HISTORY="SELECT * FROM tblBillingHistory WHERE billName LIKE ? OR userID LIKE ?";
+public class ApartmentDAO {
+    private static final String GET_APARTMENT_WITH_GIVEN_STATUS="SELECT * FROM tblApartment WHERE apartmentID LIKE ? AND apartmentStatus LIKE ?";
     
-    public ArrayList<BillingHistoryDTO> getListBilling(String search) throws SQLException {
-        ArrayList<BillingHistoryDTO> list = new ArrayList<>();
-        BillingHistoryDTO billingHistory = null;
+    public ApartmentDTO getApartment(String apartmentID, String apartmentStatus) throws SQLException {
+        ApartmentDTO apartment= null;
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                stm = conn.prepareStatement(GET_LIST_BILLING_HISTORY);
-                stm.setString(1, "%"+search+"%");             
+                stm = conn.prepareStatement(GET_APARTMENT_WITH_GIVEN_STATUS);
+                stm.setString(1, "%"+apartmentID+"%");
+                stm.setString(2, "%"+apartmentStatus+"%");
                 rs = stm.executeQuery();
                 while (rs.next()) { 
-                    int billID = rs.getInt("serviceID");
-                    String billName = rs.getNString("serviceName") ;
-                    Date payDate = rs.getDate("payDate");
-                    float value = rs.getFloat("value");
+                    int typeID = rs.getInt("typeID");   
+                    int floor = rs.getInt("floor");   
+                    int buildingID = rs.getInt("buildingID");   
                     String userID = rs.getString("userID");
-                    billingHistory = new BillingHistoryDTO(billID, billName, payDate, userID, value);
-                    list.add(billingHistory);
+                    
+                    apartment=new ApartmentDTO(apartmentID, apartmentStatus, typeID, floor, buildingID, userID);
                 }
             }
         } catch (Exception e) {
@@ -55,6 +52,7 @@ public class BillingHistoryDAO {
                 conn.close();
             }
         }
-        return list;
+        return apartment;
     }
 }
+

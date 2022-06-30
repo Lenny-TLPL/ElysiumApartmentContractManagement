@@ -10,24 +10,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.DAO.RoleDAO;
-import sample.DAO.UserDAO;
-import sample.DTO.UserDTO;
+import sample.DAO.PermissionDAO;
+import sample.DTO.PermissionDTO;
 
 /**
  *
  * @author Phi Long
  */
-public class LoginController extends HttpServlet {
-    private static final String ERROR = "login.jsp";
-    private static final String CUS = "Customer";
-    private static final String RES ="Resident";
-    private static final String HR = "HR Manager";
-    private static final String EM ="Employee";
-    private static final String BM = "Board Manager";
-        private static final String USER_PAGE = "residentMainPage.jsp";
-    private static final String ADMIN_PAGE = "adminMainPage.jsp";
+public class GetMaterialController extends HttpServlet {
+    private static final String ERROR = "error404.jsp";
+    private static String SUCCESS = "";
+    private static final String PERMISSION = "Permission";
+    private static final String EMPLOYEE = "Employee";
+    private static final String HR_MANAGER = "HR Manager";
+    private static final String BOARD_MANAGER = "Board Manager";
+    private static final String APARTMENT = "Apartment";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,35 +41,30 @@ public class LoginController extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         String url = ERROR;
         try {
-            String userID=request.getParameter("userID");
-            String password=request.getParameter("password");
-            UserDAO userDao=new UserDAO();
-            RoleDAO roleDao=new RoleDAO();
-            UserDTO loginUser=userDao.checkLogin(userID, password);
-            if (loginUser!=null)
-            {
-                HttpSession session=request.getSession();
-                session.setAttribute("LOGIN_USER", loginUser);
-                String roleName=roleDao.getUserRole(loginUser.getRoleID());
-                ArrayList<String> permission = userDao.getListLoginUserPermission(userID);
-                session.setAttribute("LOGIN_USER_ROLE", roleName);
-                session.setAttribute("LOGIN_USER_PERMISSION",permission);
-                if (CUS.equals(roleName)||RES.equals(roleName))
-                {
-                    url=USER_PAGE;
-                }
-                else if (BM.equals(roleName)||HR.equals(roleName)||EM.equals(roleName))
-                {
-                    url=ADMIN_PAGE;
-                }
-                else request.setAttribute("LOGIN_ERROR", "Role not supported");
-            }
-            else
-            {
-                request.setAttribute("LOGIN_ERROR", "Incorrect userID or password!");
+            String require = request.getParameter("require");
+            String redirect = request.getParameter("redirect");
+            String type = request.getParameter("type");
+            SUCCESS = redirect+"?type="+type;
+            
+            switch(require){
+                case PERMISSION:
+                    PermissionDAO permissionDao = new PermissionDAO();
+                    ArrayList<PermissionDTO> permissionList =null;
+                    if(type.equals(BOARD_MANAGER)){
+                        permissionList = permissionDao.getListPermissionWithPriority("");
+                    } else if(type.equals(HR_MANAGER)){
+                        permissionList = permissionDao.getListPermissionWithPriority(type);
+                    } else if(type.equals(EMPLOYEE)){
+                        permissionList = permissionDao.getListPermissionWithPriority(type);
+                    } 
+                   
+                    request.setAttribute("PERMISSION_LIST",permissionList);
+                    url = SUCCESS;
+//                case APARTMENT:
+//                    ApartmentDao apartmentDao = new 
             }
         } catch (Exception e) {
-            log("Error at LoginController :" + e.toString());
+            log("Error at GetMaterialController:" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
