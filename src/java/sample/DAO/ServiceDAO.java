@@ -31,11 +31,11 @@ public class ServiceDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(GET_LIST_SERVICE);
-                stm.setString(1, "%"+search+"%");             
+                stm.setNString(1, "%"+search+"%");             
                 rs = stm.executeQuery();
                 while (rs.next()) { 
                     int serviceID = rs.getInt("serviceID");
-                    String serviceName = rs.getString("serviceName") ;
+                    String serviceName = rs.getNString("serviceName") ;
                     float price = rs.getFloat("price");
                     boolean status = rs.getBoolean("status");  
                     service = new ServiceDTO(serviceID, serviceName,"" , price, status);
@@ -67,14 +67,14 @@ public class ServiceDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(GET_SERVICE_BY_NAME);
-                stm.setString(1, "%"+search+"%");             
+                stm.setNString(1, "%"+search+"%");             
                 rs = stm.executeQuery();
                 if (rs.next()) { 
                     int serviceID = rs.getInt("serviceID");
-                    String serviceName = rs.getString("serviceName") ;
+                    String serviceName = rs.getNString("serviceName") ;
                     float price = rs.getFloat("price");
                     boolean status = rs.getBoolean("status");
-                    String description = rs.getString("description");
+                    String description = rs.getNString("description");
                     service = new ServiceDTO(serviceID, serviceName, description , price, status);
                 }
             }
@@ -102,9 +102,9 @@ public class ServiceDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(ADD_NEW_SERVICE);
-                ptm.setString(1, service.getServiceName());
+                ptm.setNString(1, service.getServiceName());
                 ptm.setBoolean(2, service.isStatus());
-                ptm.setString(3, service.getDescription());
+                ptm.setNString(3, service.getDescription());
                 ptm.setFloat(4, service.getPrice());
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }

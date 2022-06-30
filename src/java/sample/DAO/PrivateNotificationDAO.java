@@ -35,8 +35,8 @@ public class PrivateNotificationDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) { 
                     int notiID = rs.getInt("notiID");
-                    String notiHeader = rs.getString("notiHeader");
-                    String notiContent = rs.getString("notiContent");
+                    String notiHeader = rs.getNString("notiHeader");
+                    String notiContent = rs.getNString("notiContent");
                     Date notiDate = rs.getDate("notiDate");
                     boolean status = rs.getBoolean("status");
                     String userID = rs.getString("userID");

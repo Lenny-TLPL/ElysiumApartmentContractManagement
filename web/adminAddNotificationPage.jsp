@@ -4,15 +4,15 @@
     Author     : Phi Long
 --%>
 
-
+<%@page import="sample.DTO.PermissionDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--=== Coding by CodingLab | www.codinglabweb.com === -->
 <html lang="en">
     <head>
-<!--        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <!--        <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -37,39 +37,33 @@
             <form action="MainController" method="POST" enctype="multipart/form-data">
                 <div class="form first">
                     <div class="details personal">
-                        <span class="title">Service Details</span>
+                        <span class="title">Add Notification</span>
 
                         <div class="fields">
                             <div class="input-field">
-                                <label>Service Name ${requestScope.ADD_SERVICE_ERROR.serviceName}</label>
-                                <input name="serviceName" type="text" class="form-control" placeholder="Enter service name" required="" value="${param.serviceName}" minlength="4" maxlength="60">     
+                                <label>Notification Header ${requestScope.ADD_NOTIFICATION_ERROR.notiHeader}</label>
+                                <input name="notiHeader" type="text" class="form-control" placeholder="Enter Notification header" required="" value="${param.notiHeader}" minlength="4" maxlength="60">     
                             </div>
 
                             <div class="input-field">
-                                <label>Price  ${requestScope.ADD_SERVICE_ERROR.price}</label>
-                                <input type="number" name ="price" class="form-control" placeholder="Enter service price" required value="${param.price}">
-                            </div>
-                            
-                            <div class="input-field">
-                                <label>Status  ${requestScope.ADD_SERVICE_ERROR.status}</label>
-                                <select required="" name="status" value="${param.status}">
-                                    <option value="true" >Enable</option>
-                                    <option value="false" >Disable</option>
-                                </select>
                             </div>
 
                             <div class="input-field">
-                                <label>Description  ${requestScope.ADD_SERVICE_ERROR.description}</label>
-                                <textarea style="width: 838px;height: 160px;" class="form-control" name="description" rows="6" cols="80" value="${param.description}"></textarea>
                             </div>
+                                    
+                            <div class="input-field">
+                                <label>Notification Content ${requestScope.ADD_NOTIFICATION_ERROR.notiContent}</label>
+                                <textarea style="width: 838px;height: 160px;" class="form-control" name="notiContent" required="" rows="6" cols="80" value="${param.notiContent}"></textarea>
+                            </div>
+                                                     
                         </div>
                     </div>
 
                     <div class="details ID">
-                       
+
                         <input type="hidden" name="type" value="${param.type}"/>
-                        ${requestScope.ADD_SERVICE_ERROR.errorMessage}
-                        ${requestScope.ADD_SERVICE_SUCCESS} 
+                        ${requestScope.ADD_NOTIFICATION_ERROR.errorMessage}
+                        ${requestScope.ADD_NOTIFICATION_SUCCESS} 
                         <div class="buttons">
                             <button class="sumbit" type="reset">
                                 <span class="btnText">Reset</span>

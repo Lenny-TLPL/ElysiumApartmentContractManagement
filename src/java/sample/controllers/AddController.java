@@ -62,6 +62,8 @@ public class AddController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         String type = request.getParameter("type");
         String url = null;
         try {
@@ -451,16 +453,16 @@ public class AddController extends HttpServlet {
                     float price = Float.parseFloat(request.getParameter("price"));
                     boolean status = Boolean.parseBoolean(request.getParameter("status"));
                     check = true;
-
-                    ServiceDTO service = null;
+                    
                     ServiceDAO serviceDao = new ServiceDAO();
+                    ServiceDTO service = null;
                     ServiceError serviceError = new ServiceError();
 
                     if (serviceName.length() > 60 || serviceName.length() < 4) {
                         serviceError.setServiceName("Name must be from 4 to 60 chars");
                         check = false;
                     }
-                    if (serviceDao.getServiceByName("serviceName") != null) {
+                    if ( serviceDao.getServiceByName(serviceName)!= null) {
                         serviceError.setServiceName("Duplicate service name");
                         check = false;
                     }

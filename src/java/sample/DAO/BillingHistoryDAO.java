@@ -34,7 +34,7 @@ public class BillingHistoryDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) { 
                     int billID = rs.getInt("serviceID");
-                    String billName = rs.getString("serviceName") ;
+                    String billName = rs.getNString("serviceName") ;
                     Date payDate = rs.getDate("payDate");
                     float value = rs.getFloat("value");
                     String userID = rs.getString("userID");

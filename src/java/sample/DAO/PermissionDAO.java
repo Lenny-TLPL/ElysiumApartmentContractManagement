@@ -35,7 +35,7 @@ public class PermissionDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) { 
                     int permissionID = rs.getInt("permissionID");
-                    String permissionName = rs.getString("permissionName") ;
+                    String permissionName = rs.getNString("permissionName") ;
                     String roleName = rs.getString("roleName");  
                     boolean status = rs.getBoolean("status");
                     permission = new PermissionDTO(permissionID, permissionName, roleName, status);
@@ -72,7 +72,7 @@ public class PermissionDAO {
                 rs = stm.executeQuery();
                 while (rs.next()) { 
                     int permissionID = rs.getInt("permissionID");
-                    String permissionName = rs.getString("permissionName") ;
+                    String permissionName = rs.getNString("permissionName") ;
                     String roleName = rs.getString("roleName");  
                     boolean status = rs.getBoolean("status");
                     permission = new PermissionDTO(permissionID, permissionName, roleName, status);

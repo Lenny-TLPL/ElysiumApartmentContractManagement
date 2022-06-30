@@ -23,7 +23,7 @@ public class UserDAO {
     private static final String ADD_USER="EXEC addUser ?, ?, ?, ?, ?, ?, ?, ?, ?";
     private static final String GET_LIST_USER="SELECT userID, password, fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID FROM tblUser "
             + "WHERE tblUser.roleID = COALESCE((SELECT TOP 1 roleID FROM tblRole WHERE roleName COLLATE SQL_Latin1_General_CP1_CS_AS = ?),0)"
-            + " AND (fullName LIKE ? OR userID LIKE ? OR citizenID LIKE ? OR phone LIKE ?)";
+            + " AND (fullName LIKE ? OR userID LIKE ? OR citizenID LIKE ? OR phone LIKE ? )";
     private static final String GET_LIST_LOGIN_USER_PERMMISSION="SELECT p.permissionName FROM tblUserPermission u "
             + "INNER JOIN tblPermission p ON u.permissionID=p.permissionID  " +
               " WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ?";
@@ -46,8 +46,8 @@ public class UserDAO {
                 stm.setString(3, password);
                 rs = stm.executeQuery();
                 if (rs.next()) { 
-                    String fullName = rs.getString("fullName") ;
-                    String email = rs.getString("email");
+                    String fullName = rs.getNString("fullName") ;
+                    String email = rs.getNString("email");
                     String phone = rs.getString("phone");
                     String address = rs.getString("address");
                     Date birthDay = rs.getDate("birthday");
@@ -114,8 +114,8 @@ public class UserDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(ADD_USER);
-                ptm.setString(1, user.getFullName());
-                ptm.setString(2, user.getEmail());
+                ptm.setNString(1, user.getFullName());
+                ptm.setNString(2, user.getEmail());
                 ptm.setString(3, user.getPhone());
                 ptm.setString(4, user.getAddress());
                 ptm.setDate(5,new java.sql.Date(user.getBirthDay().getTime()));
@@ -148,8 +148,8 @@ public class UserDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(GET_LIST_USER);
-                stm.setString(1, type);
-                stm.setString(2, "%"+search+"%");
+                stm.setNString(1, type);
+                stm.setNString(2, "%"+search+"%");
                 stm.setString(3, "%"+search+"%");
                 stm.setString(4, "%"+search+"%");
                 stm.setString(5, "%"+search+"%");               
@@ -157,8 +157,8 @@ public class UserDAO {
                 while (rs.next()) { 
                     String userID = rs.getString("userID");
                     String password = rs.getString("password");
-                    String fullName = rs.getString("fullName") ;
-                    String email = rs.getString("email");
+                    String fullName = rs.getNString("fullName") ;
+                    String email = rs.getNString("email");
                     String phone = rs.getString("phone");
                     String address = rs.getString("address");
                     Date birthDay = rs.getDate("birthday");
@@ -199,7 +199,7 @@ public class UserDAO {
                 stm.setString(1, userID);              
                 rs = stm.executeQuery();
                 while (rs.next()) { 
-                    String permission = rs.getString("permissionName");
+                    String permission = rs.getNString("permissionName");
                     list.add(permission);
                 }
             }
@@ -228,7 +228,7 @@ public class UserDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(GET_USERID);
-                stm.setString(1, type);
+                stm.setNString(1, type);
                 stm.setString(2, "%"+citizenID+"%");       
                 rs = stm.executeQuery();
                 if (rs.next()) { 

@@ -30,7 +30,7 @@ public class RoleDAO {
                 stm.setInt(1, roleID);
                 rs = stm.executeQuery();
                 if (rs.next()) { 
-                    roleName=rs.getString("roleName");                   
+                    roleName=rs.getNString("roleName");                   
                 }
             }
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class RoleDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(GET_USER_ROLEID);
-                stm.setString(1,roleName);
+                stm.setNString(1,roleName);
                 rs = stm.executeQuery();
                 if (rs.next()) { 
                     roleID=rs.getInt("roleID");                   
