@@ -3,13 +3,16 @@
     Created on : Jun 18, 2022, 1:59:07 AM
     Author     : Phi Long
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="sample.DTO.PermissionDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--=== Coding by CodingLab | www.codinglabweb.com === -->
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!----======== CSS ======== -->
@@ -21,15 +24,18 @@
         <!--<title>Responsive Regisration Form </title>--> 
     </head>
     <body>
+        <!--        else if (("Customer Resident").contains(request.getParameter("type"))&&request.getAttribute("APARTMENT_LIST") == null) {
+                        request.getRequestDispatcher("MainController?action=GetMaterial&require=Apartment&type="+request.getParameter("type")+"&redirect=adminAddUserPage.jsp").forward(request, response);
+                    }-->
         <% if (request.getParameter("type") == null) {
                 response.sendRedirect("adminMainPage.jsp");
-            } else if (request.getParameter("PERMISSION_LIST") == null) {
-                request.getRequestDispatcher("MainController?action=GetMaterial&require=permission&type");
+            } else if (("HR Manager Board Manager Employee").contains(request.getParameter("type")) && request.getAttribute("PERMISSION_LIST") == null) {
+                request.getRequestDispatcher("MainController?action=GetMaterial&require=Permission&type=" + request.getParameter("type") + "&redirect=adminAddUserPage.jsp").forward(request, response);
             } else {%>
         <div class="container">
             <header>Add New ${param.type}</header>
 
-            <form action="MainController" method="POST">
+            <form action="MainController" method="POST" enctype="multipart/form-data">
                 <div class="form first">
                     <div class="details personal">
                         <span class="title">Personal Details</span>
@@ -58,9 +64,9 @@
                             <div class="input-field">
                                 <label>Gender  ${requestScope.ADD_USER_ERROR.gender}</label>
                                 <select required="" name="gender" value="${param.gender}">
-                                    <option>male</option>
-                                    <option>female</option>
-                                    <option>other</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
 
@@ -91,17 +97,17 @@
                         <input type="hidden" name="type" value="${param.type}"/>
                         ${requestScope.ADD_USER_ERROR.errorMessage}
                         ${requestScope.ADD_USER_SUCCESS} 
+                        ${requestScope.ADD_CONTRACT_ERROR}
                         <div class="buttons">
                             <button class="sumbit" type="reset">
                                 <span class="btnText">Reset</span>
                             </button>     
-                            <button class="nextBtn">
+                            <button class="nextBtn" type="button">
                                 <span class="btnText">Next</span>
                                 <i class="uil uil-navigator"></i>
                             </button>
                         </div>
-
-                    </div> 
+                    </div>
                 </div>
                 <%if (request.getParameter("type").equals("Customer") || request.getParameter("type").equals("Resident")) {%>
                 <div class="form second">
@@ -110,72 +116,50 @@
 
                         <div class="fields">
                             <div class="input-field">
-                                <label>Address Type</label>
-                                <input type="text" placeholder="Permanent or Temporary" required>
+                                <label>Date Sign  ${requestScope.ADD_CONTRACT_ERROR.dateSign}</label>
+                                <input name="dateSign" value="${param.dateSign}" type="date" placeholder="Enter DateSign" required>
                             </div>
 
                             <div class="input-field">
-                                <label>Nationality</label>
-                                <input type="text" placeholder="Enter nationality" required>
+                                <label>Contract Image  ${requestScope.ADD_CONTRACT_ERROR.contractImage}</label>
+                                <input name="contractImage" id="contractImage" type="file" placeholder="Upload contract image" required accept="image/*">
                             </div>
 
                             <div class="input-field">
-                                <label>State</label>
-                                <input type="text" placeholder="Enter your state" required>
+                                <label>ApartmentID  ${requestScope.ADD_CONTRACT_ERROR.apartmentID}</label>
+                                <input name="apartmentID" value="${param.apartmentID}" type="text" placeholder="Enter apartmentID" required>
                             </div>
 
-                            <div class="input-field">
-                                <label>District</label>
-                                <input type="text" placeholder="Enter your district" required>
-                            </div>
 
                             <div class="input-field">
-                                <label>Block Number</label>
-                                <input type="number" placeholder="Enter block number" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Ward Number</label>
-                                <input type="number" placeholder="Enter ward number" required>
+                                <label>Contract type</label>
+                                <select name="contractType" onchange="showDiv(this)" value="${param.contractType}">
+                                    <option value="buying">Buying</option>    
+                                    <option value="amortization">Amortization</option>                                
+                                    <option value="leasing">Leasing</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="details family">
-                        <span class="title">Family Details</span>
+                        <span class="title">Sub Information For Contract</span>
 
-                        <div class="fields">
-                            <div class="input-field">
-                                <label>Father Name</label>
-                                <input type="text" placeholder="Enter father name" required>
+                        <div class="fields" >
+                            <div class="input-field" id="leasing" style="display:none">
+                                <label>Expiry Date  ${requestScope.ADD_CONTRACT_ERROR.expiryDate}</label>
+                                <input name="expiryDate" value="${param.expiryDate}" type="date" placeholder="Enter expiry date">
                             </div>
-
-                            <div class="input-field">
-                                <label>Mother Name</label>
-                                <input type="text" placeholder="Enter mother name" required>
+                                
+                            <div class="input-field" id="amortization" style="display:none">
+                                <label>Month(s) Of Debt</label>
+                                <select name="monthsOfDebt" value="${param.monthsOfDebt}">
+                                    <option value="60">5 years (60 months)</option>    
+                                    <option value="120">10 years (120 months)</option>                                
+                                </select>
                             </div>
-
-                            <div class="input-field">
-                                <label>Grandfather</label>
-                                <input type="text" placeholder="Enter grandfther name" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Spouse Name</label>
-                                <input type="text" placeholder="Enter spouse name" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Father in Law</label>
-                                <input type="text" placeholder="Father in law name" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Mother in Law</label>
-                                <input type="text" placeholder="Mother in law name" required>
-                            </div>
+                            <div class="input-field"></div>    
                         </div>
-
                         <div class="buttons">
                             <div class="backBtn">
                                 <i class="uil uil-navigator"></i>
@@ -197,18 +181,21 @@
                     <div class="details address">
                         <span class="title">Permission</span>
 
-                        <div class="fields">
-                            <div class="input-field">
-                                <label><input type="checkbox" name="html" value="html" checked> HTML</label><br />
+                        <div  >
+                            <%  ArrayList<PermissionDTO> permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
+                                if (permissionList != null) {
+                                    if (permissionList.size() > 0) {
+                                        for (int i = 0; i < permissionList.size(); i++) {%>
+                            <div class="fields">
+                                <label >   <input type="checkbox" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+
                             </div>
-                            <!--
-                                                        <div class="input-field">
-                                                            <label>Mother in Law</label>
-                                                            <input type="file" id="avatar" name="avatar"accept="image/*">
-                                                        </div>-->
+                            <%}
+                                    }
+                                }%>
                         </div>
 
-                        <div class="buttons">
+                        <div class="buttons" style="width: 200%">
                             <div class="backBtn">
                                 <i class="uil uil-navigator"></i>
                                 <span class="btnText">Back</span>
@@ -220,7 +207,7 @@
                                 <span class="btnText">Submit</span>
                                 <i class="uil uil-navigator"></i>
                             </button> 
-                        </div>
+                        </div>                      
                     </div> 
                 </div>
                 <%}%>
@@ -232,6 +219,7 @@
         </div>
         <%}%>
         <script src="js/addjavascript.js"></script>
+        <script src="js/addUserJS.js"></script>
     </body>
 </html>
 

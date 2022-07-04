@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.servlet.http.Part;
 import sample.DTO.ContractDTO;
 import sample.utils.DBUtils;
 
@@ -20,6 +21,7 @@ import sample.utils.DBUtils;
  */
 public class ContractDAO {
     private static final String GET_LIST_CONTRACT="SELECT * FROM tblContract WHERE apartmentID LIKE ? OR userID LIKE ?";
+    private static final String ADD_CONTRACT="EXEC addContract ?, ?, ?, ?, ?, ?, ?";
     
     public ArrayList<ContractDTO> getListContract( String search) throws SQLException {
         ArrayList<ContractDTO> list = new ArrayList<>();
@@ -71,5 +73,35 @@ public class ContractDAO {
             }
         }
         return list;
+    }
+    
+    public boolean addContract(ContractDTO contract,Part imageFilePart) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(ADD_CONTRACT);
+                ptm.setDate(1, new java.sql.Date(contract.getDateSign().getTime()));
+                ptm.setBlob(2, imageFilePart.getInputStream());
+                ptm.setString(3, contract.getApartmentID());
+                ptm.setString(4, contract.getContractType());
+                ptm.setDate(5,new java.sql.Date(contract.getExpiryDate().getTime()));
+                ptm.setFloat(6, contract.getMonthsOfDebt());
+                ptm.setString(7, contract.getUserID());
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

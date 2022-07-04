@@ -1,11 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="sample.DTO.PermissionDTO"%>
 <%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
-<html lang="en" dir="ltr">
+<!--=== Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
+<!--        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
@@ -150,6 +153,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>                                                                  
+                                    <th>Role Priority</th>
                                     <th>Status</th>
                                     <th>View Detail</th>
                                     <th></th>
@@ -164,6 +168,7 @@
                                 <tr>
                                     <td> <input style="width:100%" type="text" name="permissionID" value="<%=permissionList.get(i).getPermissionID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="permissionName" value="<%=permissionList.get(i).getPermissionName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="roleID" value="<%=permissionList.get(i).getRoleNamePriority()%>" readonly="readonly"/></td>    
                                 <input type="hidden" name="status" value="<%=permissionList.get(i).isStatus()%>" readonly="readonly"/>
                                 <%if (permissionList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
@@ -176,7 +181,6 @@
                                     <%} else {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
                                     <%}%>
-
                                 </tr>  
                             </form>
                             <%}

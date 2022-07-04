@@ -11,17 +11,28 @@ package sample.DTO;
 public class PermissionDTO {
     private int permissionID;
     private String permissionName;
+    private String roleNamePriority;
     private boolean status;
     
     public void PermissionDTO(){
         this.permissionID=0;
         this.permissionName=null;
+        this.roleNamePriority=null;
         this.status=false;
     }
 
-    public PermissionDTO(int permissionID, String permissionName, boolean status) {
+    public PermissionDTO(int permissionID, String permissionName, String roleNamePriority, boolean status) {
         this.permissionID = permissionID;
         this.permissionName = permissionName;
+        this.roleNamePriority = roleNamePriority;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
         this.status = status;
     }
     
@@ -32,12 +43,15 @@ public class PermissionDTO {
     public String getPermissionName() {
         return permissionName;
     }
-    
-    public boolean isStatus() {
-        return status;
+
+    public String getRoleNamePriority() {
+        return roleNamePriority;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setRoleNamePriority(String roleNamePriority) {
+        this.roleNamePriority = roleNamePriority;
     }
+
+    
+
 }

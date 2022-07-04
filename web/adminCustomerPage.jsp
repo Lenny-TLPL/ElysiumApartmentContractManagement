@@ -2,11 +2,14 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="sample.DTO.UserDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
-<html lang="en" dir="ltr">
+<!--=== Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <!--        <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
@@ -170,17 +173,17 @@
                                     <td> <input style="width:100%" type="text" name="phone" value="<%=userList.get(i).getPhone()%>" readonly="readonly" maxlength="11" required=""/></td>
                                     <td> <input style="width:100%" type="text" name="citizenID" value="<%=userList.get(i).getCitizenID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="date" name="dateJoin" value="<%=userList.get(i).getDateJoin()%>" readonly="readonly"/></td>
-                                    <input type="hidden" name="status" value="<%=userList.get(i).isStatus()%>" readonly="readonly"/>
-                                    <%if(userList.get(i).isStatus()){%>
-                                    <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
-                                    <%}else{%>
-                                    <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
+                                <input type="hidden" name="status" value="<%=userList.get(i).isStatus()%>" readonly="readonly"/>
+                                <%if (userList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
                                     <%}%>
-                                    <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                    <%if(userList.get(i).isStatus()){%>
-                                    <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
-                                    <%}else{%>
-                                    <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
+                                <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
+                                    <%if (userList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
                                     <%}%>
 
                                 </tr>  
