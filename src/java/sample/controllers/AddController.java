@@ -15,12 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import sample.DAO.ApartmentDAO;
 import sample.DAO.ContractDAO;
+import sample.DAO.NotificationDAO;
+import sample.DAO.PermissionDAO;
+import sample.DAO.PrivateNotificationDAO;
 import sample.DAO.RoleDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
 import sample.DAO.UserPermissionDAO;
 import sample.DTO.ContractDTO;
 import sample.DTO.ContractError;
+import sample.DTO.PermissionDTO;
+import sample.DTO.PermissionError;
+import sample.DTO.PrivateNotificationError;
 import sample.DTO.ServiceDTO;
 import sample.DTO.ServiceError;
 import sample.DTO.UserDTO;
@@ -43,6 +49,7 @@ public class AddController extends HttpServlet {
     private static final String SERVICE = "Service";
     private static final String NOTIFICATION = "Notification";
     private static final String PRIVATE_NOTIFICATION = "Private Notification";
+    private static final String APARTMENT_TYPE = "Apartment Type";
     private static final String APARTMENT = "Apartment";
     private static final String APARTMENT_BUILDING = "Apartment Building";
     private static final String DISTRICT = "District";
@@ -62,14 +69,19 @@ public class AddController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
-        String type = request.getParameter("type");
         String url = null;
+        String type = request.getParameter("type");
+        if (("Board Manager HR Manager Employee Customer Resident").contains(type)) {
+            url = "adminAddUserPage.jsp";
+        } else {
+            url = "adminAdd" + type.replaceAll(" ", "") + "Page.jsp";
+        }
+
         try {
             switch (type) {
                 case BOARD_MANAGER:
-                    url = "adminAddUserPage.jsp";
+
                     String fullName = request.getParameter("fullName");
                     String gender = request.getParameter("gender");
                     String email = request.getParameter("email");
@@ -128,7 +140,7 @@ public class AddController extends HttpServlet {
                     }
                     break;
                 case HR_MANAGER:
-                    url = "adminAddUserPage.jsp";
+
                     fullName = request.getParameter("fullName");
                     gender = request.getParameter("gender");
                     email = request.getParameter("email");
@@ -187,7 +199,7 @@ public class AddController extends HttpServlet {
                     }
                     break;
                 case EMPLOYEE:
-                    url = "adminAddUserPage.jsp";
+
                     fullName = request.getParameter("fullName");
                     gender = request.getParameter("gender");
                     email = request.getParameter("email");
@@ -246,7 +258,7 @@ public class AddController extends HttpServlet {
                     }
                     break;
                 case CUSTOMER:
-                    url = "adminAddUserPage.jsp";
+
                     fullName = request.getParameter("fullName");
                     gender = request.getParameter("gender");
                     email = request.getParameter("email");
@@ -317,8 +329,8 @@ public class AddController extends HttpServlet {
                         contractError.setContractImage("Invalid image");
                         check = false;
                     }
-                    if (apartmentDao.getApartment(apartmentID, "available") == null) {
-                        contractError.setApartmentID("Invalid apartmentID");
+                    if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
+                        contractError.setApartmentID("Apartment is not available");
                         check = false;
                     }
                     if (contractType.equals("amortization") && DateUtils.subtractTwoDay(dateSign, expiryDate) != monthsOfDebt) {
@@ -346,7 +358,7 @@ public class AddController extends HttpServlet {
                     }
                     break;
                 case RESIDENT:
-                    url = "adminAddUserPage.jsp";
+
                     fullName = request.getParameter("fullName");
                     gender = request.getParameter("gender");
                     email = request.getParameter("email");
@@ -417,7 +429,7 @@ public class AddController extends HttpServlet {
                         contractError.setContractImage("Invalid image");
                         check = false;
                     }
-                    if (apartmentDao.getApartment(apartmentID, "available") == null) {
+                    if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
                         contractError.setApartmentID("Invalid apartmentID");
                         check = false;
                     }
@@ -447,13 +459,13 @@ public class AddController extends HttpServlet {
                     break;
 
                 case SERVICE:
-                    url = "adminAddServicePage.jsp";
+
                     String serviceName = request.getParameter("serviceName");
                     String description = request.getParameter("description");
                     float price = Float.parseFloat(request.getParameter("price"));
                     boolean status = Boolean.parseBoolean(request.getParameter("status"));
                     check = true;
-                    
+
                     ServiceDAO serviceDao = new ServiceDAO();
                     ServiceDTO service = null;
                     ServiceError serviceError = new ServiceError();
@@ -462,7 +474,7 @@ public class AddController extends HttpServlet {
                         serviceError.setServiceName("Name must be from 4 to 60 chars");
                         check = false;
                     }
-                    if ( serviceDao.getServiceByName(serviceName)!= null) {
+                    if (serviceDao.getServiceByName(serviceName) != null) {
                         serviceError.setServiceName("Duplicate service name");
                         check = false;
                     }
@@ -478,6 +490,85 @@ public class AddController extends HttpServlet {
                     } else {
                         serviceError.setErrorMessage("Fail to add new resident");
                         request.setAttribute("ADD_SERVICE_ERROR", serviceError);
+                    }
+                    break;
+                case NOTIFICATION:
+
+                    String notiHeader = request.getParameter("notiHeader");
+                    String notiContent = request.getParameter("notiContent");
+                    check = true;
+
+                    NotificationDAO notiDao = new NotificationDAO();
+
+                    if (check) {
+                        boolean checkAdd = notiDao.addNotification(notiHeader, notiContent);
+                        if (checkAdd) {
+                            request.setAttribute("ADD_NOTIFICATION_SUCCESS", "New notification has been added.");
+                        } else {
+                            request.setAttribute("ADD_NOTIFICATION_ERROR", "Fail to add new notification.");
+                        }
+                    } else {
+                        request.setAttribute("ADD_NOTIFICATION_ERROR", "Fail to add new notification.");
+                    }
+                    break;
+                case PRIVATE_NOTIFICATION:
+                    notiHeader = request.getParameter("notiHeader");
+                    notiContent = request.getParameter("notiContent");
+                    String userID = request.getParameter("userID");
+                    check = true;
+
+                    PrivateNotificationError privateNotiError = new PrivateNotificationError();
+                    PrivateNotificationDAO privateNotiDao = new PrivateNotificationDAO();
+                    userDao = new UserDAO();
+
+                    if (userDao.getUserByIDAndStatus(userID, true) == null) {
+                        privateNotiError.setNotiID("Invalid userID");
+                    }
+                    if (check) {
+                        boolean checkAdd = privateNotiDao.addPrivateNotification(notiHeader, notiContent, userID);
+                        if (checkAdd) {
+                            request.setAttribute("ADD_PRIVATE_NOTIFICATION_SUCCESS", "New notification has been added.");
+                        } else {
+                            request.setAttribute("ADD_PRIVATE_NOTIFICATION_ERROR", "Fail to add new notification.");
+                        }
+                    } else {
+                        privateNotiError.setErrorMessage("Fail to add new notification.");
+                        request.setAttribute("ADD_PRIVATE_NOTIFICATION_ERROR", privateNotiError);
+                    }
+                    break;
+
+                case PERMISSION:
+                    url = "adminAddPermissionPage.jsp";
+                    String permissionName = request.getParameter("permissionName");
+                    status = Boolean.parseBoolean(request.getParameter("status"));
+                    String roleNamePriority = request.getParameter("rolePriority");
+                    check = true;
+
+                    PermissionDAO permissionDao = new PermissionDAO();
+                    PermissionDTO permission = null;
+                    PermissionError permissionError = new PermissionError();
+
+                    if (permissionName.length() > 60 || permissionName.length() < 4) {
+                        permissionError.setPermissionName("Name must be from 4 to 60 chars");
+                        check = false;
+                    }
+                    if (permissionDao.getPermissionByName(permissionName) != null) {
+                        permissionError.setPermissionName("Duplicate permission name");
+                        check = false;
+                    }
+                    if (check) {
+                        roleDao =new RoleDAO();
+                        permission = new PermissionDTO(0, permissionName, roleNamePriority, status);
+                        boolean checkAdd = permissionDao.addPermission(permission, roleDao.getUserRoleID(roleNamePriority));
+                        if (checkAdd) {
+                            request.setAttribute("ADD_PERMISSION_SUCCESS", "New permission has been added.");
+                        } else {
+                            permissionError.setErrorMessage("Fail to add new permission.");
+                            request.setAttribute("ADD_PERMISSION_ERROR", permissionError);
+                        }
+                    } else {
+                        permissionError.setErrorMessage("Fail to add new permission");
+                        request.setAttribute("ADD_PERMISSION_ERROR", permissionError);
                     }
                     break;
 

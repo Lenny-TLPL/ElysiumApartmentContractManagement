@@ -19,6 +19,8 @@ import sample.utils.DBUtils;
 public class PermissionDAO {
     private static final String GET_LIST_PERMISSION = "	SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ? OR r.roleName LIKE ?";
     private static final String GET_LIST_PERMISSION_WITH_PRIORITY = "SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE r.roleName LIKE ?";
+    private static final String GET_PERMISSION_BY_NAME="SELECT permissionID, permissionName, status, rolePriority FROM tblPermission WHERE permissionName LIKE ?";
+    private static final String ADD_NEW_PERMISSION="INSERT INTO tblPermission (permissionName, status, rolePriority) VALUES (?, ?, ?) ";
 
     public ArrayList<PermissionDTO> getListPermission(String search) throws SQLException {
         ArrayList<PermissionDTO> list = new ArrayList<>();
@@ -93,5 +95,66 @@ public class PermissionDAO {
             }
         }
         return list;
+    }
+
+    public PermissionDTO getPermissionByName(String search) throws SQLException {
+        PermissionDTO permission = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_PERMISSION_BY_NAME);
+                stm.setNString(1, "%"+search+"%");             
+                rs = stm.executeQuery();
+                if (rs.next()) { 
+                    int permissionID = rs.getInt("permissionID");
+                    String permissionName = rs.getNString("permissionName") ;                    
+                    boolean status = rs.getBoolean("status");
+                    String roleNamePriority = rs.getNString("rolePriority");
+                    permission = new PermissionDTO(permissionID, permissionName, roleNamePriority, status);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return permission;
+    }
+    
+    public boolean addPermission(PermissionDTO permission) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(ADD_NEW_PERMISSION);
+                ptm.setNString(1, permission.getPermissionName());
+                ptm.setBoolean(2, permission.isStatus());
+                ptm.setNString(3, permission.getRoleNamePriority());
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

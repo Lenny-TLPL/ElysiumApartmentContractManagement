@@ -20,6 +20,10 @@
         <servlet-name>GetMaterialController</servlet-name>
         <servlet-class>sample.controllers.GetMaterialController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewDetailController</servlet-name>
+        <servlet-class>sample.controllers.ViewDetailController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -48,9 +52,13 @@
         <servlet-name>GetMaterialController</servlet-name>
         <url-pattern>/GetMaterialController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewDetailController</servlet-name>
+        <url-pattern>/ViewDetailController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            40
         </session-timeout>
     </session-config>
     <welcome-file-list>

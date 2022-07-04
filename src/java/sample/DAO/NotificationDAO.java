@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import sample.DTO.NotificationDTO;
@@ -19,6 +20,7 @@ import sample.utils.DBUtils;
  */
 public class NotificationDAO {
     private static final String GET_LIST_NOTIFICATION="	SELECT * FROM tblNotification WHERE notiHeader LIKE ? OR notiContent LIKE ? ";
+    private static final String ADD_NEW_NOTIFICATION="INSERT INTO tblNotification (notiHeader, notiContent, notiDate, status) VALUES (?, ?, ?, ?)";
     
     public ArrayList<NotificationDTO> getListNotification( String search) throws SQLException {
         ArrayList<NotificationDTO> list = new ArrayList<>();
@@ -57,5 +59,32 @@ public class NotificationDAO {
             }
         }
         return list;
+    }
+   
+    public boolean addNotification(String notiHeader, String notiContent) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(ADD_NEW_NOTIFICATION);
+                ptm.setNString(1, notiHeader);
+                ptm.setNString(2, notiContent);
+                ptm.setDate(3, new java.sql.Date(java.sql.Date.valueOf(LocalDate.now()).getTime()));
+                ptm.setBoolean(4, true);
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

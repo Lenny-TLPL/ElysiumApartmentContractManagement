@@ -144,7 +144,7 @@
                 <div class="sales-boxes">
                     <div class="recent-sales box">
                         <div class="title" style="float:left">PERMISSION</div>
-                        <a href="#"style="float:right" >
+                        <a href="adminAddPermissionPage.jsp?type=Permission"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
                         <div class="title"></div>

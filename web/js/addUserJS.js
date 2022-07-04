@@ -10,23 +10,24 @@
 //    
 //}
 function show(x) {
-    if (x == 0) {
-        document.getElementById('news').style.display = 'block';
+    if (x == "notification") {
+        document.getElementById('notification').style.display = 'block';
+    } else if (x == "privateNotification") {
+        document.getElementById('privateNotification').style.display = 'block';
     }
 }
 function showDiv(element)
 {
-    if (element.value=="leasing") {
+    if (element.value == "leasing") {
         document.getElementById('amortization').style.display = 'none';
         document.getElementById('leasing').style.display = 'flex';
-    } else if(element.value=="amortization"){
+    } else if (element.value == "amortization") {
         document.getElementById('leasing').style.display = 'flex';
         document.getElementById('amortization').style.display = 'flex';
-    } else if(element.value=="buying"){
+    } else if (element.value == "buying") {
         document.getElementById('leasing').style.display = 'none';
         document.getElementById('amortization').style.display = 'none';
     }
-
 }
 
 

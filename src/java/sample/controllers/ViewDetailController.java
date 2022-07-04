@@ -12,22 +12,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.DAO.PermissionDAO;
 import sample.DAO.RoleDAO;
+import sample.DAO.UserDAO;
 import sample.DTO.PermissionDTO;
-import sample.DTO.RoleDTO;
+import sample.DTO.UserDTO;
 
 /**
  *
  * @author Phi Long
  */
-public class GetMaterialController extends HttpServlet {
+public class ViewDetailController extends HttpServlet {
+
     private static final String ERROR = "error404.jsp";
-    private static String SUCCESS = "";
-    private static final String ROLE="Role";
-    private static final String PERMISSION = "Permission";
-    private static final String EMPLOYEE = "Employee";
+
+    private static final String CUSTOMER = "Customer";
+    private static final String RESIDENT = "Resident";
+    private static final String EMPLOYEE = "Empoyee";
     private static final String HR_MANAGER = "HR Manager";
     private static final String BOARD_MANAGER = "Board Manager";
+    private static final String CONTRACT = "Contract";
+    private static final String SERVICE = "Service";
+    private static final String NOTIFICATION = "Notification";
+    private static final String PRIVATE_NOTIFICATION = "Private Notification";
+    private static final String APARTMENT_TYPE = "Apartment Type";
     private static final String APARTMENT = "Apartment";
+    private static final String APARTMENT_BUILDING = "Apartment Building";
+    private static final String DISTRICT = "District";
+    private static final String BILLING_HISTORY = "Billing History";
+    private static final String USER_DEBT = "User Debt";
+    private static final String PERMISSION = "Permission";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,43 +53,33 @@ public class GetMaterialController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("utf-8");
         String url = ERROR;
         try {
-            String require = request.getParameter("require");
-            String redirect = request.getParameter("redirect");
+            String SUCCESS = request.getParameter("redirect");
             String type = request.getParameter("type");
-            String search = request.getParameter("search");
-            if(search ==null){
-                search = "";
-            }
-            SUCCESS = redirect+"?type="+type;
-            
-            switch(require){
-                case PERMISSION:
+            switch (type) {
+                case BOARD_MANAGER:
+                    String userID = request.getParameter("userID");
+                    int roleID = Integer.parseInt(request.getParameter("roleID"));
+
+                    UserDAO userDao = new UserDAO();
                     PermissionDAO permissionDao = new PermissionDAO();
-                    ArrayList<PermissionDTO> permissionList =null;
-                    if(type.equals(BOARD_MANAGER)){
-                        permissionList = permissionDao.getListPermissionWithPriority("");
-                    } else if(type.equals(HR_MANAGER)){
-                        permissionList = permissionDao.getListPermissionWithPriority(type);
-                    } else if(type.equals(EMPLOYEE)){
-                        permissionList = permissionDao.getListPermissionWithPriority(type);
-                    } 
-                    
-                    request.setAttribute("PERMISSION_LIST",permissionList);
+                    RoleDAO roleDao = new RoleDAO();
+
+                    UserDTO user = userDao.getUserDetailByUserIDAndRoleID(userID, roleID);
+                    ArrayList<String> userPermission = userDao.getListLoginUserPermission(userID);
+                    ArrayList<PermissionDTO> permissionList = permissionDao.getListPermissionWithPriority("");
+                    request.setAttribute("USER_DETAIL", user);
+                    request.setAttribute("ROLE_NAME", roleDao.getUserRole(roleID));
+                    request.setAttribute("USER_PERMISSION_LIST", userPermission);
+                    request.setAttribute("PERMISSION_LIST", permissionList);
                     url = SUCCESS;
-                case ROLE:
-                    RoleDAO roleDao = new RoleDAO(); 
-                    ArrayList<RoleDTO> roleList = roleDao.getListRole(search);
-                    request.setAttribute("ROLE_LIST", roleList);
-                    url=SUCCESS;
-//                case APARTMENT:
-//                    ApartmentDao apartmentDao = new 
+                    break;
+                default:
+                    break;
             }
         } catch (Exception e) {
-            log("Error at GetMaterialController:" + e.toString());
+            log("Error at ViewDetailController:" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -14,7 +14,7 @@ public class PermissionDTO {
     private String roleNamePriority;
     private boolean status;
     
-    public void PermissionDTO(){
+    public PermissionDTO(){
         this.permissionID=0;
         this.permissionName=null;
         this.roleNamePriority=null;

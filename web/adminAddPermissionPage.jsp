@@ -4,7 +4,8 @@
     Author     : Phi Long
 --%>
 
-<%@page import="sample.DTO.PermissionDTO"%>
+
+<%@page import="sample.DTO.RoleDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -30,40 +31,58 @@
                     }-->
         <% if (request.getParameter("type") == null) {
                 response.sendRedirect("adminMainPage.jsp");
+            } else if (request.getAttribute("ROLE_LIST") == null) {
+                request.getRequestDispatcher("MainController?action=GetMaterial&require=Role&type=" + request.getParameter("type") + "&redirect=adminAddPermissionPage.jsp&search=").forward(request, response);
             } else {%>
         <div class="container">
             <header>Add New ${param.type}</header>
 
             <form action="MainController" method="POST" enctype="multipart/form-data">
-                <div class="form first">
-                    <div class="details personal">
-                        <span class="title">Add Notification</span>
+                <div class="form first"style="width:100%">
+                    <div class="details personal" style="width:100%">
+                        <span class="title">Permission Details</span>
 
                         <div class="fields">
-                            <div class="input-field">
-                                <label>Notification Header ${requestScope.ADD_NOTIFICATION_ERROR.notiHeader}</label>
-                                <input name="notiHeader" type="text" class="form-control" placeholder="Enter Notification header" required="" value="${param.notiHeader}" minlength="4" maxlength="60">     
+                            <div class="input-field" style="width:44%" >
+                                <label>Permission Name  ${requestScope.ADD_PERMISSION_ERROR.permissionName}</label>
+                                <input name="permissionName" type="text" class="form-control" placeholder="Enter permission name" required="" value="${param.permissionName}" minlength="4" maxlength="60">     
                             </div>
 
-                            <div class="input-field">
+                            <div class="input-field"style="width:21%">
+                                <label>Status  ${requestScope.ADD_PERMISSION_ERROR.status}</label>
+                                <select required="" name="status" value="${param.status}">
+                                    <option value="true" >Enable</option>
+                                    <option value="false" >Disable</option>
+                                </select>
                             </div>
 
-                            <div class="input-field">
-                            </div>
-                                    
-                            <div class="input-field">
-                                <label>Notification Content ${requestScope.ADD_NOTIFICATION_ERROR.notiContent}</label>
-                                <textarea style="width: 838px;height: 160px;" class="form-control" name="notiContent" required="" rows="6" cols="80" value="${param.notiContent}" maxlength="1400"></textarea>
-                            </div>
-                                                     
+                            <div class="input-field"style="width:24%">
+                                <label>Role Priority  ${requestScope.ADD_PERMISSION_ERROR.roleNamePriority}</label>
+                                <select name="rolePriority">
+                                    <%  ArrayList<RoleDTO> roleList = (ArrayList<RoleDTO>) request.getAttribute("ROLE_LIST");
+                                        if (roleList != null) {
+                                            if (roleList.size() > 0) {
+                                                for (int i = 0; i < roleList.size(); i++) {
+                                                    if (("Customer Resident").contains(roleList.get(i).getRoleName())) {
+                                                    } else {%>
+                                    <option value="<%=roleList.get(i).getRoleName()%>"><%=roleList.get(i).getRoleName()%></option>
+                                    <%}
+                                                }
+                                            }
+
+                                        }
+                                    %>
+                                </select>
+                            </div>                                      
                         </div>
+
                     </div>
 
                     <div class="details ID">
 
                         <input type="hidden" name="type" value="${param.type}"/>
-                        ${requestScope.ADD_NOTIFICATION_ERROR}
-                        ${requestScope.ADD_NOTIFICATION_SUCCESS} 
+                        ${requestScope.ADD_PERMISSION_ERROR.errorMessage}
+                        ${requestScope.ADD_PERMISSION_SUCCESS} 
                         <div class="buttons">
                             <button class="sumbit" type="reset">
                                 <span class="btnText">Reset</span>

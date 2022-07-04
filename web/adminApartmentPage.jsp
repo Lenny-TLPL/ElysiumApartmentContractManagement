@@ -1,3 +1,8 @@
+<%@page import="sample.DTO.ApartmentTypeDTO"%>
+<%@page import="sample.DTO.ApartmentBuildingDTO"%>
+<%@page import="sample.DTO.DistrictDTO"%>
+<%@page import="sample.DTO.ApartmentDTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--=== Coding by CodingLab | www.codinglabweb.com === -->
@@ -14,6 +19,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <%if (request.getAttribute("APARTMENT_LIST") == null && request.getAttribute("APARTMENT_BUILDING_LIST") == null && request.getAttribute("APARTMENT_TYPE_LIST") == null && request.getAttribute("DISTRICT_LIST") == null) {
+                response.sendRedirect("MainController?action=Search&type=Apartment&search=");
+            }%>
         <div class="sidebar">
             <div class="logo-details">
                 <i class='bx bxl-c-plus-plus'></i>
@@ -117,180 +125,183 @@
                     <i class='bx bx-menu sidebarBtn'></i>
                     <span class="dashboard">Dashboard</span>
                 </div>
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <i class='bx bx-search' ></i>
-                </div>
+                <form action="MainController"class="search-box">
+                    <div>
+                        <input type="hidden" name="type" value="Apartment">
+                        <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
+                        <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
+                    </div>
+                </form>
+
                 <div >
                     <!--<img src="images/profile.jpg" alt="">-->
                     <span class="admin_name">${sessionScope.LOGIN_USER.fullName}</span>
 
                 </div>
             </nav>
-
             <div class="home-content">
-                <div class="overview-boxes">
-                    <div class="box">
-                        <div class="right-side">
-                            <div class="box-topic">Total Order</div>
-                            <div class="number">40,876</div>
-                            <div class="indicator">
-                                <i class='bx bx-up-arrow-alt'></i>
-                                <span class="text">Up from yesterday</span>
-                            </div>
-                        </div>
-                        <i class='bx bx-cart-alt cart'></i>
-                    </div>
-                    <div class="box">
-                        <div class="right-side">
-                            <div class="box-topic">Total Sales</div>
-                            <div class="number">38,876</div>
-                            <div class="indicator">
-                                <i class='bx bx-up-arrow-alt'></i>
-                                <span class="text">Up from yesterday</span>
-                            </div>
-                        </div>
-                        <i class='bx bxs-cart-add cart two' ></i>
-                    </div>
-                    <div class="box">
-                        <div class="right-side">
-                            <div class="box-topic">Total Profit</div>
-                            <div class="number">$12,876</div>
-                            <div class="indicator">
-                                <i class='bx bx-up-arrow-alt'></i>
-                                <span class="text">Up from yesterday</span>
-                            </div>
-                        </div>
-                        <i class='bx bx-cart cart three' ></i>
-                    </div>
-                    <div class="box">
-                        <div class="right-side">
-                            <div class="box-topic">Total Return</div>
-                            <div class="number">11,086</div>
-                            <div class="indicator">
-                                <i class='bx bx-down-arrow-alt down'></i>
-                                <span class="text">Down From Today</span>
-                            </div>
-                        </div>
-                        <i class='bx bxs-cart-download cart four' ></i>
-                    </div>
-                </div>
-
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title">Recent Sales</div>
-                        <div class="sales-details">
-                            <ul class="details">
-                                <li class="topic">Date</li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                                <li><a href="#">02 Jan 2021</a></li>
-                            </ul>
-                            <ul class="details">
-                                <li class="topic">Customer</li>
-                                <li><a href="#">Alex Doe</a></li>
-                                <li><a href="#">David Mart</a></li>
-                                <li><a href="#">Roe Parter</a></li>
-                                <li><a href="#">Diana Penty</a></li>
-                                <li><a href="#">Martin Paw</a></li>
-                                <li><a href="#">Doe Alex</a></li>
-                                <li><a href="#">Aiana Lexa</a></li>
-                                <li><a href="#">Rexel Mags</a></li>
-                                <li><a href="#">Tiana Loths</a></li>
-                            </ul>
-                            <ul class="details">
-                                <li class="topic">Sales</li>
-                                <li><a href="#">Delivered</a></li>
-                                <li><a href="#">Pending</a></li>
-                                <li><a href="#">Returned</a></li>
-                                <li><a href="#">Delivered</a></li>
-                                <li><a href="#">Pending</a></li>
-                                <li><a href="#">Returned</a></li>
-                                <li><a href="#">Delivered</a></li>
-                                <li><a href="#">Pending</a></li>
-                                <li><a href="#">Delivered</a></li>
-                            </ul>
-                            <ul class="details">
-                                <li class="topic">Total</li>
-                                <li><a href="#">$204.98</a></li>
-                                <li><a href="#">$24.55</a></li>
-                                <li><a href="#">$25.88</a></li>
-                                <li><a href="#">$170.66</a></li>
-                                <li><a href="#">$56.56</a></li>
-                                <li><a href="#">$44.95</a></li>
-                                <li><a href="#">$67.33</a></li>
-                                <li><a href="#">$23.53</a></li>
-                                <li><a href="#">$46.52</a></li>
-                            </ul>
-                        </div>
-                        <div class="button">
-                            <a href="#">See All</a>
-                        </div>
-                    </div>
-                    <div class="top-sales box">
-                        <div class="title">Top Seling Product</div>
-                        <ul class="top-sales-details">
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/sunglasses.jpg" alt="">-->
-                                    <span class="product">Vuitton Sunglasses</span>
-                                </a>
-                                <span class="price">$1107</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/jeans.jpg" alt="">-->
-                                    <span class="product">Hourglass Jeans </span>
-                                </a>
-                                <span class="price">$1567</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!-- <img src="images/nike.jpg" alt="">-->
-                                    <span class="product">Nike Sport Shoe</span>
-                                </a>
-                                <span class="price">$1234</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/scarves.jpg" alt="">-->
-                                    <span class="product">Hermes Silk Scarves.</span>
-                                </a>
-                                <span class="price">$2312</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/blueBag.jpg" alt="">-->
-                                    <span class="product">Succi Ladies Bag</span>
-                                </a>
-                                <span class="price">$1456</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/bag.jpg" alt="">-->
-                                    <span class="product">Gucci Womens's Bags</span>
-                                </a>
-                                <span class="price">$2345</span>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/addidas.jpg" alt="">-->
-                                    <span class="product">Addidas Running Shoe</span>
-                                </a>
-                                <span class="price">$2345</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <!--<img src="images/shirt.jpg" alt="">-->
-                                    <span class="product">Bilack Wear's Shirt</span>
-                                </a>
-                                <span class="price">$1245</span>
-                            </li>
-                        </ul>
-                    </div>
+                        <div class="title" style="float:left">APARTMENT LOCATION</div>
+                        <a href="adminAddDistrictPage.jsp?type=District"style="float:right" >
+                            <i class="bx  bx-plus-circle" >ADD</i>
+                        </a>
+                        <table border="1" id="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>NAME</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%  ArrayList<DistrictDTO> districtList = (ArrayList<DistrictDTO>) request.getAttribute("DISTRICT_LIST");
+                                    if (districtList != null) {
+                                        if (districtList.size() > 0) {
+                                            for (int i = 0; i < districtList.size(); i++) {%>
+                            <form action="MainController" method="POST">
+                                <tr>
+                                    <td> <input style="width:100%" type="text" name="districtID" value="<%=districtList.get(i).getDistrictID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="districtName" value="<%=districtList.get(i).getDistrictName()%>" readonly="readonly"/></td>
+                                </tr>  
+                            </form>
+                            <%}
+                                    }
+                                }%>
+
+                            </tbody>
+                        </table>
+                    </div>                    
+                </div>
+            </div>
+            <div class="home-content">
+                <div class="sales-boxes">
+                    <div class="recent-sales box">
+                        <div class="title" style="float:left">APARTMENT BUILDING</div>
+                        <a href="adminAddApartmentBuildingPage.jsp?type=Apartment Building"style="float:right" >
+                            <i class="bx  bx-plus-circle" >ADD</i>
+                        </a>
+                        <table border="1" id="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>DistrictName</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%  ArrayList<ApartmentBuildingDTO> buildingList = (ArrayList<ApartmentBuildingDTO>) request.getAttribute("APARTMENT_BUILDING_LIST");
+                                    if (buildingList != null) {
+                                        if (buildingList.size() > 0) {
+                                            for (int i = 0; i < buildingList.size(); i++) {%>
+                            <form action="MainController" method="POST">
+                                <tr>
+                                    <td> <input style="width:100%" type="text" name="buildingID" value="<%=buildingList.get(i).getBuildingID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="buildingName" value="<%=buildingList.get(i).getBuildingName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="districtName" value="<%=buildingList.get(i).getDistrictName()%>" readonly="readonly"/></td>
+                                <input type="hidden" name="status" value="<%=buildingList.get(i).isStatus()%>" readonly="readonly"/>
+                                <%if (buildingList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Available" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Full" readonly="readonly"/></td>
+                                    <%}%>
+                                </tr>  
+                            </form>
+                            <%}
+                                    }
+                                }%>
+
+                            </tbody>
+                        </table>
+                    </div>                    
+                </div>
+            </div>                              
+            <div class="home-content">
+                <div class="sales-boxes">
+                    <div class="recent-sales box">
+                        <div class="title" style="float:left">APARTMENT TYPE</div>
+                        <a href="adminAddApartmentTypePage.jsp?type=Apartment Type"style="float:right" >
+                            <i class="bx  bx-plus-circle" >ADD</i>
+                        </a>
+                        <table border="1" id="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Buying Price</th>
+                                    <th>Leasing Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%  ArrayList<ApartmentTypeDTO> typeList = (ArrayList<ApartmentTypeDTO>) request.getAttribute("APARTMENT_TYPE_LIST");
+                                    if (typeList != null) {
+                                        if (typeList.size() > 0) {
+                                            for (int i = 0; i < typeList.size(); i++) {%>
+                            <form action="MainController" method="POST">
+                                <tr>
+                                    <td> <input style="width:100%" type="text" name="typeID" value="<%=typeList.get(i).getTypeID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="typeName" value="<%=typeList.get(i).getTypeName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="buyingPrice" value="<%=typeList.get(i).getBuyingPrice()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="leasingPrice" value="<%=typeList.get(i).getLeasingPrice()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td>
+                                </tr>  
+                            </form>
+                            <%}
+                                    }
+                                }%>
+
+                            </tbody>
+                        </table>
+                    </div>                    
+                </div>
+            </div>
+            <div class="home-content">
+                <div class="sales-boxes">
+                    <div class="recent-sales box">
+                        <div class="title" style="float:left">APARTMENT</div>
+                        <a href="adminAddApartmentPage.jsp?type=Apartment"style="float:right" >
+                            <i class="bx  bx-plus-circle" >ADD</i>
+                        </a>
+                        <table border="1" id="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Floor</th>
+                                    <th>Building</th>
+                                    <th>UserID</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%  ArrayList<ApartmentDTO> apartmentList = (ArrayList<ApartmentDTO>) request.getAttribute("APARTMENT_LIST");
+                                    if (apartmentList != null) {
+                                        if (apartmentList.size() > 0) {
+                                            for (int i = 0; i < apartmentList.size(); i++) {%>
+                            <form action="MainController" method="POST">
+                                <tr>
+                                    <td> <input style="width:100%" type="text" name="apartmentID" value="<%=apartmentList.get(i).getApartmentID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="apartmentType" value="<%=apartmentList.get(i).getTypeName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="floor" value="<%=apartmentList.get(i).getFloor()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="buildingName" value="<%=apartmentList.get(i).getBuildingName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="userID" value="<%=apartmentList.get(i).getUserID()%>" readonly="readonly"/></td>
+                                <input type="hidden" name="apartmentStatus" value="<%=apartmentList.get(i).getApartmentStatus()%>" readonly="readonly"/>
+                                <%if (("available").contains(apartmentList.get(i).getApartmentStatus())) {%>
+                                <td> <input style="width:100%; background-color: #669c19" type="text"value="<%=apartmentList.get(i).getApartmentStatus()%>" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="<%=apartmentList.get(i).getApartmentStatus()%>" readonly="readonly"/></td>
+                                    <%}%>
+                                <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
+                                </tr>  
+                            </form>
+                            <%}
+                                    }
+                                }%>
+
+                            </tbody>
+                        </table>
+                    </div>                    
                 </div>
             </div>
         </section>

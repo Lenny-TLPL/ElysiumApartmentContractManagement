@@ -6,8 +6,8 @@
 <!--=== Coding by CodingLab | www.codinglabweb.com === -->
 <html lang="en">
     <head>
-<!--        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <!--        <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
         <link rel="stylesheet" href="css/admincss.css">
@@ -142,7 +142,7 @@
                 <div class="sales-boxes">
                     <div class="recent-sales box">
                         <div class="title" style="float:left">NOTIFICATION</div>
-                        <a href="adminAddNotificationPage.jsp?type=notification"style="float:right" >
+                        <a href="adminAddNotificationPage.jsp?type=Notification"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
                         <table border="1" id="table">
@@ -173,7 +173,7 @@
                                 <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
                                     <%}%>
                                 <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                <%if (notificationList.get(i).isStatus()) {%>
+                                    <%if (notificationList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
                                     <%} else {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
@@ -193,7 +193,7 @@
                     <div class="recent-sales box">
                         <div class="title" style="float:left">PRIVATE NOTIFICATION</div>
                         <a href="adminAddPrivateNotificationPage.jsp?type=Private Notification"style="float:right" >
-                            <i class="bx  bx-plus-circle" >ADD</i>
+                            <i class="bx  bx-plus-circle" >SEND</i>
                         </a>
                         <table border="1" id="table">
                             <thead>
@@ -208,7 +208,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <%  ArrayList<PrivateNotificationDTO> PrivateNotiList = (ArrayList<PrivateNotificationDTO>) request.getAttribute("CONTRACT_LIST");
+                                <%  ArrayList<PrivateNotificationDTO> PrivateNotiList = (ArrayList<PrivateNotificationDTO>) request.getAttribute("PRIVATE_NOTIFICATION_LIST");
                                     if (PrivateNotiList != null) {
                                         if (PrivateNotiList.size() > 0) {
                                             for (int i = 0; i < PrivateNotiList.size(); i++) {%>
@@ -225,7 +225,7 @@
                                 <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
                                     <%}%>
                                 <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                <%if (PrivateNotiList.get(i).isStatus()) {%>
+                                    <%if (PrivateNotiList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
                                     <%} else {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
@@ -238,9 +238,9 @@
 
                             </tbody>
                         </table>
+                        </div>
                     </div>                    
                 </div>
-            </div>
         </section>
 
         <script>

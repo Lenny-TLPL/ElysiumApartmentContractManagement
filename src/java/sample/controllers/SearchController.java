@@ -11,15 +11,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.DAO.ApartmentBuildingDAO;
+import sample.DAO.ApartmentDAO;
+import sample.DAO.ApartmentTypeDAO;
 import sample.DAO.BillingHistoryDAO;
 import sample.DAO.ContractDAO;
+import sample.DAO.DistrictDAO;
 import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
 import sample.DAO.PrivateNotificationDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
+import sample.DTO.ApartmentBuildingDTO;
+import sample.DTO.ApartmentDTO;
+import sample.DTO.ApartmentTypeDTO;
 import sample.DTO.BillingHistoryDTO;
 import sample.DTO.ContractDTO;
+import sample.DTO.DistrictDTO;
 import sample.DTO.NotificationDTO;
 import sample.DTO.PermissionDTO;
 import sample.DTO.PrivateNotificationDTO;
@@ -43,8 +51,6 @@ public class SearchController extends HttpServlet {
     private static final String SERVICE = "Service";
     private static final String NOTIFICATION = "Notification";
     private static final String APARTMENT = "Apartment";
-    private static final String APARTMENT_BUILDING = "Apartment Building";
-    private static final String DISTRICT = "District";
     private static final String BILLING_HISTORY = "Billing History";
     private static final String USER_DEBT = "User Debt";
     private static final String PERMISSION = "Permission";
@@ -173,6 +179,27 @@ public class SearchController extends HttpServlet {
                     } else if(("Customer Resident").contains(roleName)){
                         url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
                     }
+                    break;
+                case APARTMENT:
+                    ApartmentBuildingDAO apBuildingDao = new ApartmentBuildingDAO();
+                    ApartmentTypeDAO apTypeDao = new ApartmentTypeDAO();
+                    DistrictDAO districtDao = new DistrictDAO();
+                    ApartmentDAO apDao = new ApartmentDAO();
+                    ArrayList<ApartmentBuildingDTO> buildingList = apBuildingDao.getApartmentBuildingList(search);
+                    ArrayList<ApartmentTypeDTO> typeList = apTypeDao.getApartmentTypeList(search);
+                    ArrayList<DistrictDTO> districtList = districtDao.getDistrictList(search);
+                    ArrayList<ApartmentDTO> apartmentList = apDao.getApartmentList(search);
+                    request.setAttribute("APARTMENT_BUILDING_LIST", buildingList);
+                    request.setAttribute("APARTMENT_TYPE_LIST", typeList);
+                    request.setAttribute("DISTRICT_LIST", districtList);
+                    request.setAttribute("APARTMENT_LIST", apartmentList);
+                    if(("Board Manager HR Manager Employee").contains(roleName)){
+                        url = SUCCESS_ADMIN+type.replaceAll(" ", "")+"Page.jsp";
+                    } else if(("Customer Resident").contains(roleName)){
+                        url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
+                    }
+                    break;
+                default:
                     break;
             }
              

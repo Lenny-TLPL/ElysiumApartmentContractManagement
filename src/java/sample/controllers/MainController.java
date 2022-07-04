@@ -29,6 +29,8 @@ public class MainController extends HttpServlet {
     private static final String SEARCH_CONTROLLER = "SearchController";
     private static final String GET_MATERIAL = "GetMaterial";
     private static final String GET_MATERIAL_CONTROLLER = "GetMaterialController";
+    private static final String VIEW_DETAIL = "View Detail";
+    private static final String VIEW_DETAIL_CONTROLLER = "ViewDetailController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,6 +59,8 @@ public class MainController extends HttpServlet {
                 url = LOGOUT_CONTROLLER;
             } else if (GET_MATERIAL.equals(action)) {
                 url = GET_MATERIAL_CONTROLLER;
+            } else if (VIEW_DETAIL.equals(action)) {
+                url = VIEW_DETAIL_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController:" + e.toString());
