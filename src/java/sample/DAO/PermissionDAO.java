@@ -19,7 +19,7 @@ import sample.utils.DBUtils;
 public class PermissionDAO {
     private static final String GET_LIST_PERMISSION = "	SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ? OR r.roleName LIKE ?";
     private static final String GET_LIST_PERMISSION_WITH_PRIORITY = "SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE r.roleName LIKE ?";
-    private static final String GET_PERMISSION_BY_NAME="SELECT permissionID, permissionName, status, rolePriority FROM tblPermission WHERE permissionName LIKE ?";
+    private static final String GET_PERMISSION_BY_NAME="SELECT permissionID, permissionName, status, rolePriority, roleName FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ?";
     private static final String ADD_NEW_PERMISSION="INSERT INTO tblPermission (permissionName, status, rolePriority) VALUES (?, ?, ?) ";
 
     public ArrayList<PermissionDTO> getListPermission(String search) throws SQLException {
@@ -112,7 +112,7 @@ public class PermissionDAO {
                     int permissionID = rs.getInt("permissionID");
                     String permissionName = rs.getNString("permissionName") ;                    
                     boolean status = rs.getBoolean("status");
-                    String roleNamePriority = rs.getNString("rolePriority");
+                    String roleNamePriority = rs.getNString("roleName");
                     permission = new PermissionDTO(permissionID, permissionName, roleNamePriority, status);
                 }
             }
@@ -132,7 +132,7 @@ public class PermissionDAO {
         return permission;
     }
     
-    public boolean addPermission(PermissionDTO permission) throws SQLException {
+    public boolean addPermission(PermissionDTO permission, int roleID) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -142,7 +142,7 @@ public class PermissionDAO {
                 ptm = conn.prepareStatement(ADD_NEW_PERMISSION);
                 ptm.setNString(1, permission.getPermissionName());
                 ptm.setBoolean(2, permission.isStatus());
-                ptm.setNString(3, permission.getRoleNamePriority());
+                ptm.setInt(3, roleID);
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }
         } catch (Exception e) {

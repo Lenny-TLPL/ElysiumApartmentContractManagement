@@ -52,6 +52,12 @@ public class PermissionDTO {
         this.roleNamePriority = roleNamePriority;
     }
 
-    
+    public void setPermissionID(int permissionID) {
+        this.permissionID = permissionID;
+    }
+
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
+    }
 
 }
