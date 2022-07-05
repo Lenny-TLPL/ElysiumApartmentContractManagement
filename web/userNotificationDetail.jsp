@@ -16,9 +16,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <%if (request.getAttribute("NOTIFICATION_LIST") == null || request.getAttribute("PRIVATE_NOTIFICATION_LIST") == null) {
-                response.sendRedirect("MainController?action=Search&type=Notification&search=");
-            }%>
         <div class="sidebar">
             <div class="logo-details">
                 <i class='bx bxl-c-plus-plus'></i>
@@ -141,72 +138,16 @@
             <div class="home-content">
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title">NOTIFICATION</div>
-                                <%  ArrayList<NotificationDTO> notificationList = (ArrayList<NotificationDTO>) request.getAttribute("NOTIFICATION_LIST");
-                                    if (notificationList != null) {
-                                        if (notificationList.size() > 0) {
-                                            for (int i = 0; i < notificationList.size(); i++) {%>
+                        <%  NotificationDTO noti = (NotificationDTO) request.getAttribute("NOTIFICATION");
+                            if (noti != null) {
+                        %>
+                                <div class="title"><%= noti.getNotiHeader() %></div>
                                 <div class="notification">
-                                    <span class="date"><%= notificationList.get(i).getNotiDate() %></span> - <a href="#" class="header"><%= notificationList.get(i).getNotiHeader() %> </a>
+                                    <span><%= noti.getNotiContent() %></span>
                                 </div>
-                            <%}
-                                    }
-                                }%>
-
-                            </tbody>
-                        </table>
-                    </div>                    
-                </div>
-                <br>
-                <div class="sales-boxes">
-                    <div class="recent-sales box">
-                        <div class="title" style="float:left">PRIVATE NOTIFICATION</div>
-                        <a href="#"style="float:right" >
-                            <i class="bx  bx-plus-circle" >ADD</i>
-                        </a>
-                        <table border="1" id="table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>USER ID</th> 
-                                    <th>Header</th> 
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>View Detail</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%  ArrayList<PrivateNotificationDTO> PrivateNotiList = (ArrayList<PrivateNotificationDTO>) request.getAttribute("CONTRACT_LIST");
-                                    if (PrivateNotiList != null) {
-                                        if (PrivateNotiList.size() > 0) {
-                                            for (int i = 0; i < PrivateNotiList.size(); i++) {%>
-                            <form action="MainController" method="POST">
-                                <tr>
-                                    <td> <input style="width:100%" type="text" name="privateNotiID" value="<%=PrivateNotiList.get(i).getNotiID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="userID" value="<%=PrivateNotiList.get(i).getUserID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="privateNotiHeader" value="<%=PrivateNotiList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="date" name="privateNotiDate" value="<%=PrivateNotiList.get(i).getNotiDate()%>" readonly="readonly"/></td>
-                                <input type="hidden" name="privateNotiStatus" value="<%=PrivateNotiList.get(i).isStatus()%>" readonly="readonly"/>
-                                <%if (PrivateNotiList.get(i).isStatus()) {%>
-                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
-                                    <%} else {%>
-                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
-                                    <%}%>
-                                <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                <%if (PrivateNotiList.get(i).isStatus()) {%>
-                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
-                                    <%} else {%>
-                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
-                                    <%}%>
-                                </tr>  
-                            </form>
-                            <%}
-                                    }
-                                }%>
-
-                            </tbody>
-                        </table>
+                        <%
+                            }
+                        %>
                     </div>                    
                 </div>
             </div>

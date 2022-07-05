@@ -147,8 +147,8 @@
                                         if (notificationList.size() > 0) {
                                             for (int i = 0; i < notificationList.size(); i++) {%>
                                 <div class="notification">
-                                    <em class="date"><%= notificationList.get(i).getNotiDate() %> -</em> <span class="header"><%= notificationList.get(i).getNotiHeader() %>: </span>
-                                    <span><%= notificationList.get(i).getNotiContent() %></span>
+                                    <em class="date"><%= notificationList.get(i).getNotiDate() %> - </em>
+                                    <a href="MainController?action=NotiDetail&id=<%=notificationList.get(i).getNotiID()%>" class="header"><%= notificationList.get(i).getNotiHeader() %></a>
                                 </div>
                             <%}
                                     }
