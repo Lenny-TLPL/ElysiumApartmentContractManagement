@@ -3,12 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP302-Project/ElysiumApartment-ContractManagement/src/java/sample/controllers/SearchController.java</file>
-            <file>file:/D:/SWP302-Project/ElysiumApartment-ContractManagement/src/java/sample/DTO/UserDTO.java</file>
-            <file>file:/D:/SWP302-Project/ElysiumApartment-ContractManagement/web/residentPersonalInformationPage.jsp</file>
-            <file>file:/D:/SWP302-Project/ElysiumApartment-ContractManagement/src/java/sample/controllers/LoginController.java</file>
-            <file>file:/D:/SWP302-Project/ElysiumApartment-ContractManagement/web/adminAddUserPage.jsp</file>
-            <file>file:/D:/SWP302-Project/ElysiumApartment-ContractManagement/web/index.jsp</file>
+            <file>file:/D:/FPT/SWP391/code/SWP_Project/ElysiumApartment-ContractManagement/src/java/sample/DAO/ContractDAO.java</file>
+            <file>file:/D:/FPT/SWP391/code/SWP_Project/ElysiumApartment-ContractManagement/src/java/sample/controllers/LoginController.java</file>
+            <file>file:/D:/FPT/SWP391/code/SWP_Project/ElysiumApartment-ContractManagement/src/java/sample/DTO/NotificationDTO.java</file>
+            <file>file:/D:/FPT/SWP391/code/SWP_Project/ElysiumApartment-ContractManagement/web/css/mystyle.css</file>
+            <file>file:/D:/FPT/SWP391/code/SWP_Project/ElysiumApartment-ContractManagement/nbproject/build-impl.xml</file>
+            <file>file:/D:/FPT/SWP391/code/SWP_Project/ElysiumApartment-ContractManagement/web/META-INF/context.xml</file>
+            <file>file:/D:/FPT/SWP391/code/SWP_Project/ElysiumApartment-ContractManagement/src/java/sample/controllers/MainController.java</file>
+            <file>file:/D:/FPT/SWP391/code/SWP_Project/ElysiumApartment-ContractManagement/src/java/sample/DAO/NotificationDAO.java</file>
         </group>
     </open-files>
 </project-private>
