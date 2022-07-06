@@ -10,10 +10,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.DAO.ContractDAO;
+import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
+import sample.DAO.PrivateNotificationDAO;
 import sample.DAO.RoleDAO;
+import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
+import sample.DTO.ContractDTO;
+import sample.DTO.NotificationDTO;
 import sample.DTO.PermissionDTO;
+import sample.DTO.PrivateNotificationDTO;
+import sample.DTO.ServiceDTO;
 import sample.DTO.UserDTO;
 
 /**
@@ -26,7 +34,7 @@ public class ViewDetailController extends HttpServlet {
 
     private static final String CUSTOMER = "Customer";
     private static final String RESIDENT = "Resident";
-    private static final String EMPLOYEE = "Empoyee";
+    private static final String EMPLOYEE = "Employee";
     private static final String HR_MANAGER = "HR Manager";
     private static final String BOARD_MANAGER = "Board Manager";
     private static final String CONTRACT = "Contract";
@@ -74,6 +82,110 @@ public class ViewDetailController extends HttpServlet {
                     request.setAttribute("USER_PERMISSION_LIST", userPermission);
                     request.setAttribute("PERMISSION_LIST", permissionList);
                     url = SUCCESS;
+                    break;
+                case HR_MANAGER:
+                    userID = request.getParameter("userID");
+                    roleID = Integer.parseInt(request.getParameter("roleID"));
+
+                    userDao = new UserDAO();
+                    permissionDao = new PermissionDAO();
+                    roleDao = new RoleDAO();
+
+                    user = userDao.getUserDetailByUserIDAndRoleID(userID, roleID);
+                    userPermission = userDao.getListLoginUserPermission(userID);
+                    permissionList = permissionDao.getListPermissionWithPriority("");
+                    request.setAttribute("USER_DETAIL", user);
+                    request.setAttribute("ROLE_NAME", roleDao.getUserRole(roleID));
+                    request.setAttribute("USER_PERMISSION_LIST", userPermission);
+                    request.setAttribute("PERMISSION_LIST", permissionList);
+                    url = SUCCESS;
+                    break;
+                case EMPLOYEE:
+                    userID = request.getParameter("userID");
+                    roleID = Integer.parseInt(request.getParameter("roleID"));
+
+                    userDao = new UserDAO();
+                    permissionDao = new PermissionDAO();
+                    roleDao = new RoleDAO();
+
+                    user = userDao.getUserDetailByUserIDAndRoleID(userID, roleID);
+                    userPermission = userDao.getListLoginUserPermission(userID);
+                    permissionList = permissionDao.getListPermissionWithPriority("");
+                    request.setAttribute("USER_DETAIL", user);
+                    request.setAttribute("ROLE_NAME", roleDao.getUserRole(roleID));
+                    request.setAttribute("USER_PERMISSION_LIST", userPermission);
+                    request.setAttribute("PERMISSION_LIST", permissionList);
+                    url = SUCCESS;
+                    break;
+                case RESIDENT:
+                    userID = request.getParameter("userID");
+                    roleID = Integer.parseInt(request.getParameter("roleID"));
+
+                    userDao = new UserDAO();
+                    permissionDao = new PermissionDAO();
+                    roleDao = new RoleDAO();
+
+                    user = userDao.getUserDetailByUserIDAndRoleID(userID, roleID);
+                    userPermission = userDao.getListLoginUserPermission(userID);
+                    permissionList = permissionDao.getListPermissionWithPriority("");
+                    request.setAttribute("USER_DETAIL", user);
+                    request.setAttribute("ROLE_NAME", roleDao.getUserRole(roleID));
+                    request.setAttribute("USER_PERMISSION_LIST", userPermission);
+                    request.setAttribute("PERMISSION_LIST", permissionList);
+                    url = SUCCESS;
+                    break;
+                case CUSTOMER:
+                    userID = request.getParameter("userID");
+                    roleID = Integer.parseInt(request.getParameter("roleID"));
+
+                    userDao = new UserDAO();
+                    permissionDao = new PermissionDAO();
+                    roleDao = new RoleDAO();
+
+                    user = userDao.getUserDetailByUserIDAndRoleID(userID, roleID);
+                    userPermission = userDao.getListLoginUserPermission(userID);
+                    permissionList = permissionDao.getListPermissionWithPriority("");
+                    request.setAttribute("USER_DETAIL", user);
+                    request.setAttribute("ROLE_NAME", roleDao.getUserRole(roleID));
+                    request.setAttribute("USER_PERMISSION_LIST", userPermission);
+                    request.setAttribute("PERMISSION_LIST", permissionList);
+                    url = SUCCESS;
+                    break;
+                case NOTIFICATION:
+                    int notiID =Integer.parseInt(request.getParameter("notiID")) ;
+
+                    NotificationDAO notificationDao = new NotificationDAO();
+                    NotificationDTO noti = notificationDao.getNotificationByID(notiID);
+                    request.setAttribute("NOTIFICATION_DETAIL", noti);
+                    url = SUCCESS;
+                    break;
+
+                case PRIVATE_NOTIFICATION:
+                    notiID =Integer.parseInt(request.getParameter("notiID")) ;
+
+                    PrivateNotificationDAO privateNotificationDao = new PrivateNotificationDAO();
+                    PrivateNotificationDTO privatenoti = privateNotificationDao.getPrivateNotificationByID(notiID);
+                    request.setAttribute("PRIVATE_NOTIFICATION_DETAIL", privatenoti);
+                    url = SUCCESS;
+                    break;
+                    
+                case SERVICE:                   
+                    int serviceID =Integer.parseInt(request.getParameter("serviceID")) ;
+
+                    ServiceDAO serviceDao = new ServiceDAO();
+                    ServiceDTO service = serviceDao.getServiceByID(serviceID);
+                    request.setAttribute("SERVICE_DETAIL", service);
+                    url = SUCCESS;
+                    break;
+                case CONTRACT:
+                    int contractID = Integer.parseInt(request.getParameter("contractID"));
+                    
+                    ContractDAO contractDao = new ContractDAO();
+                    ContractDTO contract = contractDao.getContractDetail(contractID);
+                    String contractImage = contractDao.getContractImage(contractID);
+                    request.setAttribute("CONTRACT_DETAIL", contract);
+                    request.setAttribute("CONTRACT_IMAGE", contractImage);
+                    url=SUCCESS;
                     break;
                 default:
                     break;

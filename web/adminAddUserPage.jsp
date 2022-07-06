@@ -11,8 +11,8 @@
 <!--=== Coding by CodingLab | www.codinglabweb.com === -->
 <html lang="en">
     <head>
-<!--        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <!--        <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -32,7 +32,8 @@
                 response.sendRedirect("adminMainPage.jsp");
             } else if (("HR Manager Board Manager Employee").contains(request.getParameter("type")) && request.getAttribute("PERMISSION_LIST") == null) {
                 request.getRequestDispatcher("MainController?action=GetMaterial&require=Permission&type=" + request.getParameter("type") + "&redirect=adminAddUserPage.jsp").forward(request, response);
-            } else {%>
+            } else {
+                String backValue = (request.getParameter("type")).replaceAll(" ", "");%>
         <div class="container">
             <header>Add New ${param.type}</header>
 
@@ -98,7 +99,8 @@
                         <input type="hidden" name="type" value="${param.type}"/>
                         ${requestScope.ADD_USER_ERROR.errorMessage}
                         ${requestScope.ADD_USER_SUCCESS} 
-                        ${requestScope.ADD_CONTRACT_ERROR}
+                        ${requestScope.ADD_CONTRACT_ERROR.errorMessage}
+                        ${requestScope.ADD_CONTRACT_SUCCESS}
                         <div class="buttons">
                             <button class="sumbit" type="reset">
                                 <span class="btnText">Reset</span>
@@ -147,11 +149,6 @@
                         <span class="title">Sub Information For Contract</span>
 
                         <div class="fields" >
-                            <div class="input-field" id="leasing" style="display:none">
-                                <label>Expiry Date  ${requestScope.ADD_CONTRACT_ERROR.expiryDate}</label>
-                                <input name="expiryDate" value="${param.expiryDate}" type="date" placeholder="Enter expiry date">
-                            </div>
-                                
                             <div class="input-field" id="amortization" style="display:none">
                                 <label>Month(s) Of Debt</label>
                                 <select name="monthsOfDebt" value="${param.monthsOfDebt}">
@@ -159,7 +156,15 @@
                                     <option value="120">10 years (120 months)</option>                                
                                 </select>
                             </div>
-                            <div class="input-field"></div>    
+
+                            <div class="input-field" id="leasing" style="display:none">
+                                <label>Expiry Date  ${requestScope.ADD_CONTRACT_ERROR.expiryDate}</label>
+                                <input name="expiryDate" value="${param.expiryDate}" type="date" placeholder="Enter expiry date">
+                            </div>
+
+
+                            <div class="input-field"></div> 
+                            <div class="input-field"></div>  
                         </div>
                         <div class="buttons">
                             <div class="backBtn">
@@ -187,9 +192,8 @@
                                 if (permissionList != null) {
                                     if (permissionList.size() > 0) {
                                         for (int i = 0; i < permissionList.size(); i++) {%>
-                            <div class="fields">
-                                <label >   <input type="checkbox" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
-
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label>   <input type="checkbox" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
                             </div>
                             <%}
                                     }
@@ -215,12 +219,25 @@
             </form>
             <button class="backButton">
                 <i class="uil uil-arrow-left"></i>
-                <span class="btnText"><a href="adminDashBoardPage.jsp">Back to admin page</a></span>               
+                <span class="btnText"><a href="admin<%=backValue%>Page.jsp">Back to ${param.type} page</a></span>               
             </button> 
         </div>
         <%}%>
         <script src="js/addjavascript.js"></script>
         <script src="js/addUserJS.js"></script>
+        <script>function showDiv(element)
+{
+    if (element.value == "leasing") {
+        document.getElementById('amortization').style.display = 'none';
+        document.getElementById('leasing').style.display = 'flex';
+    } else if (element.value == "amortization") {
+        document.getElementById('leasing').style.display = 'none';
+        document.getElementById('amortization').style.display = 'flex';
+    } else if (element.value == "buying") {
+        document.getElementById('leasing').style.display = 'none';
+        document.getElementById('amortization').style.display = 'none';
+    }
+}</script>
     </body>
 </html>
 

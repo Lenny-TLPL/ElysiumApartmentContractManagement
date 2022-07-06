@@ -4,6 +4,7 @@
  */
 package sample.DAO;
 
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import sample.DTO.NotificationDTO;
 import sample.utils.DBUtils;
+import sample.utils.ToStringUtils;
 
 /**
  *
@@ -21,6 +23,7 @@ import sample.utils.DBUtils;
 public class NotificationDAO {
     private static final String GET_LIST_NOTIFICATION="	SELECT * FROM tblNotification WHERE notiHeader LIKE ? OR notiContent LIKE ? ";
     private static final String ADD_NEW_NOTIFICATION="INSERT INTO tblNotification (notiHeader, notiContent, notiDate, status) VALUES (?, ?, ?, ?)";
+    private static final String GET_NOTIFICATION_BY_ID = "SELECT notiID, notiHeader, notiContent, notiDate, status FROM tblNotification WHERE notiID = ?";
     
     public ArrayList<NotificationDTO> getListNotification( String search) throws SQLException {
         ArrayList<NotificationDTO> list = new ArrayList<>();
@@ -86,5 +89,41 @@ public class NotificationDAO {
             }
         }
         return check;
+    }
+    
+    public NotificationDTO getNotificationByID(int notificationID) throws SQLException {
+        NotificationDTO noti = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_NOTIFICATION_BY_ID);
+                stm.setInt(1, notificationID);          
+                rs = stm.executeQuery();
+                while (rs.next()) { 
+                    int notiID = rs.getInt("notiID");
+                    String notiHeader = rs.getNString("notiHeader");
+                    String notiContent = rs.getNString("notiContent");
+                    Date notiDate = rs.getDate("notiDate");
+                    boolean status = rs.getBoolean("status");
+                    noti = new NotificationDTO(notiID, notiHeader, notiContent, notiDate, status);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return noti;
     }
 }

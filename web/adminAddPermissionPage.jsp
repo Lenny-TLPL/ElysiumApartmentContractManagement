@@ -97,7 +97,7 @@
             </form>
             <button class="backButton">
                 <i class="uil uil-arrow-left"></i>
-                <span class="btnText"><a href="adminDashBoardPage.jsp">Back to admin page</a></span>               
+                <span class="btnText"><a href="adminPermissionPage.jsp">Back to ${param.type} page</a></span>               
             </button> 
         </div>
         <%}%>

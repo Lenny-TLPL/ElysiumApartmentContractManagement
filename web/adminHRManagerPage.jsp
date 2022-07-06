@@ -173,6 +173,9 @@
                                     <td> <input style="width:100%" type="text" name="citizenID" value="<%=userList.get(i).getCitizenID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="date" name="dateJoin" value="<%=userList.get(i).getDateJoin()%>" readonly="readonly"/></td>
                                     <input type="hidden" name="status" value="<%=userList.get(i).isStatus()%>" readonly="readonly"/>
+                                    <input type="hidden" name="roleID" value="<%=userList.get(i).getRoleID()%>" readonly="readonly"/>
+                                    <input type="hidden" name="redirect" value="adminUserDetailPage.jsp" readonly="readonly"/>
+                                    <input type="hidden" name="type" value="HR Manager" readonly="readonly"/>
                                     <%if(userList.get(i).isStatus()){%>
                                     <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
                                     <%}else{%>

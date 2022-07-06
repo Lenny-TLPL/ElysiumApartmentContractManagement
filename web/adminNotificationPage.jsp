@@ -167,6 +167,8 @@
                                     <td> <input style="width:100%" type="text" name="notiHeader" value="<%=notificationList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="date" name="notiDate" value="<%=notificationList.get(i).getNotiDate()%>" readonly="readonly"/></td>
                                 <input type="hidden" name="notiStatus" value="<%=notificationList.get(i).isStatus()%>" readonly="readonly"/>
+                                <input type="hidden" name="redirect" value="adminNotificationDetailPage.jsp" readonly="readonly"/>
+                                <input type="hidden" name="type" value="Notification" readonly="readonly"/>
                                 <%if (notificationList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
                                     <%} else {%>
@@ -214,11 +216,13 @@
                                             for (int i = 0; i < PrivateNotiList.size(); i++) {%>
                             <form action="MainController" method="POST">
                                 <tr>
-                                    <td> <input style="width:100%" type="text" name="privateNotiID" value="<%=PrivateNotiList.get(i).getNotiID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="notiID" value="<%=PrivateNotiList.get(i).getNotiID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=PrivateNotiList.get(i).getUserID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="privateNotiHeader" value="<%=PrivateNotiList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="date" name="privateNotiDate" value="<%=PrivateNotiList.get(i).getNotiDate()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="notiHeader" value="<%=PrivateNotiList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="date" name="notiDate" value="<%=PrivateNotiList.get(i).getNotiDate()%>" readonly="readonly"/></td>
                                 <input type="hidden" name="privateNotiStatus" value="<%=PrivateNotiList.get(i).isStatus()%>" readonly="readonly"/>
+                                <input type="hidden" name="redirect" value="adminPrivateNotificationDetailPage.jsp" readonly="readonly"/>
+                                    <input type="hidden" name="type" value="Private Notification" readonly="readonly"/>
                                 <%if (PrivateNotiList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
                                     <%} else {%>

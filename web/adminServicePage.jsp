@@ -169,10 +169,12 @@
                                     <td> <input style="width:100%" type="text" name="serviceName" value="<%=serviceList.get(i).getServiceName()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="number" name="price" value="<%=serviceList.get(i).getPrice()%>" readonly="readonly"/></td>
                                 <input type="hidden" name="status" value="<%=serviceList.get(i).isStatus()%>" readonly="readonly"/>
+                                <input type="hidden" name="redirect" value="adminServiceDetailPage.jsp" readonly="readonly"/>
+                                <input type="hidden" name="type" value="Service" readonly="readonly"/>
                                 <%if (serviceList.get(i).isStatus()) {%>
-                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
+                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Enable" readonly="readonly"/></td>
                                     <%} else {%>
-                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
+                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Disable" readonly="readonly"/></td>
                                     <%}%>
                                 <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
                                     <%if (serviceList.get(i).isStatus()) {%>

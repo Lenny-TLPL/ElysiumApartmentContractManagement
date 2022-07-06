@@ -32,8 +32,11 @@
         <% if (request.getParameter("type") == null) {
                 response.sendRedirect("adminMainPage.jsp");
             } else if (("HR Manager Board Manager Employee").contains(request.getParameter("type")) && request.getAttribute("PERMISSION_LIST") == null) {
-                response.sendRedirect("MainController?action=Search&type=Board Manager&search=");
-            } else {%>
+                response.sendRedirect("MainController?action=Search&type="+request.getParameter("type")+"&search=");
+            } else if(request.getAttribute("USER_DETAIL")==null){
+                response.sendRedirect("MainController?action=Search&type="+request.getParameter("type")+"&search=");
+            } else {
+                String backValue = (request.getParameter("type")).replaceAll(" ", "");%>
         <div class="container">
             <header>${requestScope.USER_DETAIL.fullName}</header>
 
@@ -190,7 +193,7 @@
             </form>
             <button class="backButton">
                 <i class="uil uil-arrow-left"></i>
-                <span class="btnText"><a href="adminDashBoardPage.jsp">Back to admin page</a></span>               
+                <span class="btnText"><a href="admin<%=backValue%>Page.jsp">Back to ${param.type} page</a></span>               
             </button> 
         </div>
         <%}%>

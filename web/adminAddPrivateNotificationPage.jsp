@@ -55,7 +55,7 @@
 
                             <div class="input-field">
                                 <label>Private Notification Content ${requestScope.ADD_PRIVATE_NOTIFICATION_ERROR.notiContent}</label>
-                                <textarea style="width: 838px;height: 160px;" class="form-control" name="notiContent" required="" rows="6" cols="80" value="${param.notiContent}"></textarea>
+                                <textarea style="width: 838px;height: 160px;" class="form-control" name="notiContent" required="" rows="6" cols="80" maxlength="1400">${param.notiContent}</textarea>
                             </div>
 
 
@@ -81,7 +81,7 @@
             </form>
             <button class="backButton">
                 <i class="uil uil-arrow-left"></i>
-                <span class="btnText"><a href="adminDashBoardPage.jsp">Back to admin page</a></span>               
+                <span class="btnText"><a href="adminNotificationPage.jsp">Back to ${param.type} page</a></span>               
             </button> 
         </div>
         <%}%>

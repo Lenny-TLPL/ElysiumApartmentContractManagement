@@ -20,6 +20,7 @@ import sample.utils.DBUtils;
 public class UserDAO {
     private static final String LOGIN="SELECT fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID FROM tblUser  WHERE (userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? or phone = ?) AND password COLLATE SQL_Latin1_General_CP1_CS_AS = ? AND status = 1";
     private static final String CHECK_DUPLICATE_USER="SELECT citizenID FROM tblUser WHERE tblUser.citizenID COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND tblUser.roleID NOT IN(1,2,3)";
+    private static final String CHECK_DUPLICATE_ADMIN="SELECT citizenID FROM tblUser WHERE tblUser.citizenID COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND tblUser.roleID NOT IN(4,5)";
     private static final String ADD_USER="EXEC addUser ?, ?, ?, ?, ?, ?, ?, ?, ?";
     private static final String GET_LIST_USER="SELECT userID, password, fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID FROM tblUser "
             + "WHERE tblUser.roleID = COALESCE((SELECT TOP 1 roleID FROM tblRole WHERE roleName COLLATE SQL_Latin1_General_CP1_CS_AS = ?),0)"
@@ -29,7 +30,7 @@ public class UserDAO {
               " WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ?";
     private static final String GET_USER_ID_BY_CITIZEN_ID="SELECT userID FROM tblUser "
             + "WHERE tblUser.roleID = COALESCE((SELECT TOP 1 roleID FROM tblRole WHERE roleName COLLATE SQL_Latin1_General_CP1_CS_AS = ?),0)"
-            + " AND citizenID LIKE COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
+            + " AND citizenID COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
     private static final String DELETE_USER="DELETE FROM tblUser WHERE userID LIKE ? AND roleID=?";
     private static final String GET_USER_BY_ID_AND_STATUS="SELECT fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID, password FROM tblUser  WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND status = ?";
     private static final String GET_USER_DETAIL_BY_USERID_AND_ROLE="SELECT fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, password FROM tblUser \n" +
@@ -87,6 +88,37 @@ public class UserDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(CHECK_DUPLICATE_USER);
+                ptm.setString(1,citizenID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    check=true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
+    public boolean checkDuplicateAdmin(String citizenID) throws SQLException{ 
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_ADMIN);
                 ptm.setString(1,citizenID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -232,7 +264,7 @@ public class UserDAO {
             if (conn != null) {
                 stm = conn.prepareStatement(GET_USER_ID_BY_CITIZEN_ID);
                 stm.setNString(1, type);
-                stm.setString(2, "%"+citizenID+"%");       
+                stm.setString(2, citizenID);       
                 rs = stm.executeQuery();
                 if (rs.next()) { 
                     userID = rs.getString("userID");

@@ -21,6 +21,7 @@ import sample.utils.DBUtils;
 public class PrivateNotificationDAO {
     private static final String GET_LIST_PRIVATE_NOTIFICATION="	SELECT * FROM tblPrivateNotification WHERE notiHeader LIKE ? OR notiContent LIKE ? OR userID LIKE ?";
     private static final String ADD_NEW_PRIVATE_NOTIFICATION ="	INSERT INTO tblPrivateNotification (notiHeader, notiContent, notiDate,userID, status) VALUES (?, ?, ?, ?, ?)";
+    private static final String GET_PRIVATE_NOTIFICATION_BY_ID = "SELECT notiID, notiHeader, notiContent, notiDate, status, userID FROM tblPrivateNotification WHERE notiID = ?";
     
     public ArrayList<PrivateNotificationDTO> getListPrivateNotification( String search) throws SQLException {
         ArrayList<PrivateNotificationDTO> list = new ArrayList<>();
@@ -89,5 +90,42 @@ public class PrivateNotificationDAO {
             }
         }
         return check;
+    }
+    
+    public PrivateNotificationDTO getPrivateNotificationByID(int notificationID) throws SQLException {
+        PrivateNotificationDTO noti = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_PRIVATE_NOTIFICATION_BY_ID);
+                stm.setInt(1, notificationID);          
+                rs = stm.executeQuery();
+                while (rs.next()) { 
+                    int notiID = rs.getInt("notiID");
+                    String notiHeader = rs.getNString("notiHeader");
+                    String notiContent = rs.getNString("notiContent");
+                    Date notiDate = rs.getDate("notiDate");
+                    boolean status = rs.getBoolean("status");
+                    String userID = rs.getString("userID");
+                    noti = new PrivateNotificationDTO(notiID, notiHeader, notiContent, notiDate, userID, status);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return noti;
     }
 }

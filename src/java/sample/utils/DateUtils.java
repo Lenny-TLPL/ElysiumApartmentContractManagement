@@ -5,6 +5,9 @@
 package sample.utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -30,12 +33,20 @@ public class DateUtils {
     }
 
     public static long subtractTwoDay(Date startDate, Date endDate) {
-            long difference_In_Time
+        long difference_In_Time
                 = endDate.getTime() - startDate.getTime();
-            long difference_In_Years
+        long difference_In_Years
                 = (difference_In_Time
-                   / (1000 * 60 * 60 * 24 * 365));
-            return difference_In_Years;
+                / (1000 * 60 * 60 * 24 * 365));
+        return difference_In_Years;
     }
-   
+
+    public static Date plusMonths(Date date, int months) {
+        LocalDateTime dateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        dateTime = dateTime.plusMonths(months);
+        ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault());
+        Date output = Date.from(zdt.toInstant());
+        return output;       
+    }
+
 }

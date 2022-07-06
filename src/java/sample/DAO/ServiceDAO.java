@@ -19,6 +19,7 @@ import sample.utils.DBUtils;
 public class ServiceDAO {
     private static final String GET_LIST_SERVICE="SELECT serviceID, serviceName, price, status FROM tblService WHERE serviceName LIKE ?";
     private static final String GET_SERVICE_BY_NAME="SELECT serviceID, serviceName, description, price, status FROM tblService WHERE serviceName LIKE ?";
+    private static final String GET_SERVICE_BY_ID="SELECT serviceID, serviceName, description, price, status FROM tblService WHERE serviceID = ?";
     private static final String ADD_NEW_SERVICE="INSERT INTO tblService (serviceName, status, description, price) VALUES (?, ?, ?, ?) ";
     
     public ArrayList<ServiceDTO> getListService(String search) throws SQLException {
@@ -119,6 +120,41 @@ public class ServiceDAO {
             }
         }
         return check;
+    }
+    
+    public ServiceDTO getServiceByID(int serviceID) throws SQLException {
+        ServiceDTO service = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_SERVICE_BY_ID);
+                stm.setInt(1, serviceID);             
+                rs = stm.executeQuery();
+                if (rs.next()) { 
+                    String serviceName = rs.getNString("serviceName") ;
+                    float price = rs.getFloat("price");
+                    boolean status = rs.getBoolean("status");
+                    String description = rs.getNString("description");
+                    service = new ServiceDTO(serviceID, serviceName, description , price, status);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return service;
     }
 
 }
