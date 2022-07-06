@@ -19,6 +19,41 @@ import sample.utils.DBUtils;
  */
 public class NotificationDAO {
     private static final String GET_LIST_NOTIFICATION="	SELECT * FROM tblNotification WHERE notiHeader LIKE ? OR notiContent LIKE ? ";
+    private static final String GET_NOTIFICATION="SELECT * FROM tblNotification WHERE notiID=?";
+    
+    public NotificationDTO getNotification(int id) throws SQLException {
+        NotificationDTO noti = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs=null;
+        try {
+            conn = DBUtils.getConnection();
+            if(conn!=null) {
+                stm=conn.prepareStatement(GET_NOTIFICATION);
+                stm.setInt(1, id);
+                rs=stm.executeQuery();
+                if(rs.next()) {
+                    String notiHeader = rs.getString("notiHeader");
+                    String notiContent = rs.getString("notiContent");
+                    Date date=rs.getDate("notiDate");
+                    noti = new NotificationDTO(id, notiHeader, notiContent, date, true);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return noti;
+    }
     
     public ArrayList<NotificationDTO> getListNotification( String search) throws SQLException {
         ArrayList<NotificationDTO> list = new ArrayList<>();

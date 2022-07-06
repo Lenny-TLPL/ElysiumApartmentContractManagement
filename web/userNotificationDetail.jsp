@@ -1,38 +1,34 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="sample.DTO.PermissionDTO"%>
+<%@page import="sample.DTO.PrivateNotificationDTO"%>
+<%@page import="sample.DTO.NotificationDTO"%>
 <%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--=== Coding by CodingLab | www.codinglabweb.com === -->
-<html lang="en">
+<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
     <head>
-<!--        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
+        <meta charset="UTF-8">
+        <title>Customer Notification</title>
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <link href="css/mystyle.css" rel="stylesheet">
         <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo1.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <%if (request.getAttribute("PERMISSION_LIST") == null) {
-                response.sendRedirect("MainController?action=Search&type=Permission&search=");
-            }%>
         <div class="sidebar">
             <div class="logo-details">
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp">
+                    <a href="userMainPage.jsp">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
             </div>
             <ul class="nav-links">
                 <li>
-                    <a href="adminDashBoardPage.jsp" >
+                    <a href="adminDashBoardPage.jsp">
                         <i class='bx bx-grid-alt' ></i>
                         <span class="links_name">Dashboard</span>
                     </a>
@@ -68,7 +64,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="adminServicePage.jsp" >
+                    <a href="adminServicePage.jsp">
                         <i class='bx bx-book-alt' ></i>
                         <span class="links_name">Service</span>
                     </a>
@@ -86,7 +82,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="adminNotificationPage.jsp">
+                    <a href="#" class="active">
                         <i class='bx bx-message' ></i>
                         <span class="links_name">Notification</span>
                     </a>
@@ -104,12 +100,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="adminPermissionPage.jsp" class="active">
+                    <a href="adminPermissionPage.jsp">
                         <i class='bx bx-key' ></i>
                         <span class="links_name">Permission</span>
                     </a>
                 </li>
-                <li class="log_out">
+                <li></li>
+                <li>
                     <a href="MainController?action=Logout">
                         <i class='bx bx-log-out'></i>
                         <span class="links_name">Log out</span>
@@ -125,7 +122,7 @@
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
-                        <input type="hidden" name="type" value="Permission">
+                        <input type="hidden" name="type" value="Notification">
                         <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
                         <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
                     </div>
@@ -137,58 +134,20 @@
 
                 </div>
             </nav>
-
+                        
             <div class="home-content">
-
-
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title" style="float:left">PERMISSION</div>
-                        <a href="#"style="float:right" >
-                            <i class="bx  bx-plus-circle" >ADD</i>
-                        </a>
-                        <div class="title"></div>
-                        <table border="1" id="table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>                                                                  
-                                    <th>Role Priority</th>
-                                    <th>Status</th>
-                                    <th>View Detail</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%  ArrayList<PermissionDTO> permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
-                                    if (permissionList != null) {
-                                        if (permissionList.size() > 0) {
-                                            for (int i = 0; i < permissionList.size(); i++) {%>
-                            <form action="MainController" method="POST">
-                                <tr>
-                                    <td> <input style="width:100%" type="text" name="permissionID" value="<%=permissionList.get(i).getPermissionID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="permissionName" value="<%=permissionList.get(i).getPermissionName()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="roleID" value="<%=permissionList.get(i).getRoleNamePriority()%>" readonly="readonly"/></td>    
-                                <input type="hidden" name="status" value="<%=permissionList.get(i).isStatus()%>" readonly="readonly"/>
-                                <%if (permissionList.get(i).isStatus()) {%>
-                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
-                                    <%} else {%>
-                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
-                                    <%}%>
-                                <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                    <%if (permissionList.get(i).isStatus()) {%>
-                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
-                                    <%} else {%>
-                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
-                                    <%}%>
-                                </tr>  
-                            </form>
-                            <%}
-                                    }
-                                }%>
-
-                            </tbody>
-                        </table>
+                        <%  NotificationDTO noti = (NotificationDTO) request.getAttribute("NOTIFICATION");
+                            if (noti != null) {
+                        %>
+                                <div class="title"><%= noti.getNotiHeader() %></div>
+                                <div class="notification">
+                                    <span><%= noti.getNotiContent() %></span>
+                                </div>
+                        <%
+                            }
+                        %>
                     </div>                    
                 </div>
             </div>

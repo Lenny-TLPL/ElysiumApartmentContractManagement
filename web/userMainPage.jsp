@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--=== Coding by CodingLab | www.codinglabweb.com === -->
-<html lang="en">
+<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
     <head>
-<!--        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
+        <meta charset="UTF-8">
+        <title> Customer Main Page </title>
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
@@ -14,12 +12,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div class="sidebar" style="overflow: auto;">
+        <div class="sidebar">
             <div class="logo-details">
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp">
+                    <a href="customerMainPage.jsp">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
@@ -80,7 +78,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="adminNotificationPage.jsp">
+                    <a href="userNotificationPage.jsp">
                         <i class='bx bx-message' ></i>
                         <span class="links_name">Notification</span>
                     </a>
@@ -103,7 +101,7 @@
                         <span class="links_name">Permission</span>
                     </a>
                 </li>
-                <li>
+                <li class="log_out">
                     <a href="MainController?action=Logout">
                         <i class='bx bx-log-out'></i>
                         <span class="links_name">Log out</span>

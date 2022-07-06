@@ -3,7 +3,6 @@
     Created on : Jun 18, 2022, 1:59:07 AM
     Author     : Phi Long
 --%>
-
 <%@page import="sample.DTO.PermissionDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>

@@ -16,6 +16,7 @@ import sample.DAO.ContractDAO;
 import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
 import sample.DAO.PrivateNotificationDAO;
+import sample.DAO.RoleDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
 import sample.DTO.BillingHistoryDTO;
@@ -174,8 +175,7 @@ public class SearchController extends HttpServlet {
                         url = SUCCESS_USER+type.replaceAll(" ", "")+"Page.jsp";
                     }
                     break;
-            }
-             
+                }
         } catch (Exception e) {
            log("Error at SearchController:" + e.toString());
         } finally {

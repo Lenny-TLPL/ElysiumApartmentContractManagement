@@ -20,3 +20,16 @@
 .my_image {
     height:35px;
 }
+.sidebar {
+    overflow: auto;
+}
+.header {
+    font-weight: bold;
+    color: #6b15db;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-decoration: none;
+}
+.date {
+    color: #989898;
+    font-size: 14px;
+}
