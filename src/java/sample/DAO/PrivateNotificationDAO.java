@@ -76,7 +76,7 @@ public class PrivateNotificationDAO {
                 ptm.setNString(2, notiContent);
                 ptm.setDate(3, new java.sql.Date(java.sql.Date.valueOf(LocalDate.now()).getTime()));
                 ptm.setString(4, userID);
-                ptm.setBoolean(5, true);
+                ptm.setBoolean(5, false);
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }
         } catch (Exception e) {

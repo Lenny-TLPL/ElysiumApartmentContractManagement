@@ -17,6 +17,7 @@ import sample.DAO.PrivateNotificationDAO;
 import sample.DAO.RoleDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
+import sample.DAO.UserPermissionDAO;
 import sample.DTO.ContractDTO;
 import sample.DTO.NotificationDTO;
 import sample.DTO.PermissionDTO;
@@ -61,6 +62,7 @@ public class ViewDetailController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         String url = ERROR;
         try {
             String SUCCESS = request.getParameter("redirect");
@@ -186,6 +188,16 @@ public class ViewDetailController extends HttpServlet {
                     request.setAttribute("CONTRACT_DETAIL", contract);
                     request.setAttribute("CONTRACT_IMAGE", contractImage);
                     url=SUCCESS;
+                    break;
+                case PERMISSION:
+                    int permissionID = Integer.parseInt(request.getParameter("permissionID"));
+                    
+                    UserPermissionDAO uPermissionDao = new UserPermissionDAO();
+                    ArrayList<String> userList = uPermissionDao.getListUsersHaveGivenPermission(permissionID);
+                    
+                    request.setAttribute("PERMISSION_DETAIL_LIST", userList);
+                    url=SUCCESS;
+                    
                     break;
                 default:
                     break;

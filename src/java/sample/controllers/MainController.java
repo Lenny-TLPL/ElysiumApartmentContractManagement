@@ -31,6 +31,10 @@ public class MainController extends HttpServlet {
     private static final String GET_MATERIAL_CONTROLLER = "GetMaterialController";
     private static final String VIEW_DETAIL = "View Detail";
     private static final String VIEW_DETAIL_CONTROLLER = "ViewDetailController";
+    private static final String UPDATE = "Update";
+    private static final String UPDATE_CONTROLLER = "UpdateController";
+    private static final String UPDATE_STATUS = "Disable Enable";
+    private static final String UPDATE_STATUS_CONTROLLER = "UpdateStatusController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,6 +65,10 @@ public class MainController extends HttpServlet {
                 url = GET_MATERIAL_CONTROLLER;
             } else if (VIEW_DETAIL.equals(action)) {
                 url = VIEW_DETAIL_CONTROLLER;
+            } else if (UPDATE.equals(action)){
+                url = UPDATE_CONTROLLER;
+            } else if (UPDATE_STATUS.contains(action)){
+                url = UPDATE_STATUS_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController:" + e.toString());

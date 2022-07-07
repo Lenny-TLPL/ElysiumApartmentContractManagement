@@ -6,8 +6,8 @@
 <!--=== Coding by CodingLab | www.codinglabweb.com === -->
 <html lang="en">
     <head>
-<!--        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <!--        <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
         <link rel="stylesheet" href="css/admincss.css">
@@ -25,7 +25,7 @@
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp">
+                    <a href="adminMainPage.jsp"  style="text-decoration: none">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
@@ -170,6 +170,8 @@
                                     <td> <input style="width:100%" type="text" name="permissionName" value="<%=permissionList.get(i).getPermissionName()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="roleID" value="<%=permissionList.get(i).getRoleNamePriority()%>" readonly="readonly"/></td>    
                                 <input type="hidden" name="status" value="<%=permissionList.get(i).isStatus()%>" readonly="readonly"/>
+                                <input type="hidden" name="redirect" value="adminPermissionDetailPage.jsp" readonly="readonly"/>
+                                <input type="hidden" name="type" value="Permission" readonly="readonly"/>
                                 <%if (permissionList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
                                     <%} else {%>

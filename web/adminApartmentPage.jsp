@@ -27,7 +27,7 @@
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp">
+                    <a href="adminMainPage.jsp" style="text-decoration: none">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
@@ -187,6 +187,7 @@
                                     <th>Name</th>
                                     <th>DistrictName</th>
                                     <th>Status</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,10 +201,16 @@
                                     <td> <input style="width:100%" type="text" name="buildingName" value="<%=buildingList.get(i).getBuildingName()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="districtName" value="<%=buildingList.get(i).getDistrictName()%>" readonly="readonly"/></td>
                                 <input type="hidden" name="status" value="<%=buildingList.get(i).isStatus()%>" readonly="readonly"/>
-                                <%if (buildingList.get(i).isStatus()) {%>
+                                <input type="hidden" name="type" value="Apartment Building" readonly="readonly"/>
+                                <%if (buildingList.get(i).isStatus()==true) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Available" readonly="readonly"/></td>
                                     <%} else {%>
                                 <td> <input style="width:100%; background-color: #d3190d" type="text" value="Full" readonly="readonly"/></td>
+                                    <%}%>                     
+                                    <%if (buildingList.get(i).isStatus()) {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
+                                    <%} else {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
                                     <%}%>
                                 </tr>  
                             </form>
@@ -272,6 +279,8 @@
                                     <th>Building</th>
                                     <th>UserID</th>
                                     <th>Status</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -287,13 +296,21 @@
                                     <td> <input style="width:100%" type="text" name="buildingName" value="<%=apartmentList.get(i).getBuildingName()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=apartmentList.get(i).getUserID()%>" readonly="readonly"/></td>
                                 <input type="hidden" name="apartmentStatus" value="<%=apartmentList.get(i).getApartmentStatus()%>" readonly="readonly"/>
+                                <input type="hidden" name="type" value="Apartment" readonly="readonly"/>
                                 <%if (("available").contains(apartmentList.get(i).getApartmentStatus())) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="<%=apartmentList.get(i).getApartmentStatus()%>" readonly="readonly"/></td>
                                     <%} else {%>
                                 <td> <input style="width:100%; background-color: #d3190d" type="text" value="<%=apartmentList.get(i).getApartmentStatus()%>" readonly="readonly"/></td>
                                     <%}%>
                                 <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                </tr>  
+                                  
+                                <%if (("available").contains(apartmentList.get(i).getApartmentStatus())) {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
+                                    <%} else if (("maintenance").contains(apartmentList.get(i).getApartmentStatus())) {%>
+                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
+                                    <%} else {%>                                
+                                    <%}%>
+                                </tr>
                             </form>
                             <%}
                                     }

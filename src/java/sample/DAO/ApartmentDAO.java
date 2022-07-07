@@ -29,7 +29,8 @@ public class ApartmentDAO {
             + "	INNER JOIN tblApartmentType t ON t.typeID = a.typeID\n"
             + "	WHERE apartmentID LIKE ? OR userID LIKE ? OR apartmentStatus LIKE ? OR typeName LIKE ? OR buildingName LIKE ? \n";
 //    private static final String GET_APARTMENT_STATUS="SELECT apartmentStatus FROM tblApartment WHERE apartmentID LIKE ? ";
-
+    private static final String UPDATE_APARTMENT_STATUS="UPDATE tblApartment SET apartmentStatus = ? WHERE apartmentID COLLATE SQL_Latin1_General_CP1_CS_AS = ? "; 
+    
     public ApartmentDTO getApartment(String apartmentID) throws SQLException {
         ApartmentDTO apartment = null;
         Connection conn = null;
@@ -139,4 +140,30 @@ public class ApartmentDAO {
 //        }
 //        return status;
 //    }
+    public boolean updateApartmentStatus(String apartmentID, String apartmentStatus) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_APARTMENT_STATUS);
+                ptm.setString(1, apartmentStatus);
+                ptm.setString(2, apartmentID);
+
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
 }

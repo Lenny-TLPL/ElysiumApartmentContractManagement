@@ -193,7 +193,7 @@
                                     if (permissionList.size() > 0) {
                                         for (int i = 0; i < permissionList.size(); i++) {%>
                             <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
-                                <label>   <input type="checkbox" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                                <label style="width:90%">   <input type="checkbox" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
                             </div>
                             <%}
                                     }

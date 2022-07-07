@@ -4,7 +4,6 @@
  */
 package sample.DAO;
 
-import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import sample.DTO.NotificationDTO;
 import sample.utils.DBUtils;
-import sample.utils.ToStringUtils;
 
 /**
  *
@@ -24,6 +22,7 @@ public class NotificationDAO {
     private static final String GET_LIST_NOTIFICATION="	SELECT * FROM tblNotification WHERE notiHeader LIKE ? OR notiContent LIKE ? ";
     private static final String ADD_NEW_NOTIFICATION="INSERT INTO tblNotification (notiHeader, notiContent, notiDate, status) VALUES (?, ?, ?, ?)";
     private static final String GET_NOTIFICATION_BY_ID = "SELECT notiID, notiHeader, notiContent, notiDate, status FROM tblNotification WHERE notiID = ?";
+    private static final String UPDATE_NOTIFICATION_STATUS = "UPDATE tblNotification SET status = ? WHERE notiID = ? ";
     
     public ArrayList<NotificationDTO> getListNotification( String search) throws SQLException {
         ArrayList<NotificationDTO> list = new ArrayList<>();
@@ -126,4 +125,31 @@ public class NotificationDAO {
         }
         return noti;
     }
+    
+    public boolean updateNotificationStatus(int notiID, boolean status) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_NOTIFICATION_STATUS);
+                ptm.setBoolean(1, status);
+                ptm.setInt(2, notiID);
+
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
 }

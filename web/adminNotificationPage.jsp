@@ -25,7 +25,7 @@
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp">
+                    <a href="adminMainPage.jsp" style="text-decoration: none">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
@@ -206,7 +206,6 @@
                                     <th>Date</th>
                                     <th>Status</th>
                                     <th>View Detail</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -224,16 +223,11 @@
                                 <input type="hidden" name="redirect" value="adminPrivateNotificationDetailPage.jsp" readonly="readonly"/>
                                     <input type="hidden" name="type" value="Private Notification" readonly="readonly"/>
                                 <%if (PrivateNotiList.get(i).isStatus()) {%>
-                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
+                                <td> <input style="width:100%; background-color: #669c19" type="text"value="Read" readonly="readonly"/></td>
                                     <%} else {%>
-                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
+                                <td> <input style="width:100%; background-color: #d3190d" type="text" value="Not Read" readonly="readonly"/></td>
                                     <%}%>
                                 <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                    <%if (PrivateNotiList.get(i).isStatus()) {%>
-                                <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
-                                    <%} else {%>
-                                <td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
-                                    <%}%>
                                 </tr>  
                             </form>
                             <%}

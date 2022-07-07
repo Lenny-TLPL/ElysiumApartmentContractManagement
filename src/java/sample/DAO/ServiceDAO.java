@@ -21,6 +21,7 @@ public class ServiceDAO {
     private static final String GET_SERVICE_BY_NAME="SELECT serviceID, serviceName, description, price, status FROM tblService WHERE serviceName LIKE ?";
     private static final String GET_SERVICE_BY_ID="SELECT serviceID, serviceName, description, price, status FROM tblService WHERE serviceID = ?";
     private static final String ADD_NEW_SERVICE="INSERT INTO tblService (serviceName, status, description, price) VALUES (?, ?, ?, ?) ";
+    private static final String UPDATE_SERVICE_STATUS="UPDATE tblService SET status = ? WHERE serviceID = ?";
     
     public ArrayList<ServiceDTO> getListService(String search) throws SQLException {
         ArrayList<ServiceDTO> list = new ArrayList<>();
@@ -155,6 +156,32 @@ public class ServiceDAO {
             }
         }
         return service;
+    }
+    
+    public boolean updateServiceStatus(int serviceID, boolean status) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_SERVICE_STATUS);
+                ptm.setBoolean(1, status);
+                ptm.setInt(2, serviceID);
+
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 
 }

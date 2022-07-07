@@ -47,37 +47,47 @@
 
                         <div class="fields">
                             <div class="input-field">
-                                <label>UserID </label>
-                                <input name="userID" "type="text" class="form-control" required="" value="${requestScope.USER_DETAIL.userID}" minlength="4" maxlength="60">     
+                                <label>UserID ${requestScope.UPDATE_USER_ERROR.userID}</label>
+                                <input name="userID" "type="text" class="form-control" required="" value="${requestScope.USER_DETAIL.userID}" minlength="4" maxlength="60" readonly="">     
                             </div>
-
+                            
                             <div class="input-field">
+                                <label>Role Name ${requestScope.UPDATE_USER_ERROR.roleName}  </label>
+                                <select required="" name="roleName">
+                                    <option value="${requestScope.ROLE_NAME}">${requestScope.ROLE_NAME}</option>
+                                    <option value="Board Manager">Board Manager</option>
+                                    <option value="HR Manager">HR Manager</option>
+                                    <option value="Employee">Employee</option>
+                                </select>
+                            </div>
+                            
+<!--                            <div class="input-field">
                                 <label>RoleName </label>    
                                 <input name="roleName" "type="text" class="form-control" required="" value="${requestScope.ROLE_NAME}" minlength="4" maxlength="60">     
+                            </div>-->
+
+                            <div class="input-field">
+                                <label>Full Name ${requestScope.UPDATE_USER_ERROR.fullName} </label>
+                                <input name="fullName" "type="text" class="form-control" required="" value="${requestScope.USER_DETAIL.fullName}" minlength="4" maxlength="60" placeholder="Enter full name.">     
                             </div>
 
                             <div class="input-field">
-                                <label>Full Name </label>
-                                <input name="fullName" "type="text" class="form-control" required="" value="${requestScope.USER_DETAIL.fullName}" minlength="4" maxlength="60">     
+                                <label>Date of Birth ${requestScope.UPDATE_USER_ERROR.birthday}  </label>
+                                <input type="date" name ="birthday"class="form-control" required pattern="\d{4}-\d{2}-\d{2}"value="${requestScope.USER_DETAIL.birthDay}" placeholder="Enter birthday">
                             </div>
 
                             <div class="input-field">
-                                <label>Date of Birth  </label>
-                                <input type="text" name ="birthday"class="form-control" required pattern="\d{4}-\d{2}-\d{2}"value="${requestScope.USER_DETAIL.birthDay}">
+                                <label>Email ${requestScope.UPDATE_USER_ERROR.email} </label>
+                                <input type="email" id="example-email" name="email" class="form-control" value="${requestScope.USER_DETAIL.email}" placeholder="Enter email">
                             </div>
 
                             <div class="input-field">
-                                <label>Email  </label>
-                                <input type="email" id="example-email" name="email" class="form-control" value="${requestScope.USER_DETAIL.email}">
+                                <label>Phone Number ${requestScope.UPDATE_USER_ERROR.phone} </label>
+                                <input name="phone"type="text" class="form-control" minlength="10" maxlength="11" required="" value="${requestScope.USER_DETAIL.phone}" placeholder="Enter phone number">
                             </div>
 
                             <div class="input-field">
-                                <label>Phone Number </label>
-                                <input name="phone"type="text" class="form-control" minlength="10" maxlength="11" required="" value="${requestScope.USER_DETAIL.phone}">
-                            </div>
-
-                            <div class="input-field">
-                                <label>Gender  </label>
+                                <label>Gender ${requestScope.UPDATE_USER_ERROR.gender} </label>
                                 <select required="" name="gender">
                                     <option value="${requestScope.USER_DETAIL.gender}">${requestScope.USER_DETAIL.gender}</option>
                                     <option value="male">Male</option>
@@ -87,18 +97,18 @@
                             </div>
 
                             <div class="input-field">
-                                <label>Address  </label>
-                                <input type="text" id="example-email" name="address" class="form-control" value="${requestScope.USER_DETAIL.address}">
+                                <label>Address ${requestScope.UPDATE_USER_ERROR.address} </label>
+                                <input type="text" id="example-email" name="address" class="form-control" value="${requestScope.USER_DETAIL.address}" placeholder="Enter address">
                             </div>
 
                             <div class="input-field">
-                                <label>CitizenID </label>
+                                <label>CitizenID ${requestScope.UPDATE_USER_ERROR.citizenID} </label>
                                 <input type="text" name ="citizenID" class="form-control" placeholder="Enter your citizen ID" maxlength="12" required=""value="${requestScope.USER_DETAIL.citizenID}">
                             </div>
 
                             <div class="input-field">
                                 <label>Password </label>
-                                <input type="password" name="password" class="form-control" placeholder="Enter your password" minlength="6" maxlength="21" required=""value="${requestScope.USER_DETAIL.password}">
+                                <input type="password" readonly="" name="password" class="form-control" placeholder="Enter your password" minlength="6" maxlength="21" required=""value="${requestScope.USER_DETAIL.password}">
                             </div>
 
                             <div class="input-field">
@@ -125,6 +135,9 @@
                             <%}%>
                         </div>
                         <input type="hidden" name="type" value="${param.type}"/>
+                        ${requestScope.UPDATE_USER_ERROR.errorMessage}
+                        ${requestScope.UPDATE_USER_SUCCESS} 
+                        ${requestScope.UPDATE_PERMISSION_ERROR}
                         <%if (request.getParameter("type").equals("Customer") || request.getParameter("type").equals("Resident")) {%>
                         <div class="buttons">
                             <button class="sumbit" type="reset">
@@ -161,12 +174,12 @@
                                     if (permissionList.size() > 0) {
                                         for (int i = 0; i < permissionList.size(); i++) {
                                             if (userPermissionList.contains(permissionList.get(i).getPermissionName())) {%>
-                            <div class="fields">
-                                <label ><input type="checkbox" checked="" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%"><input type="checkbox" checked="" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
                             </div>
                             <%} else {%>
-                            <div class="fields">
-                                <label ><input type="checkbox"  name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%" ><input type="checkbox"  name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
                             </div>
                             <%}
                                         }
