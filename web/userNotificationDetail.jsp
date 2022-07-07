@@ -21,96 +21,47 @@
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="userMainPage.jsp">
+                    <a href="adminMainPage.jsp">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
             </div>
             <ul class="nav-links">
                 <li>
-                    <a href="adminDashBoardPage.jsp">
+                    <a href="residentPersonalInformationPage.jsp">
                         <i class='bx bx-grid-alt' ></i>
-                        <span class="links_name">Dashboard</span>
+                        <span class="links_name">Personal Information</span>
                     </a>
                 </li>
                 <li>
                     <a href="MainController?type=Board Manager&action=Search&search=">
                         <i class='bx bx-user' ></i>
-                        <span class="links_name">Board Manager</span>
+                        <span class="links_name">Contract</span>
                     </a>
                 </li>
                 <li>
                     <a href="MainController?type=HR Manager&action=Search&search=">
                         <i class='bx bx-user' ></i>
-                        <span class="links_name">HR Manager</span>
+                        <span class="links_name">Payment Status</span>
                     </a>
                 </li>
                 <li>
                     <a href="MainController?type=Employee&action=Search&search=">
                         <i class='bx bx-user' ></i>
-                        <span class="links_name">Employee</span>
+                        <span class="links_name">Notification</span>
                     </a>
                 </li>
                 <li>
                     <a href="MainController?type=Resident&action=Search&search=">
                         <i class='bx bx-user' ></i>
-                        <span class="links_name">Resident</span>
+                        <span class="links_name">News</span>
                     </a>
                 </li>
-                <li>
-                    <a href="MainController?type=Customer&action=Search&search=">
-                        <i class='bx bx-user' ></i>
-                        <span class="links_name">Customer</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminServicePage.jsp">
-                        <i class='bx bx-book-alt' ></i>
-                        <span class="links_name">Service</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminContractPage.jsp">
-                        <i class='bx bx-book-alt' ></i>
-                        <span class="links_name">Contract</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminApartmentPage.jsp">
-                        <i class='bx bx-book-alt' ></i>
-                        <span class="links_name">Apartment</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="active">
-                        <i class='bx bx-message' ></i>
-                        <span class="links_name">Notification</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminMonthlyFeePage.jsp">
-                        <i class='bx bx-coin-stack' ></i>
-                        <span class="links_name">Monthly fee</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminBillingHistoryPage.jsp">
-                        <i class='bx bx-coin-stack' ></i>
-                        <span class="links_name">Billing history</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminPermissionPage.jsp">
-                        <i class='bx bx-key' ></i>
-                        <span class="links_name">Permission</span>
-                    </a>
-                </li>
-                <li></li>
-                <li>
+                <li class="log_out">
                     <a href="MainController?action=Logout">
                         <i class='bx bx-log-out'></i>
                         <span class="links_name">Log out</span>
-                    </a>
+                    </a>                  
                 </li>
             </ul>
         </div>
