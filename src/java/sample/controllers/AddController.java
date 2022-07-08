@@ -326,7 +326,7 @@ public class AddController extends HttpServlet {
                     }
                     if (("amortization leasing").contains(contractType)) {
                         if (DateUtils.checkValidDate(expiryDate) || !DateUtils.compareTwoDate(expiryDate, birthday) || DateUtils.compareTwoDate(dateSign, expiryDate)) {
-                            contractError.setDateSign("Invalid expiryDate");
+                            contractError.setExpiryDate("Invalid expiryDate");
                             check = false;
                         }
                     }
@@ -384,8 +384,8 @@ public class AddController extends HttpServlet {
                     expiryDate = null;
                     monthsOfDebt = 0;
                     if (contractType.equals("amortization")) {
-                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
+                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);                      
                     } else if (contractType.equals("leasing")) {
                         expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
                     }
@@ -434,7 +434,7 @@ public class AddController extends HttpServlet {
                     }
                     if (("amortization leasing").contains(contractType)) {
                         if (DateUtils.checkValidDate(expiryDate) || !DateUtils.compareTwoDate(expiryDate, birthday) || DateUtils.compareTwoDate(dateSign, expiryDate)) {
-                            contractError.setDateSign("Invalid expiryDate");
+                            contractError.setExpiryDate("Invalid expiryDate");
                             check = false;
                         }
                     }
@@ -504,7 +504,7 @@ public class AddController extends HttpServlet {
                             request.setAttribute("ADD_SERVICE_ERROR", serviceError);
                         }
                     } else {
-                        serviceError.setErrorMessage("Fail to add new resident");
+                        serviceError.setErrorMessage("Fail to add new service");
                         request.setAttribute("ADD_SERVICE_ERROR", serviceError);
                     }
                     break;
@@ -554,7 +554,7 @@ public class AddController extends HttpServlet {
                     break;
 
                 case PERMISSION:
-                    url = "adminAddPermissionPage.jsp";
+//                    url = "adminAddPermissionPage.jsp";
                     String permissionName = request.getParameter("permissionName");
                     status = Boolean.parseBoolean(request.getParameter("status"));
                     String roleNamePriority = request.getParameter("rolePriority");
@@ -596,8 +596,8 @@ public class AddController extends HttpServlet {
                     expiryDate = null;
                     monthsOfDebt = 0;
                     if (contractType.equals("amortization")) {
-                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
+                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);                     
                     } else if (contractType.equals("leasing")) {
                         expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
                     }
@@ -606,6 +606,7 @@ public class AddController extends HttpServlet {
                     contractDao = new ContractDAO();
                     apartmentDao = new ApartmentDAO();
                     userDao = new UserDAO();
+                    roleDao = new RoleDAO();
                     contractError = new ContractError();
                     UserDTO user = userDao.getUserByIDAndStatus(userID, true);
                     
@@ -629,7 +630,7 @@ public class AddController extends HttpServlet {
 
                         if (("amortization leasing").contains(contractType)) {
                             if (DateUtils.checkValidDate(expiryDate) || !DateUtils.compareTwoDate(expiryDate, user.getBirthDay()) || DateUtils.compareTwoDate(dateSign, expiryDate)) {
-                                contractError.setDateSign("Invalid expiryDate");
+                                contractError.setExpiryDate("Invalid expiryDate");
                                 check = false;
                             }
                         }
@@ -652,6 +653,10 @@ public class AddController extends HttpServlet {
                     if (check) {
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userID, apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if ( checkAddContract) {
+                            if(contractType.equals("buying") || contractType.equals("amortization")){
+                                userDao.updateUserRole(roleDao.getUserRoleID("Resident"), userID);
+                            }
+                            
                             request.setAttribute("ADD_USER_SUCCESS", "New resident has been added.");
                             request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
                         } else {

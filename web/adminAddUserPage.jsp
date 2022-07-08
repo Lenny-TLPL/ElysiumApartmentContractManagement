@@ -133,15 +133,15 @@
                                 <input name="apartmentID" value="${param.apartmentID}" type="text" placeholder="Enter apartmentID" required>
                             </div>
 
-
+                            <%if (request.getParameter("type").equals("Resident")) {%>
                             <div class="input-field">
                                 <label>Contract type</label>
                                 <select name="contractType" onchange="showDiv(this)" value="${param.contractType}">
                                     <option value="buying">Buying</option>    
                                     <option value="amortization">Amortization</option>                                
-                                    <option value="leasing">Leasing</option>
                                 </select>
                             </div>
+
                         </div>
                     </div>
 
@@ -166,78 +166,105 @@
                             <div class="input-field"></div> 
                             <div class="input-field"></div>  
                         </div>
-                        <div class="buttons">
-                            <div class="backBtn">
-                                <i class="uil uil-navigator"></i>
-                                <span class="btnText">Back</span>
-                            </div>      
-                            <button class="sumbit" type="reset">
-                                <span class="btnText">Reset</span>
+                        <%} else {%>
+                        <div class="input-field">
+                            <label>Contract type</label>
+                            <input name="contractType" value="leasing" type="text" placeholder="Enter contract type" readonly="" required>
 
-                            </button>       
-                            <button class="submit" type="submit" name="action" value="Add">
-                                <span class="btnText">Submit</span>
-                                <i class="uil uil-navigator"></i>
-                            </button> 
                         </div>
-                    </div> 
+                    </div>
                 </div>
-                <%} else {%>
-                <div class="form second">
-                    <div class="details address">
-                        <span class="title">Permission</span>
 
-                        <div  >
-                            <%  ArrayList<PermissionDTO> permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
-                                if (permissionList != null) {
-                                    if (permissionList.size() > 0) {
-                                        for (int i = 0; i < permissionList.size(); i++) {%>
-                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
-                                <label style="width:90%">   <input type="checkbox" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
-                            </div>
-                            <%}
-                                    }
-                                }%>
+                <div class="details family">
+                    <span class="title">Sub Information For Contract</span>
+
+                    <div class="fields" >
+                        <div class="input-field" id="amortization" style="display:none">
+                            
                         </div>
 
-                        <div class="buttons" style="width: 200%">
-                            <div class="backBtn">
-                                <i class="uil uil-navigator"></i>
-                                <span class="btnText">Back</span>
-                            </div>      
-                            <button class="sumbit" type="reset">
-                                <span class="btnText">Reset</span>
-                            </button>       
-                            <button class="submit" type="submit" name="action" value="Add">
-                                <span class="btnText">Submit</span>
-                                <i class="uil uil-navigator"></i>
-                            </button> 
-                        </div>                      
-                    </div> 
+                        <div class="input-field" id="leasing">
+                            <label>Expiry Date  ${requestScope.ADD_CONTRACT_ERROR.expiryDate}</label>
+                            <input name="expiryDate" value="${param.expiryDate}" type="date" placeholder="Enter expiry date">
+                        </div>
+
+
+                        <div class="input-field"></div> 
+                        <div class="input-field"></div>  
+                    </div>
+                    <%}%>
+                    <div class="buttons">
+                        <div class="backBtn">
+                            <i class="uil uil-navigator"></i>
+                            <span class="btnText">Back</span>
+                        </div>      
+                        <button class="sumbit" type="reset">
+                            <span class="btnText">Reset</span>
+
+                        </button>       
+                        <button class="submit" type="submit" name="action" value="Add">
+                            <span class="btnText">Submit</span>
+                            <i class="uil uil-navigator"></i>
+                        </button> 
+                    </div>
+                </div> 
+        </div>
+        <%} else {%>
+        <div class="form second">
+            <div class="details address">
+                <span class="title">Permission</span>
+
+                <div  >
+                    <%  ArrayList<PermissionDTO> permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
+                        if (permissionList != null) {
+                            if (permissionList.size() > 0) {
+                                for (int i = 0; i < permissionList.size(); i++) {%>
+                    <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                        <label style="width:90%">   <input type="checkbox" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                    </div>
+                    <%}
+                            }
+                        }%>
                 </div>
-                <%}%>
-            </form>
-            <button class="backButton">
-                <i class="uil uil-arrow-left"></i>
-                <span class="btnText"><a href="admin<%=backValue%>Page.jsp">Back to ${param.type} page</a></span>               
-            </button> 
+
+                <div class="buttons" style="width: 200%">
+                    <div class="backBtn">
+                        <i class="uil uil-navigator"></i>
+                        <span class="btnText">Back</span>
+                    </div>      
+                    <button class="sumbit" type="reset">
+                        <span class="btnText">Reset</span>
+                    </button>       
+                    <button class="submit" type="submit" name="action" value="Add">
+                        <span class="btnText">Submit</span>
+                        <i class="uil uil-navigator"></i>
+                    </button> 
+                </div>                      
+            </div> 
         </div>
         <%}%>
-        <script src="js/addjavascript.js"></script>
-        <script src="js/addUserJS.js"></script>
-        <script>function showDiv(element)
-{
-    if (element.value == "leasing") {
-        document.getElementById('amortization').style.display = 'none';
-        document.getElementById('leasing').style.display = 'flex';
-    } else if (element.value == "amortization") {
-        document.getElementById('leasing').style.display = 'none';
-        document.getElementById('amortization').style.display = 'flex';
-    } else if (element.value == "buying") {
-        document.getElementById('leasing').style.display = 'none';
-        document.getElementById('amortization').style.display = 'none';
-    }
-}</script>
-    </body>
+    </form>
+    <button class="backButton">
+        <i class="uil uil-arrow-left"></i>
+        <span class="btnText"><a href="admin<%=backValue%>Page.jsp">Back to ${param.type} page</a></span>               
+    </button> 
+</div>
+<%}%>
+<script src="js/addjavascript.js"></script>
+<script src="js/addUserJS.js"></script>
+<script>function showDiv(element)
+                                    {
+                                        if (element.value == "leasing") {
+                                            document.getElementById('amortization').style.display = 'none';
+                                            document.getElementById('leasing').style.display = 'flex';
+                                        } else if (element.value == "amortization") {
+                                            document.getElementById('leasing').style.display = 'none';
+                                            document.getElementById('amortization').style.display = 'flex';
+                                        } else if (element.value == "buying") {
+                                            document.getElementById('leasing').style.display = 'none';
+                                            document.getElementById('amortization').style.display = 'none';
+                                        }
+                                    }</script>
+</body>
 </html>
 

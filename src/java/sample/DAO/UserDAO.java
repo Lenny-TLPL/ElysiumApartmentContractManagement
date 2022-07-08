@@ -39,7 +39,8 @@ public class UserDAO {
     private static final String UPDATE_USER_STATUS = "UPDATE tblUser SET status = ? WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
     private static final String UPDATE_USER = "UPDATE tblUser SET fullName=?, email=?, phone=?, address=?, birthday=?, citizenID=?, gender=?, status=?, roleID=? WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
     private static final String GET_USER_BY_ID = "SELECT fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID, password FROM tblUser  WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ?";
-
+    private static final String UPDATE_USER_ROLE = "UPDATE tblUser SET roleID=? WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
+    
     public UserDTO checkLogin(String userID, String password) throws SQLException {
         UserDTO user = null;
         Connection conn = null;
@@ -565,5 +566,30 @@ public class UserDAO {
             }
         }
         return user;
+    }
+    
+    public boolean updateUserRole(int roleID, String userID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_USER_ROLE);
+                ptm.setInt(1, roleID);
+                ptm.setString(2, userID);
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

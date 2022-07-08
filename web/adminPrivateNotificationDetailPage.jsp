@@ -44,34 +44,32 @@
 
                         <div class="fields">
                             <div class="input-field">
-                                <label>Private Notification Header ${requestScope.ADD_PRIVATE_NOTIFICATION_ERROR.notiHeader}</label>
+                                <label>Private Notification Header ${requestScope.UPDATE_PRIVATE_NOTIFICATION_ERROR.notiHeader}</label>
                                 <input name="notiHeader" type="text" class="form-control" placeholder="Enter Private Notification header" required="" value="${requestScope.PRIVATE_NOTIFICATION_DETAIL.notiHeader}" minlength="4" maxlength="60">     
                             </div>
                             
                             <div class="input-field">
-                                <label>Date</label>
-                                <input type="text" name ="notiDate"class="form-control" required pattern="\d{4}-\d{2}-\d{2}"value="${requestScope.PRIVATE_NOTIFICATION_DETAIL.notiDate}">
+                                <label>Date ${requestScope.UPDATE_PRIVATE_NOTIFICATION_ERROR.notiDate}</label>
+                                <input type="text" readonly="" name ="notiDate"class="form-control" required pattern="\d{4}-\d{2}-\d{2}"value="${requestScope.PRIVATE_NOTIFICATION_DETAIL.notiDate}">
                             </div>
                             <%if (((PrivateNotificationDTO) request.getAttribute("PRIVATE_NOTIFICATION_DETAIL")).isStatus()) {%>
                             <div class="input-field">
-                                <label>Status  </label>
+                                <label>Status ${requestScope.UPDATE_PRIVATE_NOTIFICATION_ERROR.status} </label>
                                 <select id="status" required="" name="status" onchange="showColor(this)" style="color:#000; background-color: #669c19 " >
-                                    <option value="true" style="color:#000; background-color: #669c19 ">Active</option>
-                                    <option value="false" style="color:#000; background-color: #d3190d ">Inactive</option>
+                                    <option value="true" style="color:#000; background-color: #669c19 ">Read</option>
                                 </select>
                             </div>
                             <%} else {%>
                             <div class="input-field">
-                                <label>Status  </label>
+                                <label>Status ${requestScope.UPDATE_PRIVATE_NOTIFICATION_ERROR.status} </label>
                                 <select id="status" required="" name="status" onchange="showColor(this)" style="color:#000; background-color: #d3190d " >
-                                    <option value="false" style="color:#000; background-color: #d3190d ">Inactive</option>
-                                    <option value="true" style="color:#000; background-color: #669c19 ">Active</option>
+                                    <option value="false" style="color:#000; background-color: #d3190d ">Not read</option>  
                                 </select>
                             </div>
                             <%}%>
                             
                             <div class="input-field">
-                                <label>Private Notification To User ID ${requestScope.ADD_PRIVATE_NOTIFICATION_ERROR.userID}</label>
+                                <label>Private Notification To User ID ${requestScope.UPDATE_PRIVATE_NOTIFICATION_ERROR.userID}</label>
                                 <input name="userID" type="text" class="form-control" placeholder="Enter User ID" required="" value="${requestScope.PRIVATE_NOTIFICATION_DETAIL.userID}">
                             </div>
 
@@ -82,7 +80,7 @@
                             </div>
 
                             <div class="input-field">
-                                <label>Private Notification Content ${requestScope.ADD_PRIVATE_NOTIFICATION_ERROR.notiContent}</label>
+                                <label>Private Notification Content ${requestScope.UPDATE_PRIVATE_NOTIFICATION_ERROR.notiContent}</label>
                                 <textarea style="width: 838px;height: 160px;" class="form-control" name="notiContent" required="" rows="6" cols="80" maxlength="1400" >${requestScope.PRIVATE_NOTIFICATION_DETAIL.notiContent}</textarea>
                             </div>
 
@@ -91,7 +89,7 @@
                     </div>
 
                     <div class="details ID">
-
+                        <input type="hidden" name="notiID" value="${requestScope.PRIVATE_NOTIFICATION_DETAIL.notiID}"/>
                         <input type="hidden" name="type" value="${param.type}"/>
                         ${requestScope.UPDATE_PRIVATE_NOTIFICATION_ERROR.errorMessage}
                         ${requestScope.UPDATE_PRIVATE_NOTIFICATION_SUCCESS} 

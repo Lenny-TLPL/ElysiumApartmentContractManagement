@@ -23,7 +23,8 @@ public class PermissionDAO {
     private static final String GET_PERMISSION_BY_NAME="SELECT permissionID, permissionName, status, rolePriority, roleName FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ?";
     private static final String ADD_NEW_PERMISSION="INSERT INTO tblPermission (permissionName, status, rolePriority) VALUES (?, ?, ?) ";
     private static final String UPDATE_PERMISSION_STATUS="UPDATE tblPermission SET status = ? WHERE permissionID = ?";
-   
+    private static final String UPDATE_PERMISSION="UPDATE tblPermission SET permissionName = ?, rolePriority = ? WHERE permissionID = ?";
+    
     public ArrayList<PermissionDTO> getListPermission(String search) throws SQLException {
         ArrayList<PermissionDTO> list = new ArrayList<>();
         PermissionDTO permission = null;
@@ -216,5 +217,31 @@ public class PermissionDAO {
             }
         }
         return list;
+    }
+    
+    public boolean updatePermission(PermissionDTO permission, int roleID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_PERMISSION);
+                ptm.setNString(1, permission.getPermissionName());
+                ptm.setInt(2, roleID);
+                ptm.setInt(3, permission.getPermissionID());
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

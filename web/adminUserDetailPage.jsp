@@ -32,9 +32,9 @@
         <% if (request.getParameter("type") == null) {
                 response.sendRedirect("adminMainPage.jsp");
             } else if (("HR Manager Board Manager Employee").contains(request.getParameter("type")) && request.getAttribute("PERMISSION_LIST") == null) {
-                response.sendRedirect("MainController?action=Search&type="+request.getParameter("type")+"&search=");
-            } else if(request.getAttribute("USER_DETAIL")==null){
-                response.sendRedirect("MainController?action=Search&type="+request.getParameter("type")+"&search=");
+                response.sendRedirect("MainController?action=Search&type=" + request.getParameter("type") + "&search=");
+            } else if (request.getAttribute("USER_DETAIL") == null) {
+                response.sendRedirect("MainController?action=Search&type=" + request.getParameter("type") + "&search=");
             } else {
                 String backValue = (request.getParameter("type")).replaceAll(" ", "");%>
         <div class="container">
@@ -50,7 +50,7 @@
                                 <label>UserID ${requestScope.UPDATE_USER_ERROR.userID}</label>
                                 <input name="userID" "type="text" class="form-control" required="" value="${requestScope.USER_DETAIL.userID}" minlength="4" maxlength="60" readonly="">     
                             </div>
-                            
+                            <%if (("Board Manager HR Manager Employee").contains((String) (request.getAttribute("ROLE_NAME")))) {%>
                             <div class="input-field">
                                 <label>Role Name ${requestScope.UPDATE_USER_ERROR.roleName}  </label>
                                 <select required="" name="roleName">
@@ -60,12 +60,21 @@
                                     <option value="Employee">Employee</option>
                                 </select>
                             </div>
+                            <%} else {%>
+                            <div class="input-field">
+                                <label>Role Name ${requestScope.UPDATE_USER_ERROR.roleName}  </label>
+                                <select required="" name="roleName">
+                                    <option value="${requestScope.ROLE_NAME}">${requestScope.ROLE_NAME}</option>
+                                    <option value="Resident">Resident</option>
+                                    <option value="Customer">Customer</option>
+                                </select>
+                            </div>
                             
 <!--                            <div class="input-field">
                                 <label>RoleName </label>    
-                                <input name="roleName" "type="text" class="form-control" required="" value="${requestScope.ROLE_NAME}" minlength="4" maxlength="60">     
+                                <input name="roleName" readonly="" type="text" class="form-control" required="" value="${requestScope.ROLE_NAME}" minlength="4" maxlength="60">     
                             </div>-->
-
+                            <%}%>
                             <div class="input-field">
                                 <label>Full Name ${requestScope.UPDATE_USER_ERROR.fullName} </label>
                                 <input name="fullName" "type="text" class="form-control" required="" value="${requestScope.USER_DETAIL.fullName}" minlength="4" maxlength="60" placeholder="Enter full name.">     

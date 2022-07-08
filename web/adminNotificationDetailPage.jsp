@@ -44,17 +44,17 @@
 
                         <div class="fields">
                             <div class="input-field">
-                                <label>Notification Header ${requestScope.ADD_NOTIFICATION_ERROR.notiHeader}</label>
+                                <label>Notification Header ${requestScope.UPDATE_NOTIFICATION_ERROR.notiHeader}</label>
                                 <input name="notiHeader" type="text" class="form-control" placeholder="Enter Notification header" required="" value="${requestScope.NOTIFICATION_DETAIL.notiHeader}" minlength="4" maxlength="60">     
                             </div>
 
                             <div class="input-field">
-                                <label>Date</label>
-                                <input type="text" name ="notiDate"class="form-control" required pattern="\d{4}-\d{2}-\d{2}"value="${requestScope.NOTIFICATION_DETAIL.notiDate}">
+                                <label>Date ${requestScope.UPDATE_NOTIFICATION_ERROR.notiDate}</label>
+                                <input type="text" readonly="" name ="notiDate"class="form-control" required pattern="\d{4}-\d{2}-\d{2}"value="${requestScope.NOTIFICATION_DETAIL.notiDate}">
                             </div>
                             <%if (((NotificationDTO) request.getAttribute("NOTIFICATION_DETAIL")).isStatus()) {%>
                             <div class="input-field">
-                                <label>Status  </label>
+                                <label>Status ${requestScope.UPDATE_NOTIFICATION_ERROR.status} </label>
                                 <select id="status" required="" name="status" onchange="showColor(this)" style="color:#000; background-color: #669c19 " >
                                     <option value="true" style="color:#000; background-color: #669c19 ">Active</option>
                                     <option value="false" style="color:#000; background-color: #d3190d ">Inactive</option>
@@ -62,7 +62,7 @@
                             </div>
                             <%} else {%>
                             <div class="input-field">
-                                <label>Status  </label>
+                                <label>Status ${requestScope.UPDATE_NOTIFICATION_ERROR.status} </label>
                                 <select id="status" required="" name="status" onchange="showColor(this)" style="color:#000; background-color: #d3190d " >
                                     <option value="false" style="color:#000; background-color: #d3190d ">Inactive</option>
                                     <option value="true" style="color:#000; background-color: #669c19 ">Active</option>
@@ -71,7 +71,7 @@
                             <%}%>
                                     
                             <div class="input-field">
-                                <label>Notification Content ${requestScope.ADD_NOTIFICATION_ERROR.notiContent}</label>
+                                <label>Notification Content ${requestScope.UPDATE_NOTIFICATION_ERROR.notiContent}</label>
                                 <textarea style="width: 838px;height: 160px;" class="form-control" name="notiContent" required="" rows="6" cols="80" maxlength="1400">${requestScope.NOTIFICATION_DETAIL.notiContent}</textarea>
                             </div>
                                                      
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="details ID">
-
+                        <input type="hidden" name="notiID" value="${requestScope.NOTIFICATION_DETAIL.notiID}"/>
                         <input type="hidden" name="type" value="${param.type}"/>
                         ${requestScope.UPDATE_NOTIFICATION_ERROR}
                         ${requestScope.UPDATE_NOTIFICATION_SUCCESS} 

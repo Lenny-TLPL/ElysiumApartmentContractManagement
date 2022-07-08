@@ -23,6 +23,7 @@ public class NotificationDAO {
     private static final String ADD_NEW_NOTIFICATION="INSERT INTO tblNotification (notiHeader, notiContent, notiDate, status) VALUES (?, ?, ?, ?)";
     private static final String GET_NOTIFICATION_BY_ID = "SELECT notiID, notiHeader, notiContent, notiDate, status FROM tblNotification WHERE notiID = ?";
     private static final String UPDATE_NOTIFICATION_STATUS = "UPDATE tblNotification SET status = ? WHERE notiID = ? ";
+    private static final String UPDATE_NOTIFICATION="UPDATE tblNotification SET notiHeader = ?, notiContent = ?, notiDate = ?, status = ? WHERE notiID = ?";
     
     public ArrayList<NotificationDTO> getListNotification( String search) throws SQLException {
         ArrayList<NotificationDTO> list = new ArrayList<>();
@@ -137,6 +138,34 @@ public class NotificationDAO {
                 ptm.setBoolean(1, status);
                 ptm.setInt(2, notiID);
 
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
+    public boolean updateNotification(NotificationDTO notification) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_NOTIFICATION);
+                ptm.setNString(1,notification.getNotiHeader());
+                ptm.setNString(2, notification.getNotiContent());
+                ptm.setDate(3, new java.sql.Date(java.sql.Date.valueOf(LocalDate.now()).getTime()));
+                ptm.setBoolean(4, notification.isStatus());
+                ptm.setInt(5,notification.getNotiID());
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }
         } catch (Exception e) {

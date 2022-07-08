@@ -22,6 +22,7 @@ public class ServiceDAO {
     private static final String GET_SERVICE_BY_ID="SELECT serviceID, serviceName, description, price, status FROM tblService WHERE serviceID = ?";
     private static final String ADD_NEW_SERVICE="INSERT INTO tblService (serviceName, status, description, price) VALUES (?, ?, ?, ?) ";
     private static final String UPDATE_SERVICE_STATUS="UPDATE tblService SET status = ? WHERE serviceID = ?";
+    private static final String UDDATE_SERVICE="UPDATE tblService SET serviceName = ?, description = ?, price = ?, status = ? WHERE serviceID = ?";
     
     public ArrayList<ServiceDTO> getListService(String search) throws SQLException {
         ArrayList<ServiceDTO> list = new ArrayList<>();
@@ -169,6 +170,34 @@ public class ServiceDAO {
                 ptm.setBoolean(1, status);
                 ptm.setInt(2, serviceID);
 
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
+    public boolean updateService(ServiceDTO service) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UDDATE_SERVICE);
+                ptm.setNString(1, service.getServiceName());
+                ptm.setBoolean(4, service.isStatus());
+                ptm.setNString(2, service.getDescription());
+                ptm.setFloat(3, service.getPrice());
+                ptm.setInt(5, service.getServiceID());
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }
         } catch (Exception e) {

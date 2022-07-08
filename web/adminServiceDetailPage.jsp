@@ -44,17 +44,17 @@
 
                         <div class="fields">
                             <div class="input-field">
-                                <label>Service Name </label>
+                                <label>Service Name ${requestScope.UPDATE_SERVICE_ERROR.serviceName}</label>
                                 <input name="serviceName" type="text" class="form-control" placeholder="Enter service name" required="" value="${requestScope.SERVICE_DETAIL.serviceName}" minlength="4" maxlength="60">     
                             </div>
 
                             <div class="input-field">
-                                <label>Price </label>
+                                <label>Price ${requestScope.UPDATE_SERVICE_ERROR.price}</label>
                                 <input type="number" name ="price" class="form-control" placeholder="Enter service price" required value="${requestScope.SERVICE_DETAIL.price}">
                             </div>
                             <%if (((ServiceDTO) request.getAttribute("SERVICE_DETAIL")).isStatus()) {%>
                             <div class="input-field">
-                                <label>Status  </label>
+                                <label>Status ${requestScope.UPDATE_SERVICE_ERROR.status}  </label>
                                 <select id="status" required="" name="status" onchange="showColor(this)" style="color:#000; background-color: #669c19 " >
                                     <option value="true" style="color:#000; background-color: #669c19 ">Active</option>
                                     <option value="false" style="color:#000; background-color: #d3190d ">Inactive</option>
@@ -62,7 +62,7 @@
                             </div>
                             <%} else {%>
                             <div class="input-field">
-                                <label>Status  </label>
+                                <label>Status ${requestScope.UPDATE_SERVICE_ERROR.status} </label>
                                 <select id="status" required="" name="status" onchange="showColor(this)" style="color:#000; background-color: #d3190d " >
                                     <option value="false" style="color:#000; background-color: #d3190d ">Inactive</option>
                                     <option value="true" style="color:#000; background-color: #669c19 ">Active</option>
@@ -71,7 +71,7 @@
                             <%}%>
 
                             <div class="input-field">
-                                <label>Description </label>
+                                <label>Description ${requestScope.UPDATE_SERVICE_ERROR.discription}</label>
                                 <textarea style="width: 838px;height: 160px;" class="form-control" name="description" rows="6" cols="80" maxlength="1400" >${requestScope.SERVICE_DETAIL.description}</textarea>
                             </div>
                         </div>
