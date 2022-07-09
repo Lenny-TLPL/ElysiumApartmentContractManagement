@@ -17,6 +17,7 @@ import sample.DAO.ApartmentTypeDAO;
 import sample.DAO.BillingHistoryDAO;
 import sample.DAO.ContractDAO;
 import sample.DAO.DistrictDAO;
+import sample.DAO.MonthlyFeeDAO;
 import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
 import sample.DAO.PrivateNotificationDAO;
@@ -28,6 +29,7 @@ import sample.DTO.ApartmentTypeDTO;
 import sample.DTO.BillingHistoryDTO;
 import sample.DTO.ContractDTO;
 import sample.DTO.DistrictDTO;
+import sample.DTO.MonthlyFeeDTO;
 import sample.DTO.NotificationDTO;
 import sample.DTO.PermissionDTO;
 import sample.DTO.PrivateNotificationDTO;
@@ -53,7 +55,7 @@ public class SearchController extends HttpServlet {
     private static final String NOTIFICATION = "Notification";
     private static final String APARTMENT = "Apartment";
     private static final String BILLING_HISTORY = "Billing History";
-    private static final String USER_DEBT = "User Debt";
+    private static final String MONTHLY_FEE = "MonthlyFee";
     private static final String PERMISSION = "Permission";
 
     /**
@@ -199,6 +201,16 @@ public class SearchController extends HttpServlet {
                         request.setAttribute("APARTMENT_TYPE_LIST", typeList);
                         request.setAttribute("DISTRICT_LIST", districtList);
                         request.setAttribute("APARTMENT_LIST", apartmentList);
+                        url = SUCCESS_ADMIN + type.replaceAll(" ", "") + "Page.jsp";
+                    } else if (("Customer Resident").contains(roleName)) {
+                        url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";
+                    }
+                    break;
+                case MONTHLY_FEE:
+                    if (("Board Manager HR Manager Employee").contains(roleName)) {
+                        MonthlyFeeDAO monthlyFeeDao = new MonthlyFeeDAO();
+                        ArrayList<MonthlyFeeDTO> monthlyFeeList = monthlyFeeDao.getMonthlyFeeList(search);
+                        request.setAttribute("MONTHLY_FEE_LIST", monthlyFeeList);
                         url = SUCCESS_ADMIN + type.replaceAll(" ", "") + "Page.jsp";
                     } else if (("Customer Resident").contains(roleName)) {
                         url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";

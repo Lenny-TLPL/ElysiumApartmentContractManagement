@@ -1,6 +1,5 @@
 package sample.DTO;
 
-
 import java.util.Date;
 
 /*
@@ -8,31 +7,34 @@ import java.util.Date;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Quang
  */
 public class BillingHistoryDTO {
+
     private int billID;
     private String billName;
     private Date payDate;
     private String userID;
+    private String apartmentID;
     private float value;
-    
-    public BillingHistoryDTO(){
+
+    public BillingHistoryDTO() {
         this.billID = 0;
         this.billName = "";
         this.payDate = null;
         this.userID = "";
+        this.apartmentID = "";
         this.value = 0;
     }
 
-    public BillingHistoryDTO(int billID, String billName, Date payDate, String userID, float value) {
+    public BillingHistoryDTO(int billID, String billName, Date payDate, String userID, String apartmentID, float value) {
         this.billID = billID;
         this.billName = billName;
         this.payDate = payDate;
         this.userID = userID;
+        this.apartmentID = apartmentID;
         this.value = value;
     }
 
@@ -66,6 +68,14 @@ public class BillingHistoryDTO {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getApartmentID() {
+        return apartmentID;
+    }
+
+    public void setApartmentID(String apartmentID) {
+        this.apartmentID = apartmentID;
     }
 
     public float getValue() {

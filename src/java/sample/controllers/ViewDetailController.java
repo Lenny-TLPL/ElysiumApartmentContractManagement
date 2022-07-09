@@ -47,7 +47,7 @@ public class ViewDetailController extends HttpServlet {
     private static final String APARTMENT_BUILDING = "Apartment Building";
     private static final String DISTRICT = "District";
     private static final String BILLING_HISTORY = "Billing History";
-    private static final String USER_DEBT = "User Debt";
+    private static final String MONTHLY_FEE = "MonthlyFee";
     private static final String PERMISSION = "Permission";
 
     /**

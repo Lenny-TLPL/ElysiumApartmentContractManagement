@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import sample.DAO.ApartmentDAO;
 import sample.DAO.ContractDAO;
+import sample.DAO.MonthlyFeeDAO;
 import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
 import sample.DAO.PrivateNotificationDAO;
@@ -54,7 +55,7 @@ public class AddController extends HttpServlet {
     private static final String APARTMENT_BUILDING = "Apartment Building";
     private static final String DISTRICT = "District";
     private static final String BILLING_HISTORY = "Billing History";
-    private static final String USER_DEBT = "User Debt";
+    private static final String MONTHLY_FEE = "MonthlyFee";
     private static final String PERMISSION = "Permission";
 
     /**
@@ -286,6 +287,7 @@ public class AddController extends HttpServlet {
 
                     ContractDAO contractDao = new ContractDAO();
                     ApartmentDAO apartmentDao = new ApartmentDAO();
+                    MonthlyFeeDAO monthlyFeeDao = new MonthlyFeeDAO();
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
@@ -349,6 +351,7 @@ public class AddController extends HttpServlet {
                         boolean checkAdd = userDao.addUser(new UserDTO("", fullName, email, phone, address, birthday, citizenID, gender, password, null, true, roleDao.getUserRoleID(type)));
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if (checkAdd && checkAddContract) {
+                            monthlyFeeDao.addMonthly(userDao.getUserIDByCitizenID(type, citizenID), apartmentID);
                             request.setAttribute("ADD_USER_SUCCESS", "New customer has been added.");
                             request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
                         } else {
@@ -394,6 +397,7 @@ public class AddController extends HttpServlet {
 
                     contractDao = new ContractDAO();
                     apartmentDao = new ApartmentDAO();
+                    monthlyFeeDao = new MonthlyFeeDAO();
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
@@ -457,6 +461,7 @@ public class AddController extends HttpServlet {
                         boolean checkAdd = userDao.addUser(new UserDTO("", fullName, email, phone, address, birthday, citizenID, gender, password, null, true, roleDao.getUserRoleID(type)));
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if (checkAdd && checkAddContract) {
+                            monthlyFeeDao.addMonthly(userDao.getUserIDByCitizenID(type, citizenID), apartmentID);
                             request.setAttribute("ADD_USER_SUCCESS", "New resident has been added.");
                             request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
                         } else {
@@ -605,6 +610,7 @@ public class AddController extends HttpServlet {
 
                     contractDao = new ContractDAO();
                     apartmentDao = new ApartmentDAO();
+                    monthlyFeeDao = new MonthlyFeeDAO();
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     contractError = new ContractError();
@@ -653,6 +659,7 @@ public class AddController extends HttpServlet {
                     if (check) {
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userID, apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if ( checkAddContract) {
+                            monthlyFeeDao.addMonthly(userID, apartmentID);
                             if(contractType.equals("buying") || contractType.equals("amortization")){
                                 userDao.updateUserRole(roleDao.getUserRoleID("Resident"), userID);
                             }

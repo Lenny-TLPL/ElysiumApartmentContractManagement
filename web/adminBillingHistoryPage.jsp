@@ -151,6 +151,7 @@
                                     <th>BillID</th>
                                     <th>Bill Name</th>   
                                     <th>UserID</th>
+                                    <th>ApartmentID</th>
                                     <th>Pay Date</th>
                                     <th>Value</th>
                                     <th>View Detail</th>
@@ -166,6 +167,7 @@
                                     <td> <input style="width:100%" type="number" name="billID" value="<%=BillingList.get(i).getBillID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="billName" value="<%=BillingList.get(i).getBillName()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=BillingList.get(i).getUserID()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="apartmentID" value="<%=BillingList.get(i).getApartmentID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="date" name="payDate" value="<%=BillingList.get(i).getPayDate()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="number" name="value" value="<%=BillingList.get(i).getValue()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 

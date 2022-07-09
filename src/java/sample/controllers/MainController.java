@@ -56,6 +56,9 @@ public class MainController extends HttpServlet {
             if (SEARCH.equals(action)) {
                 url = SEARCH_CONTROLLER;
             } else if (LOGIN.equals(action)) {
+//                MailUtils.sendEmail();
+//                MailUtils.sendMail("tranlephilong27@gmail.com", "Thank for buying our product","Your order at with total price of:  will soon be delivered right to your house", "longtlpse160987@fpt.edu.vn", "1q2w3e4r5t@@");
+//                MailUtils.sendEmail("tranlephilong27@gmail.com", "Thank for buying our product","Your order at with total price of:  will soon be delivered right to your house");
                 url = LOGIN_CONTROLLER;
             } else if (ADD.equals(action)) {
                 url = ADD_CONTROLLER;
