@@ -16,7 +16,7 @@ public class PermissionError {
     private String status;
     private String errorMessage;
     
-    public void PermissionDTO(){
+    public PermissionError(){
         this.permissionID = "";
         this.permissionName = "";
         this.roleNamePriority = "";

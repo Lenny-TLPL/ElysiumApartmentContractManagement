@@ -53,7 +53,7 @@
                                     
                             <div class="input-field">
                                 <label>Notification Content ${requestScope.ADD_NOTIFICATION_ERROR.notiContent}</label>
-                                <textarea style="width: 838px;height: 160px;" class="form-control" name="notiContent" required="" rows="6" cols="80" value="${param.notiContent}"></textarea>
+                                <textarea style="width: 838px;height: 160px;" class="form-control" name="notiContent" required="" rows="6" cols="80" maxlength="1400">${param.notiContent}</textarea>
                             </div>
                                                      
                         </div>
@@ -62,7 +62,7 @@
                     <div class="details ID">
 
                         <input type="hidden" name="type" value="${param.type}"/>
-                        ${requestScope.ADD_NOTIFICATION_ERROR.errorMessage}
+                        ${requestScope.ADD_NOTIFICATION_ERROR}
                         ${requestScope.ADD_NOTIFICATION_SUCCESS} 
                         <div class="buttons">
                             <button class="sumbit" type="reset">
@@ -78,7 +78,7 @@
             </form>
             <button class="backButton">
                 <i class="uil uil-arrow-left"></i>
-                <span class="btnText"><a href="adminDashBoardPage.jsp">Back to admin page</a></span>               
+                <span class="btnText"><a href="adminNotificationPage.jsp" style="width:140%">Back to ${param.type} page</a></span>               
             </button> 
         </div>
         <%}%>

@@ -20,6 +20,18 @@
         <servlet-name>GetMaterialController</servlet-name>
         <servlet-class>sample.controllers.GetMaterialController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewDetailController</servlet-name>
+        <servlet-class>sample.controllers.ViewDetailController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateController</servlet-name>
+        <servlet-class>sample.controllers.UpdateController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateStatusController</servlet-name>
+        <servlet-class>sample.controllers.UpdateStatusController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -48,9 +60,21 @@
         <servlet-name>GetMaterialController</servlet-name>
         <url-pattern>/GetMaterialController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewDetailController</servlet-name>
+        <url-pattern>/ViewDetailController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateController</servlet-name>
+        <url-pattern>/UpdateController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateStatusController</servlet-name>
+        <url-pattern>/UpdateStatusController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            40
         </session-timeout>
     </session-config>
     <welcome-file-list>
@@ -62,4 +86,24 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+    <context-param>
+        <param-name>quartz:shutdown-on-unload</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:wait-on-shutdown</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:start-on-load</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.quartz.ee.servlet.QuartzInitializerListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>sample.scheduler.QuartzScheduler</listener-class>
+    </listener>
 </web-app>

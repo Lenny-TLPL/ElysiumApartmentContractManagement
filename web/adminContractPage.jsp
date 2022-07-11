@@ -25,7 +25,7 @@
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp">
+                    <a href="adminMainPage.jsp"  style="text-decoration: none">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
@@ -144,7 +144,7 @@
                 <div class="sales-boxes">
                     <div class="recent-sales box">
                         <div class="title" style="float:left">CONTRACT</div>
-                        <a href="#"style="float:right" >
+                        <a href="adminAddContractPage.jsp?type=Contract"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
                         <table border="1" id="table">
@@ -172,10 +172,12 @@
                                     <td> <input style="width:100%" type="text" name="apartmentID" value="<%=contractList.get(i).getApartmentID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="contractType" value="<%=contractList.get(i).getContractType()%>" readonly="readonly"/></td>
                                     <input type="hidden" name="status" value="<%=contractList.get(i).isStatus()%>" readonly="readonly"/>
+                                    <input type="hidden" name="redirect" value="adminContractDetailPage.jsp" readonly="readonly"/>
+                                    <input type="hidden" name="type" value="Contract" readonly="readonly"/>
                                     <%if(contractList.get(i).isStatus()){%>
-                                    <td> <input style="width:100%; background-color: #669c19" type="text"value="Active" readonly="readonly"/></td>
+                                    <td> <input style="width:100%; background-color: #669c19" type="text"value="Valid" readonly="readonly"/></td>
                                     <%}else{%>
-                                    <td> <input style="width:100%; background-color: #d3190d" type="text" value="Inactive" readonly="readonly"/></td>
+                                    <td> <input style="width:100%; background-color: #d3190d" type="text" value="Invalid" readonly="readonly"/></td>
                                     <%}%>
                                     <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
                                    

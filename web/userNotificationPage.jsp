@@ -99,7 +99,9 @@
                                             for (int i = 0; i < notificationList.size(); i++) {%>
                                 <div class="notification">
                                     <em class="date"><%= notificationList.get(i).getNotiDate() %> - </em>
-                                    <a href="MainController?action=NotiDetail&id=<%=notificationList.get(i).getNotiID()%>" class="header"><%= notificationList.get(i).getNotiHeader() %></a>
+                                    <input type="hidden" name="redirect" value="adminNotificationDetailPage.jsp" readonly="readonly"/>
+                                <input type="hidden" name="type" value="Notification" readonly="readonly"/>
+                                    <a href="MainController?action=View Detail&type=Notification&redirect=userNotificationDetailPage.jsp&notiID=<%=notificationList.get(i).getNotiID()%>" class="header"><%= notificationList.get(i).getNotiHeader() %></a>
                                 </div>
                             <%}
                                     }

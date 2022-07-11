@@ -15,12 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import sample.DAO.ApartmentDAO;
 import sample.DAO.ContractDAO;
+import sample.DAO.MonthlyFeeDAO;
+import sample.DAO.NotificationDAO;
+import sample.DAO.PermissionDAO;
+import sample.DAO.PrivateNotificationDAO;
 import sample.DAO.RoleDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
 import sample.DAO.UserPermissionDAO;
 import sample.DTO.ContractDTO;
 import sample.DTO.ContractError;
+import sample.DTO.PermissionDTO;
+import sample.DTO.PermissionError;
+import sample.DTO.PrivateNotificationError;
 import sample.DTO.ServiceDTO;
 import sample.DTO.ServiceError;
 import sample.DTO.UserDTO;
@@ -36,18 +43,19 @@ public class AddController extends HttpServlet {
 
     private static final String CUSTOMER = "Customer";
     private static final String RESIDENT = "Resident";
-    private static final String EMPLOYEE = "Empoyee";
+    private static final String EMPLOYEE = "Employee";
     private static final String HR_MANAGER = "HR Manager";
     private static final String BOARD_MANAGER = "Board Manager";
     private static final String CONTRACT = "Contract";
     private static final String SERVICE = "Service";
     private static final String NOTIFICATION = "Notification";
     private static final String PRIVATE_NOTIFICATION = "Private Notification";
+    private static final String APARTMENT_TYPE = "Apartment Type";
     private static final String APARTMENT = "Apartment";
     private static final String APARTMENT_BUILDING = "Apartment Building";
     private static final String DISTRICT = "District";
     private static final String BILLING_HISTORY = "Billing History";
-    private static final String USER_DEBT = "User Debt";
+    private static final String MONTHLY_FEE = "MonthlyFee";
     private static final String PERMISSION = "Permission";
 
     /**
@@ -62,14 +70,19 @@ public class AddController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
-        String type = request.getParameter("type");
         String url = null;
+        String type = request.getParameter("type");
+        if (("Board Manager HR Manager Employee Customer Resident").contains(type)) {
+            url = "adminAddUserPage.jsp";
+        } else {
+            url = "adminAdd" + type.replaceAll(" ", "") + "Page.jsp";
+        }
+
         try {
             switch (type) {
                 case BOARD_MANAGER:
-                    url = "adminAddUserPage.jsp";
+
                     String fullName = request.getParameter("fullName");
                     String gender = request.getParameter("gender");
                     String email = request.getParameter("email");
@@ -91,7 +104,7 @@ public class AddController extends HttpServlet {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
                         check = false;
                     }
-                    if (userDao.checkDuplicateUser(citizenID)) {
+                    if (userDao.checkDuplicateAdmin(citizenID)) {
                         userError.setCitizenID("Duplicate citizenID");
                         check = false;
                     }
@@ -128,7 +141,7 @@ public class AddController extends HttpServlet {
                     }
                     break;
                 case HR_MANAGER:
-                    url = "adminAddUserPage.jsp";
+
                     fullName = request.getParameter("fullName");
                     gender = request.getParameter("gender");
                     email = request.getParameter("email");
@@ -150,7 +163,7 @@ public class AddController extends HttpServlet {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
                         check = false;
                     }
-                    if (userDao.checkDuplicateUser(citizenID)) {
+                    if (userDao.checkDuplicateAdmin(citizenID)) {
                         userError.setCitizenID("Duplicate citizenID");
                         check = false;
                     }
@@ -176,18 +189,18 @@ public class AddController extends HttpServlet {
                             userPermissionDao.addUser(userDao.getUserIDByCitizenID(type, citizenID), Integer.parseInt(permisson));
                         }
                         if (checkAdd) {
-                            request.setAttribute("ADD_USER_SUCCESS", "New board manager has been added.");
+                            request.setAttribute("ADD_USER_SUCCESS", "New HR Manager has been added.");
                         } else {
-                            userError.setErrorMessage("Fail to add new board manager.");
+                            userError.setErrorMessage("Fail to add new HR Manager.");
                             request.setAttribute("ADD_USER_ERROR", userError);
                         }
                     } else {
-                        userError.setErrorMessage("Fail to add new board manager.");
+                        userError.setErrorMessage("Fail to add new HR Manager.");
                         request.setAttribute("ADD_USER_ERROR", userError);
                     }
                     break;
                 case EMPLOYEE:
-                    url = "adminAddUserPage.jsp";
+
                     fullName = request.getParameter("fullName");
                     gender = request.getParameter("gender");
                     email = request.getParameter("email");
@@ -209,7 +222,7 @@ public class AddController extends HttpServlet {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
                         check = false;
                     }
-                    if (userDao.checkDuplicateUser(citizenID)) {
+                    if (userDao.checkDuplicateAdmin(citizenID)) {
                         userError.setCitizenID("Duplicate citizenID");
                         check = false;
                     }
@@ -235,18 +248,18 @@ public class AddController extends HttpServlet {
                             userPermissionDao.addUser(userDao.getUserIDByCitizenID(type, citizenID), Integer.parseInt(permisson));
                         }
                         if (checkAdd) {
-                            request.setAttribute("ADD_USER_SUCCESS", "New board manager has been added.");
+                            request.setAttribute("ADD_USER_SUCCESS", "New employee has been added.");
                         } else {
-                            userError.setErrorMessage("Fail to add new board manager.");
+                            userError.setErrorMessage("Fail to add new employee.");
                             request.setAttribute("ADD_USER_ERROR", userError);
                         }
                     } else {
-                        userError.setErrorMessage("Fail to add new board manager.");
+                        userError.setErrorMessage("Fail to add new emloyee.");
                         request.setAttribute("ADD_USER_ERROR", userError);
                     }
                     break;
                 case CUSTOMER:
-                    url = "adminAddUserPage.jsp";
+
                     fullName = request.getParameter("fullName");
                     gender = request.getParameter("gender");
                     email = request.getParameter("email");
@@ -264,8 +277,8 @@ public class AddController extends HttpServlet {
                     Date expiryDate = null;
                     int monthsOfDebt = 0;
                     if (contractType.equals("amortization")) {
-                        expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
+                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                     } else if (contractType.equals("leasing")) {
                         expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
                     }
@@ -274,6 +287,7 @@ public class AddController extends HttpServlet {
 
                     ContractDAO contractDao = new ContractDAO();
                     ApartmentDAO apartmentDao = new ApartmentDAO();
+                    MonthlyFeeDAO monthlyFeeDao = new MonthlyFeeDAO();
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
@@ -302,13 +316,19 @@ public class AddController extends HttpServlet {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
-                    if (DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, birthday) || DateUtils.compareTwoDate(dateSign, expiryDate)) {
+                    if(expiryDate!=null){
+                        if(DateUtils.compareTwoDate(dateSign, expiryDate)){
+                            contractError.setDateSign("Invalid dateSign");
+                            check = false;
+                        }
+                    }
+                    if (!DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, birthday) ) {
                         contractError.setDateSign("Invalid dateSign");
                         check = false;
                     }
                     if (("amortization leasing").contains(contractType)) {
                         if (DateUtils.checkValidDate(expiryDate) || !DateUtils.compareTwoDate(expiryDate, birthday) || DateUtils.compareTwoDate(dateSign, expiryDate)) {
-                            contractError.setDateSign("Invalid expiryDate");
+                            contractError.setExpiryDate("Invalid expiryDate");
                             check = false;
                         }
                     }
@@ -317,18 +337,21 @@ public class AddController extends HttpServlet {
                         contractError.setContractImage("Invalid image");
                         check = false;
                     }
-                    if (apartmentDao.getApartment(apartmentID, "available") == null) {
+                    if(apartmentDao.getApartment(apartmentID)==null){
                         contractError.setApartmentID("Invalid apartmentID");
+                    }else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
+                        contractError.setApartmentID("Apartment is not available");
                         check = false;
                     }
-                    if (contractType.equals("amortization") && DateUtils.subtractTwoDay(dateSign, expiryDate) != monthsOfDebt) {
-                        contractError.setExpiryDate("Invalid expiryDate");
-                        check = false;
-                    }
+//                    if (contractType.equals("amortization") && DateUtils.subtractTwoDay(dateSign, expiryDate) != monthsOfDebt) {
+//                        contractError.setExpiryDate("Invalid expiryDate");
+//                        check = false;
+//                    }
                     if (check) {
                         boolean checkAdd = userDao.addUser(new UserDTO("", fullName, email, phone, address, birthday, citizenID, gender, password, null, true, roleDao.getUserRoleID(type)));
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if (checkAdd && checkAddContract) {
+                            monthlyFeeDao.addMonthly(userDao.getUserIDByCitizenID(type, citizenID), apartmentID);
                             request.setAttribute("ADD_USER_SUCCESS", "New customer has been added.");
                             request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
                         } else {
@@ -346,7 +369,7 @@ public class AddController extends HttpServlet {
                     }
                     break;
                 case RESIDENT:
-                    url = "adminAddUserPage.jsp";
+
                     fullName = request.getParameter("fullName");
                     gender = request.getParameter("gender");
                     email = request.getParameter("email");
@@ -364,8 +387,8 @@ public class AddController extends HttpServlet {
                     expiryDate = null;
                     monthsOfDebt = 0;
                     if (contractType.equals("amortization")) {
-                        expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
+                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);                      
                     } else if (contractType.equals("leasing")) {
                         expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
                     }
@@ -374,6 +397,7 @@ public class AddController extends HttpServlet {
 
                     contractDao = new ContractDAO();
                     apartmentDao = new ApartmentDAO();
+                    monthlyFeeDao = new MonthlyFeeDAO();
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
@@ -402,13 +426,19 @@ public class AddController extends HttpServlet {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
-                    if (DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, birthday) || DateUtils.compareTwoDate(dateSign, expiryDate)) {
+                    if(expiryDate!=null){
+                        if(DateUtils.compareTwoDate(dateSign, expiryDate)){
+                            contractError.setDateSign("Invalid dateSign");
+                            check = false;
+                        }
+                    }
+                    if (!DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, birthday) ) {
                         contractError.setDateSign("Invalid dateSign");
                         check = false;
                     }
                     if (("amortization leasing").contains(contractType)) {
                         if (DateUtils.checkValidDate(expiryDate) || !DateUtils.compareTwoDate(expiryDate, birthday) || DateUtils.compareTwoDate(dateSign, expiryDate)) {
-                            contractError.setDateSign("Invalid expiryDate");
+                            contractError.setExpiryDate("Invalid expiryDate");
                             check = false;
                         }
                     }
@@ -417,18 +447,21 @@ public class AddController extends HttpServlet {
                         contractError.setContractImage("Invalid image");
                         check = false;
                     }
-                    if (apartmentDao.getApartment(apartmentID, "available") == null) {
+                    if(apartmentDao.getApartment(apartmentID)==null){
                         contractError.setApartmentID("Invalid apartmentID");
+                    }else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
+                        contractError.setApartmentID("Apartment is not available");
                         check = false;
                     }
-                    if (contractType.equals("amortization") && DateUtils.subtractTwoDay(dateSign, expiryDate) != monthsOfDebt) {
-                        contractError.setExpiryDate("Invalid expiryDate");
-                        check = false;
-                    }
+//                    if (contractType.equals("amortization") && DateUtils.subtractTwoDay(dateSign, expiryDate) != monthsOfDebt) {
+//                        contractError.setExpiryDate("Invalid expiryDate");
+//                        check = false;
+//                    }
                     if (check) {
                         boolean checkAdd = userDao.addUser(new UserDTO("", fullName, email, phone, address, birthday, citizenID, gender, password, null, true, roleDao.getUserRoleID(type)));
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if (checkAdd && checkAddContract) {
+                            monthlyFeeDao.addMonthly(userDao.getUserIDByCitizenID(type, citizenID), apartmentID);
                             request.setAttribute("ADD_USER_SUCCESS", "New resident has been added.");
                             request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
                         } else {
@@ -447,13 +480,13 @@ public class AddController extends HttpServlet {
                     break;
 
                 case SERVICE:
-                    url = "adminAddServicePage.jsp";
+
                     String serviceName = request.getParameter("serviceName");
                     String description = request.getParameter("description");
                     float price = Float.parseFloat(request.getParameter("price"));
                     boolean status = Boolean.parseBoolean(request.getParameter("status"));
                     check = true;
-                    
+
                     ServiceDAO serviceDao = new ServiceDAO();
                     ServiceDTO service = null;
                     ServiceError serviceError = new ServiceError();
@@ -462,7 +495,7 @@ public class AddController extends HttpServlet {
                         serviceError.setServiceName("Name must be from 4 to 60 chars");
                         check = false;
                     }
-                    if ( serviceDao.getServiceByName(serviceName)!= null) {
+                    if (serviceDao.getServiceByName(serviceName) != null) {
                         serviceError.setServiceName("Duplicate service name");
                         check = false;
                     }
@@ -476,11 +509,172 @@ public class AddController extends HttpServlet {
                             request.setAttribute("ADD_SERVICE_ERROR", serviceError);
                         }
                     } else {
-                        serviceError.setErrorMessage("Fail to add new resident");
+                        serviceError.setErrorMessage("Fail to add new service");
                         request.setAttribute("ADD_SERVICE_ERROR", serviceError);
                     }
                     break;
+                case NOTIFICATION:
 
+                    String notiHeader = request.getParameter("notiHeader");
+                    String notiContent = request.getParameter("notiContent");
+                    check = true;
+
+                    NotificationDAO notiDao = new NotificationDAO();
+
+                    if (check) {
+                        boolean checkAdd = notiDao.addNotification(notiHeader, notiContent);
+                        if (checkAdd) {
+                            request.setAttribute("ADD_NOTIFICATION_SUCCESS", "New notification has been added.");
+                        } else {
+                            request.setAttribute("ADD_NOTIFICATION_ERROR", "Fail to add new notification.");
+                        }
+                    } else {
+                        request.setAttribute("ADD_NOTIFICATION_ERROR", "Fail to add new notification.");
+                    }
+                    break;
+                case PRIVATE_NOTIFICATION:
+                    notiHeader = request.getParameter("notiHeader");
+                    notiContent = request.getParameter("notiContent");
+                    String userID = request.getParameter("userID");
+                    check = true;
+
+                    PrivateNotificationError privateNotiError = new PrivateNotificationError();
+                    PrivateNotificationDAO privateNotiDao = new PrivateNotificationDAO();
+                    userDao = new UserDAO();
+
+                    if (userDao.getUserByIDAndStatus(userID, true) == null) {
+                        privateNotiError.setNotiID("Invalid userID");
+                    }
+                    if (check) {
+                        boolean checkAdd = privateNotiDao.addPrivateNotification(notiHeader, notiContent, userID);
+                        if (checkAdd) {
+                            request.setAttribute("ADD_PRIVATE_NOTIFICATION_SUCCESS", "New notification has been added.");
+                        } else {
+                            request.setAttribute("ADD_PRIVATE_NOTIFICATION_ERROR", "Fail to add new notification.");
+                        }
+                    } else {
+                        privateNotiError.setErrorMessage("Fail to add new notification.");
+                        request.setAttribute("ADD_PRIVATE_NOTIFICATION_ERROR", privateNotiError);
+                    }
+                    break;
+
+                case PERMISSION:
+//                    url = "adminAddPermissionPage.jsp";
+                    String permissionName = request.getParameter("permissionName");
+                    status = Boolean.parseBoolean(request.getParameter("status"));
+                    String roleNamePriority = request.getParameter("rolePriority");
+                    check = true;
+
+                    PermissionDAO permissionDao = new PermissionDAO();
+                    PermissionDTO permission = null;
+                    PermissionError permissionError = new PermissionError();
+
+                    if (permissionName.length() > 60 || permissionName.length() < 4) {
+                        permissionError.setPermissionName("Name must be from 4 to 60 chars");
+                        check = false;
+                    }
+                    if (permissionDao.getPermissionByName(permissionName) != null) {
+                        permissionError.setPermissionName("Duplicate permission name");
+                        check = false;
+                    }
+                    if (check) {
+                        roleDao =new RoleDAO();
+                        permission = new PermissionDTO(0, permissionName, roleNamePriority, status);
+                        boolean checkAdd = permissionDao.addPermission(permission, roleDao.getUserRoleID(roleNamePriority));
+                        if (checkAdd) {
+                            request.setAttribute("ADD_PERMISSION_SUCCESS", "New permission has been added.");
+                        } else {
+                            permissionError.setErrorMessage("Fail to add new permission.");
+                            request.setAttribute("ADD_PERMISSION_ERROR", permissionError);
+                        }
+                    } else {
+                        permissionError.setErrorMessage("Fail to add new permission");
+                        request.setAttribute("ADD_PERMISSION_ERROR", permissionError);
+                    }
+                    break;
+                case CONTRACT:
+                    userID = request.getParameter("userID");
+                    dateSign = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dateSign"));
+                    contractImageFilePart = request.getPart("contractImage");
+                    apartmentID = request.getParameter("apartmentID");
+                    contractType = request.getParameter("contractType");
+                    expiryDate = null;
+                    monthsOfDebt = 0;
+                    if (contractType.equals("amortization")) {
+                        monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
+                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);                     
+                    } else if (contractType.equals("leasing")) {
+                        expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
+                    }
+                    check = true;
+
+                    contractDao = new ContractDAO();
+                    apartmentDao = new ApartmentDAO();
+                    monthlyFeeDao = new MonthlyFeeDAO();
+                    userDao = new UserDAO();
+                    roleDao = new RoleDAO();
+                    contractError = new ContractError();
+                    UserDTO user = userDao.getUserByIDAndStatus(userID, true);
+                    
+                    if(!userID.contains("ELY-")||user==null){
+                        contractError.setUserID("Invalid userID");
+                        check = false;
+                    }
+            
+                    if(expiryDate!=null){
+                        if(DateUtils.compareTwoDate(dateSign, expiryDate)){
+                            contractError.setDateSign("Invalid expiryDate");
+                            check = false;
+                        }
+                    }
+                    
+                    if(user!=null&&userID.contains("ELY-")){
+                        if (!DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, user.getBirthDay())) {
+                            contractError.setDateSign("Invalid dateSign");
+                            check = false;
+                        }
+
+                        if (("amortization leasing").contains(contractType)) {
+                            if (DateUtils.checkValidDate(expiryDate) || !DateUtils.compareTwoDate(expiryDate, user.getBirthDay()) || DateUtils.compareTwoDate(dateSign, expiryDate)) {
+                                contractError.setExpiryDate("Invalid expiryDate");
+                                check = false;
+                            }
+                        }
+                    }
+                    
+                    if (contractImageFilePart == null) {
+                        contractError.setContractImage("Invalid image");
+                        check = false;
+                    }
+                    if(apartmentDao.getApartment(apartmentID)==null){
+                        contractError.setApartmentID("Invalid apartmentID");
+                    }else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
+                        contractError.setApartmentID("Apartment is not available");
+                        check = false;
+                    }
+//                    if (contractType.equals("amortization") && DateUtils.subtractTwoDay(dateSign, expiryDate) != monthsOfDebt) {
+//                        contractError.setExpiryDate("Invalid expiryDate");
+//                        check = false;
+//                    }
+                    if (check) {
+                        boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userID, apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
+                        if ( checkAddContract) {
+                            monthlyFeeDao.addMonthly(userID, apartmentID);
+                            if(contractType.equals("buying") || contractType.equals("amortization")){
+                                userDao.updateUserRole(roleDao.getUserRoleID("Resident"), userID);
+                            }
+                            
+                            request.setAttribute("ADD_USER_SUCCESS", "New resident has been added.");
+                            request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
+                        } else {
+                            contractError.setErrorMessage("Fail to add new contract.");
+                            request.setAttribute("ADD_CONTRACT_ERROR", contractError);
+                        }
+                    } else {
+                        contractError.setErrorMessage("Fail to add new contract.");
+                        request.setAttribute("ADD_CONTRACT_ERROR", contractError);
+                    }
+                    break;
                 default:
                     break;
 

@@ -60,7 +60,7 @@
 
                             <div class="input-field">
                                 <label>Description  ${requestScope.ADD_SERVICE_ERROR.description}</label>
-                                <textarea style="width: 838px;height: 160px;" class="form-control" name="description" rows="6" cols="80" value="${param.description}"></textarea>
+                                <textarea style="width: 838px;height: 160px;" class="form-control" name="description" rows="6" cols="80" maxlength="1400">${param.description}</textarea>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
             </form>
             <button class="backButton">
                 <i class="uil uil-arrow-left"></i>
-                <span class="btnText"><a href="adminDashBoardPage.jsp">Back to admin page</a></span>               
+                <span class="btnText"><a href="adminServicePage.jsp">Back to ${param.type} page</a></span>               
             </button> 
         </div>
         <%}%>

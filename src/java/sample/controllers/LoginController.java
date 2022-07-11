@@ -20,14 +20,16 @@ import sample.DTO.UserDTO;
  * @author Phi Long
  */
 public class LoginController extends HttpServlet {
+
     private static final String ERROR = "login.jsp";
     private static final String CUS = "Customer";
-    private static final String RES ="Resident";
+    private static final String RES = "Resident";
     private static final String HR = "HR Manager";
-    private static final String EM ="Employee";
+    private static final String EM = "Employee";
     private static final String BM = "Board Manager";
     private static final String USER_PAGE = "userMainPage.jsp";
     private static final String ADMIN_PAGE = "adminMainPage.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,32 +46,33 @@ public class LoginController extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         String url = ERROR;
         try {
-            String userID=request.getParameter("userID");
-            String password=request.getParameter("password");
-            UserDAO userDao=new UserDAO();
-            RoleDAO roleDao=new RoleDAO();
-            UserDTO loginUser=userDao.checkLogin(userID, password);
-            if (loginUser!=null)
-            {
-                HttpSession session=request.getSession();
+            String userID = request.getParameter("userID");
+            String password = request.getParameter("password");
+            UserDAO userDao = new UserDAO();
+            RoleDAO roleDao = new RoleDAO();
+
+            UserDTO loginUser = userDao.checkLogin(userID, password);
+
+            if (loginUser != null) {
+                HttpSession session = request.getSession();
                 session.setAttribute("LOGIN_USER", loginUser);
-                String roleName=roleDao.getUserRole(loginUser.getRoleID());
+                String roleName = roleDao.getUserRole(loginUser.getRoleID());
                 ArrayList<String> permission = userDao.getListLoginUserPermission(userID);
                 session.setAttribute("LOGIN_USER_ROLE", roleName);
-                session.setAttribute("LOGIN_USER_PERMISSION",permission);
-                if (CUS.equals(roleName)||RES.equals(roleName))
-                {
-                    url=USER_PAGE;
+                session.setAttribute("LOGIN_USER_PERMISSION", permission);
+                if (CUS.equals(roleName) || RES.equals(roleName)) {
+                    url = USER_PAGE;
+                } else if (BM.equals(roleName) || HR.equals(roleName) || EM.equals(roleName)) {
+                    url = ADMIN_PAGE;
+                } else {
+                    request.setAttribute("LOGIN_ERROR", "Role not supported");
                 }
-                else if (BM.equals(roleName)||HR.equals(roleName)||EM.equals(roleName))
-                {
-                    url=ADMIN_PAGE;
+            } else {
+                if (!userDao.getUserByID(userID).isStatus()) {
+                    request.setAttribute("LOGIN_ERROR", "Your account has been blocked!");
+                }else{
+                    request.setAttribute("LOGIN_ERROR", "Incorrect userID or password!");
                 }
-                else request.setAttribute("LOGIN_ERROR", "Role not supported");
-            }
-            else
-            {
-                request.setAttribute("LOGIN_ERROR", "Incorrect userID or password!");
             }
         } catch (Exception e) {
             log("Error at LoginController :" + e.toString());

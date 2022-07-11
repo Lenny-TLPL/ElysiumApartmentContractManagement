@@ -30,8 +30,8 @@
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp">
-                        <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
+                    <a style="color:#FFF; text-decoration: none;" style="color:#FFF; text-decoration: none;"href="userMainPage.jsp">
+                        <span >ELYSIUM</span> 
                     </a>
                 </span>
             </div>
@@ -80,13 +80,7 @@
                     <i class='bx bx-menu sidebarBtn'></i>
                     <span class="dashboard">Personal Information</span>
                 </div>
-                <form action="MainController" class="search-box">
-                    <div>
-                        <input type="hidden" name="type" value="Resident">
-                        <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
-                        <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
-                    </div>
-                </form>
+               
 
                 <div >
                     <img src="images/profile.jpg" alt="">

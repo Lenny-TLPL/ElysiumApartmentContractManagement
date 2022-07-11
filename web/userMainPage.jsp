@@ -22,8 +22,8 @@
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--<img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="userMainPage.jsp">
-                        <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
+                    <a href="userMainPage.jsp" style="color:#FFF; text-decoration: none;">
+                        <span >ELYSIUM</span> 
                     </a>
                 </span>
             </div>

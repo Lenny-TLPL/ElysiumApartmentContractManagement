@@ -18,7 +18,7 @@ import sample.utils.DBUtils;
  * @author Phi Long
  */
 public class BillingHistoryDAO {
-    private static final String GET_LIST_BILLING_HISTORY="SELECT * FROM tblBillingHistory WHERE billName LIKE ? OR userID LIKE ?";
+    private static final String GET_LIST_BILLING_HISTORY="SELECT * FROM tblBillingHistory WHERE billName LIKE ? OR userID LIKE ? OR apartmentID LIKE ?";
     
     public ArrayList<BillingHistoryDTO> getListBilling(String search) throws SQLException {
         ArrayList<BillingHistoryDTO> list = new ArrayList<>();
@@ -30,7 +30,9 @@ public class BillingHistoryDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(GET_LIST_BILLING_HISTORY);
-                stm.setString(1, "%"+search+"%");             
+                stm.setInt(1, Integer.parseInt(search));   
+                stm.setString(2, "%"+search+"%"); 
+                stm.setString(3, "%"+search+"%"); 
                 rs = stm.executeQuery();
                 while (rs.next()) { 
                     int billID = rs.getInt("serviceID");
@@ -38,7 +40,8 @@ public class BillingHistoryDAO {
                     Date payDate = rs.getDate("payDate");
                     float value = rs.getFloat("value");
                     String userID = rs.getString("userID");
-                    billingHistory = new BillingHistoryDTO(billID, billName, payDate, userID, value);
+                    String apartmentID = rs.getString("apartmentID");
+                    billingHistory = new BillingHistoryDTO(billID, billName, payDate, userID, apartmentID, value);
                     list.add(billingHistory);
                 }
             }
