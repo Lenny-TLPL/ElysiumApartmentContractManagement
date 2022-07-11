@@ -18,7 +18,7 @@ import sample.utils.DBUtils;
  * @author Phi Long
  */
 public class NotificationDAO {
-    private static final String GET_LIST_NOTIFICATION="SELECT * FROM tblNotification WHERE notiHeader LIKE ? OR notiContent LIKE ?";
+    private static final String GET_LIST_NOTIFICATION=" SELECT * FROM tblNotification WHERE notiHeader LIKE ? OR notiContent LIKE ? ";
     private static final String GET_NOTIFICATION="SELECT * FROM tblNotification WHERE notiID=?";
     
     public NotificationDTO getNotification(int id) throws SQLException {

@@ -20,7 +20,7 @@
         <div class="sidebar">
             <div class="logo-details">
                 <i class='bx bxl-c-plus-plus'></i>
-                <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
+                <!--<img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
                     <a href="userMainPage.jsp">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
