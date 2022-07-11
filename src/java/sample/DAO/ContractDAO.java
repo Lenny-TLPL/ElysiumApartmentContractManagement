@@ -4,12 +4,15 @@
  */
 package sample.DAO;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import javax.servlet.http.Part;
 import sample.DTO.ContractDTO;
@@ -20,10 +23,13 @@ import sample.utils.DBUtils;
  * @author Phi Long
  */
 public class ContractDAO {
-    private static final String GET_LIST_CONTRACT="SELECT * FROM tblContract WHERE apartmentID LIKE ? OR userID LIKE ?";
-    private static final String ADD_CONTRACT="EXEC addContract ?, ?, ?, ?, ?, ?, ?";
-    
-    public ArrayList<ContractDTO> getListContract( String search) throws SQLException {
+
+    private static final String GET_LIST_CONTRACT = "SELECT contractID, dateSign, userID, apartmentID, contractType, status FROM tblContract WHERE apartmentID LIKE ? OR userID LIKE ?";
+    private static final String ADD_CONTRACT = "EXEC addContract ?, ?, ?, ?, ?, ?, ?";
+    private static final String GET_CONTRACT_DETAIL_WITHOUT_IMAGE = "SELECT contractID, dateSign, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status FROM tblContract WHERE contractID = ?";
+    private static final String GET_CONTRACT_IMAGE = "SELECT contractImage FROM tblContract WHERE contractID = ?";
+
+    public ArrayList<ContractDTO> getListContract(String search) throws SQLException {
         ArrayList<ContractDTO> list = new ArrayList<>();
         ContractDTO contract = null;
         Connection conn = null;
@@ -33,13 +39,13 @@ public class ContractDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(GET_LIST_CONTRACT);
-                stm.setString(1, "%"+search+"%");
-                stm.setString(2, "%"+search+"%");            
+                stm.setString(1, "%" + search + "%");
+                stm.setString(2, "%" + search + "%");
                 rs = stm.executeQuery();
-                while (rs.next()) { 
+                while (rs.next()) {
                     int contractID = rs.getInt("contractID");
                     Date dateSign = rs.getDate("dateSign");
-                    Blob contractImage=rs.getBlob("contractImage");
+//                    Blob contractImage=rs.getBlob("contractImage");
 //                    if(rs.getBytes("contracImage")!=null){
 //                        byte[] img = rs.getBytes("contractImage");
 //                    ImageIcon image = new ImageIcon(img);
@@ -49,13 +55,13 @@ public class ContractDAO {
 //                    }
                     String userID = rs.getString("userID");
                     String apartmentID = rs.getString("apartmentID");
-                    float value = rs.getFloat("value");
-                    Date expiryDate = rs.getDate("expiryDate");
-                    int monthsOfDebt = rs.getInt("monthsOfDebt");
-                    float interestRate= rs.getFloat("interestRate");
+//                    float value = rs.getFloat("value");
+//                    Date expiryDate = rs.getDate("expiryDate");
+//                    int monthsOfDebt = rs.getInt("monthsOfDebt");
+//                    float interestRate= rs.getFloat("interestRate");
                     String contractType = rs.getString("contractType");
                     boolean status = rs.getBoolean("status");
-                    contract = new ContractDTO(contractID, dateSign, contractImage, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status);
+                    contract = new ContractDTO(contractID, dateSign, null, userID, apartmentID, 0, null, 0, 0, contractType, status);
                     list.add(contract);
                 }
             }
@@ -74,8 +80,8 @@ public class ContractDAO {
         }
         return list;
     }
-    
-    public boolean addContract(ContractDTO contract,Part imageFilePart) throws SQLException {
+
+    public boolean addContract(ContractDTO contract, Part imageFilePart) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -87,7 +93,11 @@ public class ContractDAO {
                 ptm.setBlob(2, imageFilePart.getInputStream());
                 ptm.setString(3, contract.getApartmentID());
                 ptm.setString(4, contract.getContractType());
-                ptm.setDate(5,new java.sql.Date(contract.getExpiryDate().getTime()));
+                if (contract.getExpiryDate() != null) {
+                    ptm.setDate(5, new java.sql.Date(contract.getExpiryDate().getTime()));
+                } else {
+                    ptm.setDate(5, null);
+                }
                 ptm.setFloat(6, contract.getMonthsOfDebt());
                 ptm.setString(7, contract.getUserID());
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
@@ -103,5 +113,116 @@ public class ContractDAO {
             }
         }
         return check;
+    }
+
+    public ContractDTO getContractDetail(int contractID) throws SQLException {
+        ContractDTO contract = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_CONTRACT_DETAIL_WITHOUT_IMAGE);
+                stm.setInt(1, contractID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    Date dateSign = rs.getDate("dateSign");
+//                    Blob contractImage=rs.getBlob("contractImage");
+//                    if(rs.getBytes("contracImage")!=null){
+//                        byte[] img = rs.getBytes("contractImage");
+//                    ImageIcon image = new ImageIcon(img);
+//                    contractImage = image.getImage();    
+//                    }else{
+//                        contractImage=null;
+//                    }
+                    String userID = rs.getString("userID");
+                    String apartmentID = rs.getString("apartmentID");
+                    boolean status = rs.getBoolean("status");
+                    String contractType = rs.getString("contractType");
+                    float value = rs.getFloat("value");
+                    if (contractType.equals("buying")) {
+                        contract = new ContractDTO(contractID, dateSign, null, userID, apartmentID, value, null, 0, 0, contractType, status);
+                    } else if (contractType.equals("amortization")) {
+                        Date expiryDate = rs.getDate("expiryDate");
+                        int monthsOfDebt = rs.getInt("monthsOfDebt");
+                        float interestRate = rs.getFloat("interestRate");
+                        contract = new ContractDTO(contractID, dateSign, null, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status);
+                    } else if (contractType.equals("leasing")) {
+                        Date expiryDate = rs.getDate("expiryDate");
+                        contract = new ContractDTO(contractID, dateSign, null, userID, apartmentID, value, expiryDate, 0, 0, contractType, status);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return contract;
+    }
+
+    public String getContractImage(int contractID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String base64Image = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_CONTRACT_IMAGE);
+                stm.setInt(1, contractID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    Blob blob = rs.getBlob("contractImage");
+
+                    InputStream inputStream = blob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead = -1;
+
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+
+                    byte[] imageBytes = outputStream.toByteArray();
+
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+                    inputStream.close();
+                    outputStream.close();
+//                    Blob contractImage=rs.getBlob("contractImage");
+//                    if(rs.getBytes("contracImage")!=null){
+//                        byte[] img = rs.getBytes("contractImage");
+//                    ImageIcon image = new ImageIcon(img);
+//                    contractImage = image.getImage();    
+//                    }else{
+//                        contractImage=null;
+//                    }
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return base64Image;
     }
 }

@@ -13,20 +13,20 @@ package sample.DTO;
 public class ApartmentBuildingDTO {
     private int buildingID;
     private String buildingName;
-    private int districtID;
+    private String districtName;
     private boolean status;
     
     public ApartmentBuildingDTO(){
         this.buildingID = 0;
         this.buildingName = "";
-        this.districtID = 0;
+        this.districtName = "";
         this.status = false;
     }
 
-    public ApartmentBuildingDTO(int buildingID, String buildingName, int districtID, boolean status) {
+    public ApartmentBuildingDTO(int buildingID, String buildingName, String districtName, boolean status) {
         this.buildingID = buildingID;
         this.buildingName = buildingName;
-        this.districtID = districtID;
+        this.districtName = districtName;
         this.status = status;
     }
 
@@ -46,12 +46,12 @@ public class ApartmentBuildingDTO {
         this.buildingName = buildingName;
     }
 
-    public int getDistrictID() {
-        return districtID;
+    public String getDistrictName() {
+        return districtName;
     }
 
-    public void setDistrictID(int districtID) {
-        this.districtID = districtID;
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
     }
 
     public boolean isStatus() {

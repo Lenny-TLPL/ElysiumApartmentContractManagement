@@ -13,26 +13,26 @@ package sample.DTO;
 public class ApartmentDTO {
     private String apartmentID;
     private String apartmentStatus;
-    private int typeID;
+    private String typeName;
     private int floor;
-    private int buildingID;
+    private String buildingName;
     private String userID;
     
     public ApartmentDTO(){
         this.apartmentID = "";
         this.apartmentStatus = "";
-        this.typeID = 0;
+        this.typeName = "";
         this.floor = 0;
-        this.buildingID = 0;
+        this.buildingName = "";
         this.userID = "";
     }
 
-    public ApartmentDTO(String apartmentID, String apartmentStatus, int typeID, int floor, int buildingID, String userID) {
+    public ApartmentDTO(String apartmentID, String apartmentStatus, String typeName, int floor, String buildingName, String userID) {
         this.apartmentID = apartmentID;
         this.apartmentStatus = apartmentStatus;
-        this.typeID = typeID;
+        this.typeName = typeName;
         this.floor = floor;
-        this.buildingID = buildingID;
+        this.buildingName = buildingName;
         this.userID = userID;
     }
 
@@ -52,12 +52,12 @@ public class ApartmentDTO {
         this.apartmentStatus = apartmentStatus;
     }
 
-    public int getTypeID() {
-        return typeID;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setTypeID(int typeID) {
-        this.typeID = typeID;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public int getFloor() {
@@ -68,12 +68,12 @@ public class ApartmentDTO {
         this.floor = floor;
     }
 
-    public int getBuildingID() {
-        return buildingID;
+    public String getBuildingName() {
+        return buildingName;
     }
 
-    public void setBuildingID(int buildingID) {
-        this.buildingID = buildingID;
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
     }
 
     public String getUserID() {
@@ -82,5 +82,5 @@ public class ApartmentDTO {
 
     public void setUserID(String userID) {
         this.userID = userID;
-    }                      
+    }              
 }

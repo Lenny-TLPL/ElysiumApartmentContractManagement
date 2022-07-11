@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.DAO.PermissionDAO;
+import sample.DAO.RoleDAO;
 import sample.DTO.PermissionDTO;
+import sample.DTO.RoleDTO;
 
 /**
  *
@@ -20,6 +22,7 @@ import sample.DTO.PermissionDTO;
 public class GetMaterialController extends HttpServlet {
     private static final String ERROR = "error404.jsp";
     private static String SUCCESS = "";
+    private static final String ROLE="Role";
     private static final String PERMISSION = "Permission";
     private static final String EMPLOYEE = "Employee";
     private static final String HR_MANAGER = "HR Manager";
@@ -44,6 +47,10 @@ public class GetMaterialController extends HttpServlet {
             String require = request.getParameter("require");
             String redirect = request.getParameter("redirect");
             String type = request.getParameter("type");
+            String search = request.getParameter("search");
+            if(search ==null){
+                search = "";
+            }
             SUCCESS = redirect+"?type="+type;
             
             switch(require){
@@ -57,9 +64,14 @@ public class GetMaterialController extends HttpServlet {
                     } else if(type.equals(EMPLOYEE)){
                         permissionList = permissionDao.getListPermissionWithPriority(type);
                     } 
-                   
+                    
                     request.setAttribute("PERMISSION_LIST",permissionList);
                     url = SUCCESS;
+                case ROLE:
+                    RoleDAO roleDao = new RoleDAO(); 
+                    ArrayList<RoleDTO> roleList = roleDao.getListRole(search);
+                    request.setAttribute("ROLE_LIST", roleList);
+                    url=SUCCESS;
 //                case APARTMENT:
 //                    ApartmentDao apartmentDao = new 
             }

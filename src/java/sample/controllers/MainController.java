@@ -29,6 +29,12 @@ public class MainController extends HttpServlet {
     private static final String SEARCH_CONTROLLER = "SearchController";
     private static final String GET_MATERIAL = "GetMaterial";
     private static final String GET_MATERIAL_CONTROLLER = "GetMaterialController";
+    private static final String VIEW_DETAIL = "View Detail";
+    private static final String VIEW_DETAIL_CONTROLLER = "ViewDetailController";
+    private static final String UPDATE = "Update";
+    private static final String UPDATE_CONTROLLER = "UpdateController";
+    private static final String UPDATE_STATUS = "Disable Enable";
+    private static final String UPDATE_STATUS_CONTROLLER = "UpdateStatusController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,6 +56,9 @@ public class MainController extends HttpServlet {
             if (SEARCH.equals(action)) {
                 url = SEARCH_CONTROLLER;
             } else if (LOGIN.equals(action)) {
+//                MailUtils.sendEmail();
+//                MailUtils.sendMail("tranlephilong27@gmail.com", "Thank for buying our product","Your order at with total price of:  will soon be delivered right to your house", "longtlpse160987@fpt.edu.vn", "1q2w3e4r5t@@");
+//                MailUtils.sendEmail("tranlephilong27@gmail.com", "Thank for buying our product","Your order at with total price of:  will soon be delivered right to your house");
                 url = LOGIN_CONTROLLER;
             } else if (ADD.equals(action)) {
                 url = ADD_CONTROLLER;
@@ -57,6 +66,12 @@ public class MainController extends HttpServlet {
                 url = LOGOUT_CONTROLLER;
             } else if (GET_MATERIAL.equals(action)) {
                 url = GET_MATERIAL_CONTROLLER;
+            } else if (VIEW_DETAIL.equals(action)) {
+                url = VIEW_DETAIL_CONTROLLER;
+            } else if (UPDATE.equals(action)){
+                url = UPDATE_CONTROLLER;
+            } else if (UPDATE_STATUS.contains(action)){
+                url = UPDATE_STATUS_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController:" + e.toString());
