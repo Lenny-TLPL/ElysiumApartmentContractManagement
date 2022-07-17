@@ -12,6 +12,7 @@ package sample.DTO;
  */
 public class ApartmentDTO {
     private String apartmentID;
+    private float area;
     private String apartmentStatus;
     private String typeName;
     private int floor;
@@ -20,6 +21,7 @@ public class ApartmentDTO {
     
     public ApartmentDTO(){
         this.apartmentID = "";
+        this.area = 0;
         this.apartmentStatus = "";
         this.typeName = "";
         this.floor = 0;
@@ -27,8 +29,9 @@ public class ApartmentDTO {
         this.userID = "";
     }
 
-    public ApartmentDTO(String apartmentID, String apartmentStatus, String typeName, int floor, String buildingName, String userID) {
+    public ApartmentDTO(String apartmentID, float area, String apartmentStatus, String typeName, int floor, String buildingName, String userID) {
         this.apartmentID = apartmentID;
+        this.area = area;
         this.apartmentStatus = apartmentStatus;
         this.typeName = typeName;
         this.floor = floor;
@@ -42,6 +45,14 @@ public class ApartmentDTO {
 
     public void setApartmentID(String apartmentID) {
         this.apartmentID = apartmentID;
+    }
+
+    public float getArea() {
+        return area;
+    }
+
+    public void setArea(float area) {
+        this.area = area;
     }
 
     public String getApartmentStatus() {

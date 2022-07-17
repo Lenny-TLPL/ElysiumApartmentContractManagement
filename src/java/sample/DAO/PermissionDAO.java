@@ -17,7 +17,7 @@ import sample.utils.DBUtils;
  * @author Phi Long
  */
 public class PermissionDAO {
-    private static final String GET_LIST_PERMISSION = "	SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ? OR r.roleName LIKE ?";
+    private static final String GET_LIST_PERMISSION = "SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ? OR r.roleName LIKE ?";
     private static final String GET_LIST_PERMISSION_WITH_PRIORITY = "SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE r.roleName LIKE ?";
     private static final String GET_LIST_PERMISSIONID_WITH_PRIORITY = "SELECT permissionID FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE r.roleName LIKE ?";
     private static final String GET_PERMISSION_BY_NAME="SELECT permissionID, permissionName, status, rolePriority, roleName FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ?";

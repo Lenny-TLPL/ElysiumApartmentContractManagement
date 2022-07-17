@@ -119,8 +119,8 @@
         <section class="home-section">
             <nav>
                 <div class="sidebar-button">
-                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Dashboard</span>
+<!--                    <i class='bx bx-menu sidebarBtn'></i>
+                    <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>

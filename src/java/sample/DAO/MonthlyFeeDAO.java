@@ -17,10 +17,12 @@ import sample.utils.DBUtils;
  * @author Phi Long
  */
 public class MonthlyFeeDAO {
+
     private static final String GET_MONTHLY_FEE_DETAIL_WITH_STATUS = "SELECT * FROM tblMonthlyFee WHERE userID LIKE ? AND apartmentID LIKE ? AND status = ? ";
     private static final String ADD_MONTHLY_FEE = "INSERT INTO tblMonthlyFee(userID, apartmentID, status) VALUES (?, ?, 1)";
     private static final String GET_MONTHLY_FEE_DETAIL_WITH_USERID_APARTMENTID = "SELECT * FROM tblMonthlyFee WHERE userID LIKE ?   OR apartmentID LIKE ?";
-    
+    private static final String MONTHLY_FEE_CALCULATE = "EXEC monthlyFeeCalculate ?";
+
     public boolean addMonthly(String userID, String apartmentID) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -45,9 +47,9 @@ public class MonthlyFeeDAO {
         }
         return check;
     }
-    
+
     public MonthlyFeeDTO getMonthlyFeeDetail(String userID, String apartmentID, Boolean status) throws SQLException {
-        MonthlyFeeDTO monthlyFee= null;
+        MonthlyFeeDTO monthlyFee = null;
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -83,10 +85,10 @@ public class MonthlyFeeDAO {
         }
         return monthlyFee;
     }
-    
+
     public ArrayList<MonthlyFeeDTO> getMonthlyFeeList(String search) throws SQLException {
         ArrayList<MonthlyFeeDTO> list = new ArrayList<>();
-        MonthlyFeeDTO monthlyFee= null;
+        MonthlyFeeDTO monthlyFee = null;
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -94,8 +96,8 @@ public class MonthlyFeeDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 stm = conn.prepareStatement(GET_MONTHLY_FEE_DETAIL_WITH_USERID_APARTMENTID);
-                stm.setString(1, "%"+search+"%");
-                stm.setString(2, "%"+search+"%");
+                stm.setString(1, "%" + search + "%");
+                stm.setString(2, "%" + search + "%");
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     String userID = rs.getString("userID");
@@ -124,5 +126,29 @@ public class MonthlyFeeDAO {
             }
         }
         return list;
+    }
+
+    public boolean monthlyFeeCalculate(String apartmentID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(MONTHLY_FEE_CALCULATE);
+                ptm.setString(1, apartmentID);
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

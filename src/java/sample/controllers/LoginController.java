@@ -68,8 +68,10 @@ public class LoginController extends HttpServlet {
                     request.setAttribute("LOGIN_ERROR", "Role not supported");
                 }
             } else {
-                if (!userDao.getUserByID(userID).isStatus()) {
-                    request.setAttribute("LOGIN_ERROR", "Your account has been blocked!");
+                if (userDao.getUserByID(userID)!=null) {
+                    if(!userDao.getUserByID(userID).isStatus()){
+                      request.setAttribute("LOGIN_ERROR", "Your account has been blocked!");  
+                    }               
                 }else{
                     request.setAttribute("LOGIN_ERROR", "Incorrect userID or password!");
                 }

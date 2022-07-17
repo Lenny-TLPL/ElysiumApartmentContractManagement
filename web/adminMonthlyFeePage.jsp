@@ -119,8 +119,8 @@
         <section class="home-section">
             <nav>
                 <div class="sidebar-button">
-                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Dashboard</span>
+<!--                    <i class='bx bx-menu sidebarBtn'></i>
+                    <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
@@ -142,9 +142,9 @@
 
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title" style="float:left">SERVICE</div>
+                        <div class="title" style="float:left">MONTHLY FEE</div>
                         <a href="adminAddServicePage.jsp?type=Service"style="float:right" >
-                            <i class="bx  bx-plus-circle" >ADD</i>
+<!--                            <i class="bx  bx-plus-circle" >ADD</i>-->
                         </a>
                         <div class="title"></div>
                         <table border="1" id="table">

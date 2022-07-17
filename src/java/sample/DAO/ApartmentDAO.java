@@ -19,12 +19,12 @@ import sample.utils.DBUtils;
 public class ApartmentDAO {
 
 //    private static final String GET_APARTMENT_WITH_GIVEN_STATUS = "SELECT * FROM tblApartment WHERE apartmentID LIKE ? AND apartmentStatus LIKE ?";
-    private static final String GET_APARTMENT_DETAIL = "SELECT apartmentID, apartmentStatus, typeName, floor, buildingName, userID FROM tblApartment a \n"
+    private static final String GET_APARTMENT_DETAIL = "SELECT apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID FROM tblApartment a \n"
             + "	INNER JOIN tblApartmentBuilding b ON a.buildingID=b.buildingID \n"
             + "	INNER JOIN tblDistrict d ON d.districtID = b.districtID\n"
             + "	INNER JOIN tblApartmentType t ON t.typeID = a.typeID\n"
             + "	WHERE apartmentID LIKE ? ";
-    private static final String GET_LIST_APARTMENT = "SELECT apartmentID, apartmentStatus, typeName, floor, buildingName, userID FROM tblApartment a \n"
+    private static final String GET_LIST_APARTMENT = "SELECT apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID FROM tblApartment a \n"
             + "	INNER JOIN tblApartmentBuilding b ON a.buildingID=b.buildingID \n"
             + "	INNER JOIN tblApartmentType t ON t.typeID = a.typeID\n"
             + "	WHERE apartmentID LIKE ? OR userID LIKE ? OR apartmentStatus LIKE ? OR typeName LIKE ? OR buildingName LIKE ? \n";
@@ -48,8 +48,8 @@ public class ApartmentDAO {
                     int floor = rs.getInt("floor");
                     String buildingName = rs.getNString("buildingName");
                     String userID = rs.getString("userID");
-
-                    apartment = new ApartmentDTO(apartmentID, apartmentStatus, typeName, floor, buildingName, userID);
+                    float area = rs.getFloat("area");
+                    apartment = new ApartmentDTO(apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID);
                 }
             }
         } catch (Exception e) {
@@ -91,7 +91,8 @@ public class ApartmentDAO {
                     int floor = rs.getInt("floor");
                     String buildingName = rs.getNString("buildingName");
                     String userID = rs.getString("userID");
-                    apartment = new ApartmentDTO(apartmentID, apartmentStatus, typeName, floor, buildingName, userID);
+                    float area = rs.getFloat("area");
+                    apartment = new ApartmentDTO(apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID);
                     list.add(apartment);
                 }
             }

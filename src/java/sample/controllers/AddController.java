@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import sample.DAO.ApartmentBuildingDAO;
 import sample.DAO.ApartmentDAO;
 import sample.DAO.ContractDAO;
+import sample.DAO.DistrictDAO;
 import sample.DAO.MonthlyFeeDAO;
 import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
@@ -23,8 +25,10 @@ import sample.DAO.RoleDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
 import sample.DAO.UserPermissionDAO;
+import sample.DTO.ApartmentBuildingError;
 import sample.DTO.ContractDTO;
 import sample.DTO.ContractError;
+import sample.DTO.DistrictError;
 import sample.DTO.PermissionDTO;
 import sample.DTO.PermissionError;
 import sample.DTO.PrivateNotificationError;
@@ -352,6 +356,7 @@ public class AddController extends HttpServlet {
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if (checkAdd && checkAddContract) {
                             monthlyFeeDao.addMonthly(userDao.getUserIDByCitizenID(type, citizenID), apartmentID);
+                            monthlyFeeDao.monthlyFeeCalculate(apartmentID);
                             request.setAttribute("ADD_USER_SUCCESS", "New customer has been added.");
                             request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
                         } else {
@@ -462,6 +467,7 @@ public class AddController extends HttpServlet {
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if (checkAdd && checkAddContract) {
                             monthlyFeeDao.addMonthly(userDao.getUserIDByCitizenID(type, citizenID), apartmentID);
+                            monthlyFeeDao.monthlyFeeCalculate(apartmentID);
                             request.setAttribute("ADD_USER_SUCCESS", "New resident has been added.");
                             request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
                         } else {
@@ -544,6 +550,7 @@ public class AddController extends HttpServlet {
 
                     if (userDao.getUserByIDAndStatus(userID, true) == null) {
                         privateNotiError.setNotiID("Invalid userID");
+                        check = false;
                     }
                     if (check) {
                         boolean checkAdd = privateNotiDao.addPrivateNotification(notiHeader, notiContent, userID);
@@ -660,6 +667,7 @@ public class AddController extends HttpServlet {
                         boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userID, apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
                         if ( checkAddContract) {
                             monthlyFeeDao.addMonthly(userID, apartmentID);
+                            monthlyFeeDao.monthlyFeeCalculate(apartmentID);
                             if(contractType.equals("buying") || contractType.equals("amortization")){
                                 userDao.updateUserRole(roleDao.getUserRoleID("Resident"), userID);
                             }
@@ -674,6 +682,53 @@ public class AddController extends HttpServlet {
                         contractError.setErrorMessage("Fail to add new contract.");
                         request.setAttribute("ADD_CONTRACT_ERROR", contractError);
                     }
+                    break;
+                case DISTRICT:
+                    String districtName = request.getParameter("districtName");
+                    DistrictDAO districtDao = new DistrictDAO();
+                    DistrictError districtError = new DistrictError();
+                    check = true;
+                    if(districtDao.checkDuplicate(districtName)){
+                        districtError.setDistrictName("Duplicate district name.");
+                        check = false;
+                    }
+                    if(check){
+                        boolean checkAddDistrict=districtDao.addDistrict(districtName);
+                        if(checkAddDistrict){
+                            request.setAttribute("ADD_DISTRICT_SUCCESS", "New district has been added.");
+                        }else{
+                            request.setAttribute("ADD_DISTRICT_ERROR", "Fail to add new district.");
+                        }
+                    }else{
+                        districtError.setErrorMessage("Fail to add new district.");
+                        request.setAttribute("ADD_DISTRICT_ERROR", districtError);
+                    }
+                    break;
+                case APARTMENT_BUILDING:
+                    String buildingName = request.getParameter("buildingName");
+                    int maxFloor = Integer.parseInt(request.getParameter("maxFloor")) ;
+                    int maxApartment = Integer.parseInt(request.getParameter("maxApartment")) ;
+                    int districtID = Integer.parseInt(request.getParameter("districtID"));
+                    check = true;
+                    
+                    ApartmentBuildingDAO apBuildingDao = new ApartmentBuildingDAO();
+                    ApartmentBuildingError apBuildingError = new ApartmentBuildingError();
+                    
+                    if(apBuildingDao.checkDuplicate(buildingName, districtID)){
+                        apBuildingError.setBuildingName("Duplicate building name");
+                        check = false;
+                    }
+                    if(check){
+                        boolean checkAdd = apBuildingDao.addApartmentBuilding(buildingName, districtID, maxFloor, maxApartment);
+                        if(checkAdd){
+                            request.setAttribute("ADD_BUILDING_SUCCESS", "New building has been added.");
+                        }else{
+                            request.setAttribute("ADD_BUILDING_ERROR", "Fail to add new building.");
+                        }
+                    }else{
+                        apBuildingError.setErrorMessage("Fail to add new building.");
+                        request.setAttribute("ADD_BUILDING_ERROR", apBuildingError);
+                    }                   
                     break;
                 default:
                     break;
