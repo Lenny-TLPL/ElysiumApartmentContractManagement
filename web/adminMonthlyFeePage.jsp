@@ -170,10 +170,10 @@
                                     <td> <input style="width:100%" type="text" name="monthlyFeeID" value="<%=monthlyFeeList.get(i).getMonthlyFeeID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=monthlyFeeList.get(i).getUserID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="apartmentID" value="<%=monthlyFeeList.get(i).getApartmentID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="waterFee" value="<%=monthlyFeeList.get(i).getWaterFee()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="electricityFee" value="<%=monthlyFeeList.get(i).getElectricityFee()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="contractFee" value="<%=monthlyFeeList.get(i).getContractFee()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="serviceFee" value="<%=monthlyFeeList.get(i).getServiceFee()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="waterFee" value="<%=monthlyFeeList.get(i).getWaterFee()%>" step="0.01" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="electricityFee" value="<%=monthlyFeeList.get(i).getElectricityFee()%>" step="0.01" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="contractFee" value="<%=monthlyFeeList.get(i).getContractFee()%>" step="0.01" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="serviceFee" value="<%=monthlyFeeList.get(i).getServiceFee()%>" step="0.01" readonly="readonly"/></td>
                                 <!--<input type="hidden" name="status" value="<%=monthlyFeeList.get(i).isStatus()%>" readonly="readonly"/>-->
                                 <input type="hidden" name="redirect" value="adminMonthlyFeeDetailPage.jsp" readonly="readonly"/>
                                 <input type="hidden" name="type" value="MonthlyFee" readonly="readonly"/>

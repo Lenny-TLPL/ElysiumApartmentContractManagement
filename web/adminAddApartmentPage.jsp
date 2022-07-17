@@ -64,7 +64,7 @@
 
                             <div class="input-field">
                                 <label>Area  ${requestScope.ADD_APARTMENT_ERROR.area}</label>
-                                <input type="number" name ="area" class="form-control" placeholder="Enter area" required value="${param.area}">
+                                <input type="number" name ="area" class="form-control" placeholder="Enter area" required value="${param.area}" step="0.01">
                             </div>    
 
                             <div class="input-field">

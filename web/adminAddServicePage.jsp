@@ -47,7 +47,7 @@
 
                             <div class="input-field">
                                 <label>Price  ${requestScope.ADD_SERVICE_ERROR.price}</label>
-                                <input type="number" name ="price" class="form-control" placeholder="Enter service price" required value="${param.price}">
+                                <input type="number" name ="price" class="form-control" placeholder="Enter service price" required value="${param.price}" step="0.01">
                             </div>
                             
                             <div class="input-field">

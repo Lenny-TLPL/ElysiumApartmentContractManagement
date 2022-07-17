@@ -730,6 +730,14 @@ public class AddController extends HttpServlet {
                         request.setAttribute("ADD_BUILDING_ERROR", apBuildingError);
                     }                   
                     break;
+                case APARTMENT_TYPE:
+                    String typeName = request.getParameter("typeName");
+                    float buyingPrice = Float.parseFloat(request.getParameter("buyingPrice"));
+                    float leasingPrice = Float.parseFloat(request.getParameter("leasingPrice"));
+                    description = request.getParameter("description");
+                    
+                    
+                    break;
                 default:
                     break;
 

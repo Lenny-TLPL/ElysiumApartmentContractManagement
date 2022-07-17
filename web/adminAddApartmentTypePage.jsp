@@ -47,12 +47,12 @@
 
                             <div class="input-field">
                                 <label>Buying Price  ${requestScope.ADD_TYPE_ERROR.buyingPrice}</label>
-                                <input type="number" name ="buyingPrice" class="form-control" placeholder="Enter buying price" required value="${param.buyingPrice}">
+                                <input type="number" name ="buyingPrice" class="form-control" placeholder="Enter buying price" required value="${param.buyingPrice}" step="0.01">
                             </div>
                             
                             <div class="input-field">
                                 <label>Leasing Price  ${requestScope.ADD_TYPE_ERROR.leasingPrice}</label>
-                                <input type="number" name ="leasingPrice" class="form-control" placeholder="Enter leasing price" required value="${param.leasingPrice}">
+                                <input type="number" name ="leasingPrice" class="form-control" placeholder="Enter leasing price" required value="${param.leasingPrice}" step="0.01">
                             </div>
 
                             <div class="input-field">

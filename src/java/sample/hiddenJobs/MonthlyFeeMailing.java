@@ -17,11 +17,11 @@ public class MonthlyFeeMailing implements Job{
 
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
-        String toMail="tranlephilong27@gmail.com";
+        String toMail="";
         String subject = "Testing";
         String message = "This is for testing.";
-        String user = "longtlpse160987@fpt.edu.vn";
-        String password = "1q2w3e4r5t@@";
+        String user = "";
+        String password = "";
         MailUtils.sendMail(toMail, subject, message, user, password);
       
     }

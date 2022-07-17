@@ -35,25 +35,25 @@
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Board Manager&action=Search&search=">
+                    <a href="">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Contract</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=HR Manager&action=Search&search=">
+                    <a href="">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Payment Status</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?action=Search&type=Notification&search=">
+                    <a href="">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Notification</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Resident&action=Search&search=">
+                    <a href="">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">News</span>
                     </a>
