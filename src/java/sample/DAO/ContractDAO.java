@@ -25,7 +25,7 @@ import sample.utils.DBUtils;
 public class ContractDAO {
 
     private static final String GET_LIST_CONTRACT = "SELECT contractID, dateSign, userID, apartmentID, contractType, status FROM tblContract WHERE apartmentID LIKE ? OR userID LIKE ?";
-    private static final String ADD_CONTRACT = "EXEC addContract ?, ?, ?, ?, ?, ?, ?";
+    private static final String ADD_CONTRACT = "EXEC addContract ?, ?, ?, ?, ?, ?, ?, ?";
     private static final String GET_CONTRACT_DETAIL_WITHOUT_IMAGE = "SELECT contractID, dateSign, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status FROM tblContract WHERE contractID = ?";
     private static final String GET_CONTRACT_IMAGE = "SELECT contractImage FROM tblContract WHERE contractID = ?";
 
@@ -100,6 +100,7 @@ public class ContractDAO {
                 }
                 ptm.setFloat(6, contract.getMonthsOfDebt());
                 ptm.setString(7, contract.getUserID());
+                ptm.setFloat(8, contract.getInterestRate());
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }
         } catch (Exception e) {

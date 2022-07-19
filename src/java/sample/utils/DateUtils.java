@@ -19,7 +19,7 @@ public class DateUtils {
     public static boolean checkValidDate(Date date) {
         LocalDate localDate = LocalDate.now();
         Date nowDate = java.sql.Date.valueOf(localDate);
-        if (date.compareTo(nowDate) >= 0) {
+        if (date.compareTo(nowDate) > 0) {
             return false;
         }
         return true;

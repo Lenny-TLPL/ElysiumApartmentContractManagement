@@ -100,13 +100,12 @@ public class ApartmentTypeDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-//                ptm = conn.prepareStatement(ADD_NEW_BUILDING);
-//                ptm.setNString(1, buildingName);
-//                ptm.setInt(2, districtID);
-//                ptm.setBoolean(3, true);
-//                ptm.setInt(4, maxFloor);
-//                ptm.setInt(5, maxApartment);
-//                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+                ptm = conn.prepareStatement(ADD_NEW_APARTMENT_TYPE);
+                ptm.setNString(1, typeName);
+                ptm.setFloat(2, buyingPrice);
+                ptm.setFloat(3, leasingPrice);
+                ptm.setNString(4, description);
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }
         } catch (Exception e) {
             e.printStackTrace();

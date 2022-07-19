@@ -25,6 +25,7 @@ public class ApartmentBuildingDAO {
     private static final String CHECK_DUPLICATE="SELECT buildingID FROM tblApartmentBuilding WHERE buildingName like ? AND districtID = ?";
     private static final String ADD_NEW_BUILDING="INSERT INTO tblApartmentBuilding(buildingName, districtID, status, maxFloor, maxApartment)"
             + " VALUES(?, ?, ?, ?, ?)";
+    private static final String GET_BUILDING="SELECT buildingID, buildingName, districtName, status, maxFloor, maxApartment FROM tblApartmentBuilding b INNER JOIN tblDistrict d ON d.districtID = b.districtID WHERE buildingName LIKE ? ";
     
     public ArrayList<ApartmentBuildingDTO> getApartmentBuildingList(String search) throws SQLException {
         ArrayList<ApartmentBuildingDTO> list = new ArrayList<>();
@@ -149,5 +150,41 @@ public class ApartmentBuildingDAO {
             }
         }
         return check;
+    }
+    
+    public ApartmentBuildingDTO getApartmentBuilding(String buildingName) throws SQLException {
+        ApartmentBuildingDTO apartmentBuilding = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_BUILDING);
+                stm.setNString(1, buildingName);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    int buildingID = rs.getInt("buildingID");
+                    Boolean status = rs.getBoolean("status");
+                    String districtName = rs.getNString("districtName");
+                    int maxFloor = rs.getInt("maxFloor");
+                    int maxApartment = rs.getInt("maxApartment");
+                    apartmentBuilding = new ApartmentBuildingDTO(buildingID, buildingName, districtName, status, maxFloor, maxApartment);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return apartmentBuilding;
     }
 }

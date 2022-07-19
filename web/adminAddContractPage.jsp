@@ -77,20 +77,27 @@
                     <div class="details family">
                         <span class="title">Sub Information For Contract</span>
 
-                        <div class="fields" >
-                            <div class="input-field" id="amortization" style="display:none">
+                        <div class="fields" id="amortization" style="display:none">
+                            <div class="input-field" >
                                 <label>Month(s) Of Debt</label>
                                 <select name="monthsOfDebt" value="${param.monthsOfDebt}">
                                     <option value="60">5 years (60 months)</option>    
                                     <option value="120">10 years (120 months)</option>                                
                                 </select>
                             </div>
-
-                            <div class="input-field" id="leasing" style="display:none">
+                            <div class="input-field" >
+                                <label>Interest Rate ${requestScope.ADD_CONTRACT_ERROR.interestRate}</label>
+                                <input name="interestRate" value="${param.interestRate}" type="number" step="0.01" placeholder="Enter interest rate">
+                            </div>
+                                    
+                            <div class="input-field"></div> 
+                        </div>        
+                                  
+                        <div class="fields" id="leasing" style="display:none">            
+                            <div class="input-field">
                                 <label>Expiry Date  ${requestScope.ADD_CONTRACT_ERROR.expiryDate}</label>
                                 <input name="expiryDate" value="${param.expiryDate}" type="date" placeholder="Enter expiry date">
                             </div>
-
 
                             <div class="input-field"></div> 
                             <div class="input-field"></div>  

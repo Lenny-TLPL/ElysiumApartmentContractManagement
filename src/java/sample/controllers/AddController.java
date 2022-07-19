@@ -6,6 +6,7 @@ package sample.controllers;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import sample.DAO.ApartmentBuildingDAO;
 import sample.DAO.ApartmentDAO;
+import sample.DAO.ApartmentTypeDAO;
 import sample.DAO.ContractDAO;
 import sample.DAO.DistrictDAO;
 import sample.DAO.MonthlyFeeDAO;
@@ -25,7 +27,11 @@ import sample.DAO.RoleDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
 import sample.DAO.UserPermissionDAO;
+import sample.DTO.ApartmentBuildingDTO;
 import sample.DTO.ApartmentBuildingError;
+import sample.DTO.ApartmentDTO;
+import sample.DTO.ApartmentError;
+import sample.DTO.ApartmentTypeError;
 import sample.DTO.ContractDTO;
 import sample.DTO.ContractError;
 import sample.DTO.DistrictError;
@@ -99,6 +105,7 @@ public class AddController extends HttpServlet {
                     String[] permissions = request.getParameterValues("permissions");
                     boolean check = true;
                     String phoneRegex = "^\\d{11}$";
+                    String phoneRegex2 = "^\\d{10}$";
 
                     UserPermissionDAO userPermissionDao = new UserPermissionDAO();
                     UserDAO userDao = new UserDAO();
@@ -124,7 +131,7 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -158,6 +165,7 @@ public class AddController extends HttpServlet {
                     permissions = request.getParameterValues("permissions");
                     check = true;
                     phoneRegex = "^\\d{11}$";
+                    phoneRegex2 = "^\\d{10}$";
 
                     userPermissionDao = new UserPermissionDAO();
                     userDao = new UserDAO();
@@ -183,7 +191,7 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -217,6 +225,7 @@ public class AddController extends HttpServlet {
                     permissions = request.getParameterValues("permissions");
                     check = true;
                     phoneRegex = "^\\d{11}$";
+                    phoneRegex2 = "^\\d{10}$";
 
                     userPermissionDao = new UserPermissionDAO();
                     userDao = new UserDAO();
@@ -242,7 +251,7 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -277,10 +286,12 @@ public class AddController extends HttpServlet {
                     Part contractImageFilePart = request.getPart("contractImage");
                     String apartmentID = request.getParameter("apartmentID");
                     String contractType = request.getParameter("contractType");
+                    float interestRate = 0; 
 //                    Blob contractImage = imageFilePart.getInputStream();
                     Date expiryDate = null;
                     int monthsOfDebt = 0;
                     if (contractType.equals("amortization")) {
+                        interestRate = Float.parseFloat(request.getParameter("interestRate")) ;
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
                         expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                     } else if (contractType.equals("leasing")) {
@@ -288,6 +299,7 @@ public class AddController extends HttpServlet {
                     }
                     check = true;
                     phoneRegex = "^\\d{11}$";
+                    phoneRegex2 = "^\\d{10}$";
 
                     ContractDAO contractDao = new ContractDAO();
                     ApartmentDAO apartmentDao = new ApartmentDAO();
@@ -316,17 +328,17 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
-                    if(expiryDate!=null){
-                        if(DateUtils.compareTwoDate(dateSign, expiryDate)){
+                    if (expiryDate != null) {
+                        if (DateUtils.compareTwoDate(dateSign, expiryDate)) {
                             contractError.setDateSign("Invalid dateSign");
                             check = false;
                         }
                     }
-                    if (!DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, birthday) ) {
+                    if (!DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, birthday)) {
                         contractError.setDateSign("Invalid dateSign");
                         check = false;
                     }
@@ -341,9 +353,9 @@ public class AddController extends HttpServlet {
                         contractError.setContractImage("Invalid image");
                         check = false;
                     }
-                    if(apartmentDao.getApartment(apartmentID)==null){
+                    if (apartmentDao.getApartment(apartmentID) == null) {
                         contractError.setApartmentID("Invalid apartmentID");
-                    }else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
+                    } else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
                         contractError.setApartmentID("Apartment is not available");
                         check = false;
                     }
@@ -353,7 +365,7 @@ public class AddController extends HttpServlet {
 //                    }
                     if (check) {
                         boolean checkAdd = userDao.addUser(new UserDTO("", fullName, email, phone, address, birthday, citizenID, gender, password, null, true, roleDao.getUserRoleID(type)));
-                        boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
+                        boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, interestRate, contractType, true), contractImageFilePart);
                         if (checkAdd && checkAddContract) {
                             monthlyFeeDao.addMonthly(userDao.getUserIDByCitizenID(type, citizenID), apartmentID);
                             monthlyFeeDao.monthlyFeeCalculate(apartmentID);
@@ -389,16 +401,19 @@ public class AddController extends HttpServlet {
                     apartmentID = request.getParameter("apartmentID");
                     contractType = request.getParameter("contractType");
 //                    Blob contractImage = imageFilePart.getInputStream();
+                    interestRate = 0;
                     expiryDate = null;
                     monthsOfDebt = 0;
                     if (contractType.equals("amortization")) {
+                        interestRate = Float.parseFloat(request.getParameter("interestRate")) ;
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
-                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);                      
+                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                     } else if (contractType.equals("leasing")) {
                         expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
                     }
                     check = true;
                     phoneRegex = "^\\d{11}$";
+                    phoneRegex2 = "^\\d{10}$";
 
                     contractDao = new ContractDAO();
                     apartmentDao = new ApartmentDAO();
@@ -427,17 +442,17 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
-                    if(expiryDate!=null){
-                        if(DateUtils.compareTwoDate(dateSign, expiryDate)){
+                    if (expiryDate != null) {
+                        if (DateUtils.compareTwoDate(dateSign, expiryDate)) {
                             contractError.setDateSign("Invalid dateSign");
                             check = false;
                         }
                     }
-                    if (!DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, birthday) ) {
+                    if (!DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, birthday)) {
                         contractError.setDateSign("Invalid dateSign");
                         check = false;
                     }
@@ -452,9 +467,9 @@ public class AddController extends HttpServlet {
                         contractError.setContractImage("Invalid image");
                         check = false;
                     }
-                    if(apartmentDao.getApartment(apartmentID)==null){
+                    if (apartmentDao.getApartment(apartmentID) == null) {
                         contractError.setApartmentID("Invalid apartmentID");
-                    }else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
+                    } else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
                         contractError.setApartmentID("Apartment is not available");
                         check = false;
                     }
@@ -464,7 +479,7 @@ public class AddController extends HttpServlet {
 //                    }
                     if (check) {
                         boolean checkAdd = userDao.addUser(new UserDTO("", fullName, email, phone, address, birthday, citizenID, gender, password, null, true, roleDao.getUserRoleID(type)));
-                        boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
+                        boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userDao.getUserIDByCitizenID(type, citizenID), apartmentID, 0, expiryDate, monthsOfDebt, interestRate, contractType, true), contractImageFilePart);
                         if (checkAdd && checkAddContract) {
                             monthlyFeeDao.addMonthly(userDao.getUserIDByCitizenID(type, citizenID), apartmentID);
                             monthlyFeeDao.monthlyFeeCalculate(apartmentID);
@@ -585,7 +600,7 @@ public class AddController extends HttpServlet {
                         check = false;
                     }
                     if (check) {
-                        roleDao =new RoleDAO();
+                        roleDao = new RoleDAO();
                         permission = new PermissionDTO(0, permissionName, roleNamePriority, status);
                         boolean checkAdd = permissionDao.addPermission(permission, roleDao.getUserRoleID(roleNamePriority));
                         if (checkAdd) {
@@ -607,9 +622,11 @@ public class AddController extends HttpServlet {
                     contractType = request.getParameter("contractType");
                     expiryDate = null;
                     monthsOfDebt = 0;
+                    interestRate = 0;
                     if (contractType.equals("amortization")) {
+                        interestRate = Float.parseFloat(request.getParameter("interestRate")) ;
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
-                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);                     
+                        expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                     } else if (contractType.equals("leasing")) {
                         expiryDate = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("expiryDate"));
                     }
@@ -622,20 +639,20 @@ public class AddController extends HttpServlet {
                     roleDao = new RoleDAO();
                     contractError = new ContractError();
                     UserDTO user = userDao.getUserByIDAndStatus(userID, true);
-                    
-                    if(!userID.contains("ELY-")||user==null){
+
+                    if (!userID.contains("ELY-") || user == null) {
                         contractError.setUserID("Invalid userID");
                         check = false;
                     }
-            
-                    if(expiryDate!=null){
-                        if(DateUtils.compareTwoDate(dateSign, expiryDate)){
+
+                    if (expiryDate != null) {
+                        if (DateUtils.compareTwoDate(dateSign, expiryDate)) {
                             contractError.setDateSign("Invalid expiryDate");
                             check = false;
                         }
                     }
-                    
-                    if(user!=null&&userID.contains("ELY-")){
+
+                    if (user != null && userID.contains("ELY-")) {
                         if (!DateUtils.checkValidDate(dateSign) || !DateUtils.compareTwoDate(dateSign, user.getBirthDay())) {
                             contractError.setDateSign("Invalid dateSign");
                             check = false;
@@ -648,14 +665,14 @@ public class AddController extends HttpServlet {
                             }
                         }
                     }
-                    
+
                     if (contractImageFilePart == null) {
                         contractError.setContractImage("Invalid image");
                         check = false;
                     }
-                    if(apartmentDao.getApartment(apartmentID)==null){
+                    if (apartmentDao.getApartment(apartmentID) == null) {
                         contractError.setApartmentID("Invalid apartmentID");
-                    }else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
+                    } else if (!apartmentDao.getApartment(apartmentID).getApartmentStatus().equals("available")) {
                         contractError.setApartmentID("Apartment is not available");
                         check = false;
                     }
@@ -664,14 +681,14 @@ public class AddController extends HttpServlet {
 //                        check = false;
 //                    }
                     if (check) {
-                        boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userID, apartmentID, 0, expiryDate, monthsOfDebt, 0, contractType, true), contractImageFilePart);
-                        if ( checkAddContract) {
+                        boolean checkAddContract = contractDao.addContract(new ContractDTO(0, dateSign, null, userID, apartmentID, 0, expiryDate, monthsOfDebt, interestRate, contractType, true), contractImageFilePart);
+                        if (checkAddContract) {
                             monthlyFeeDao.addMonthly(userID, apartmentID);
                             monthlyFeeDao.monthlyFeeCalculate(apartmentID);
-                            if(contractType.equals("buying") || contractType.equals("amortization")){
+                            if (contractType.equals("buying") || contractType.equals("amortization")) {
                                 userDao.updateUserRole(roleDao.getUserRoleID("Resident"), userID);
                             }
-                            
+
                             request.setAttribute("ADD_USER_SUCCESS", "New resident has been added.");
                             request.setAttribute("ADD_CONTRACT_SUCCESS", "New contract has been added.");
                         } else {
@@ -688,55 +705,128 @@ public class AddController extends HttpServlet {
                     DistrictDAO districtDao = new DistrictDAO();
                     DistrictError districtError = new DistrictError();
                     check = true;
-                    if(districtDao.checkDuplicate(districtName)){
+                    if (districtDao.checkDuplicate(districtName)) {
                         districtError.setDistrictName("Duplicate district name.");
                         check = false;
                     }
-                    if(check){
-                        boolean checkAddDistrict=districtDao.addDistrict(districtName);
-                        if(checkAddDistrict){
+                    if (check) {
+                        boolean checkAddDistrict = districtDao.addDistrict(districtName);
+                        if (checkAddDistrict) {
                             request.setAttribute("ADD_DISTRICT_SUCCESS", "New district has been added.");
-                        }else{
+                        } else {
                             request.setAttribute("ADD_DISTRICT_ERROR", "Fail to add new district.");
                         }
-                    }else{
+                    } else {
                         districtError.setErrorMessage("Fail to add new district.");
                         request.setAttribute("ADD_DISTRICT_ERROR", districtError);
                     }
                     break;
                 case APARTMENT_BUILDING:
                     String buildingName = request.getParameter("buildingName");
-                    int maxFloor = Integer.parseInt(request.getParameter("maxFloor")) ;
-                    int maxApartment = Integer.parseInt(request.getParameter("maxApartment")) ;
+                    int maxFloor = Integer.parseInt(request.getParameter("maxFloor"));
+                    int maxApartment = Integer.parseInt(request.getParameter("maxApartment"));
                     int districtID = Integer.parseInt(request.getParameter("districtID"));
                     check = true;
-                    
+
                     ApartmentBuildingDAO apBuildingDao = new ApartmentBuildingDAO();
                     ApartmentBuildingError apBuildingError = new ApartmentBuildingError();
-                    
-                    if(apBuildingDao.checkDuplicate(buildingName, districtID)){
+
+                    if (apBuildingDao.checkDuplicate(buildingName, districtID)) {
                         apBuildingError.setBuildingName("Duplicate building name");
                         check = false;
                     }
-                    if(check){
+                    if (check) {
                         boolean checkAdd = apBuildingDao.addApartmentBuilding(buildingName, districtID, maxFloor, maxApartment);
-                        if(checkAdd){
+                        if (checkAdd) {
                             request.setAttribute("ADD_BUILDING_SUCCESS", "New building has been added.");
-                        }else{
+                        } else {
                             request.setAttribute("ADD_BUILDING_ERROR", "Fail to add new building.");
                         }
-                    }else{
+                    } else {
                         apBuildingError.setErrorMessage("Fail to add new building.");
                         request.setAttribute("ADD_BUILDING_ERROR", apBuildingError);
-                    }                   
+                    }
                     break;
                 case APARTMENT_TYPE:
                     String typeName = request.getParameter("typeName");
                     float buyingPrice = Float.parseFloat(request.getParameter("buyingPrice"));
                     float leasingPrice = Float.parseFloat(request.getParameter("leasingPrice"));
                     description = request.getParameter("description");
+
+                    ApartmentTypeDAO typeDao = new ApartmentTypeDAO();
+                    ApartmentTypeError typeError = new ApartmentTypeError();
+                    check = true;
+
+                    if (typeDao.checkDuplicate(typeName)) {
+                        typeError.setTypeName("Duplicate type name");
+                        check = false;
+                    }
+                    if (buyingPrice == 0) {
+                        typeError.setBuyingPrice("Buying price must be >0");
+                        check = false;
+                    }
+                    if (leasingPrice == 0) {
+                        typeError.setLeasingPrice("Leasing price must be >0");
+                        check = false;
+                    }
+                    if (check) {
+                        boolean checkAdd = typeDao.addApartmentType(typeName, buyingPrice, leasingPrice, description);
+                        if (checkAdd) {
+                            request.setAttribute("ADD_TYPE_SUCCESS", "New type has been added.");
+                        } else {
+                            request.setAttribute("ADD_TYPE_ERROR", "Fail to add new type.");
+                        }
+                    } else {
+                        typeError.setErrorMessage("Fail to add new type .");
+                        request.setAttribute("ADD_TYPE_ERROR", typeError);
+                    }
+                    break;
+                case APARTMENT:
+                    typeName = request.getParameter("typeName");
+                    float area = Float.parseFloat(request.getParameter("area"));
+                    buildingName = request.getParameter("buildingName");
+                    int floor = Integer.parseInt(request.getParameter("floor"));
+                    String apartmentStatus = request.getParameter("apartmentStatus");
+                    check = true;
+
+                    apBuildingDao = new ApartmentBuildingDAO();
+                    apartmentDao = new ApartmentDAO();
+                    ApartmentError apError = new ApartmentError();
+
+                    ApartmentBuildingDTO apBuilding = apBuildingDao.getApartmentBuilding(buildingName);
+
+                    if (!apBuilding.isStatus()) {
+                        apError.setBuildingName("This building is full.");
+                        check = false;
+                    }
+
+                    if (floor > apBuilding.getMaxFloor()) {
+                        apError.setFloor("Invalid floor");
+                        check = false;
+                    }
                     
-                    
+                    if((int)floor != floor){
+                        apError.setFloor("Floor is integer");
+                        check = false;
+                    }
+
+                    if (check) {
+                        boolean checkAdd = apartmentDao.addApartment(apartmentStatus, typeName, floor, buildingName, area);
+                        if (checkAdd) {
+                            ArrayList<ApartmentDTO> apList = apartmentDao.getApartmentListInABuilding(apBuilding.getBuildingID());
+                            if(apList.size()==apBuilding.getMaxApartment()){
+                                apBuildingDao.updateApartmentBuildingStatus(apBuilding.getBuildingID(), !apBuilding.isStatus());
+                            }
+                            request.setAttribute("ADD_APARTMENT_SUCCESS", "New apartment has been added.");
+                        } else {
+                            apError.setErrorMessage("Fail to add new apartment.");
+                            request.setAttribute("ADD_APARTMENT_ERROR", apError);
+                        }
+                    } else {
+                        apError.setErrorMessage("Fail to add new apartment .");
+                        request.setAttribute("ADD_APARTMENT_ERROR", apError);
+                    }
+
                     break;
                 default:
                     break;

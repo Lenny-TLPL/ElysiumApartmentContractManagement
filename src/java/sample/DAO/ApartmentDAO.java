@@ -30,6 +30,12 @@ public class ApartmentDAO {
             + "	WHERE apartmentID LIKE ? OR userID LIKE ? OR apartmentStatus LIKE ? OR typeName LIKE ? OR buildingName LIKE ? \n";
 //    private static final String GET_APARTMENT_STATUS="SELECT apartmentStatus FROM tblApartment WHERE apartmentID LIKE ? ";
     private static final String UPDATE_APARTMENT_STATUS="UPDATE tblApartment SET apartmentStatus = ? WHERE apartmentID COLLATE SQL_Latin1_General_CP1_CS_AS = ? "; 
+    private static final String ADD_APARTMENT="EXEC addApartment ?, ?, ?, ?, ?";
+    private static final String GET_LIST_APARTMENT_IN_A_BUILDING = "SELECT apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID FROM tblApartment a \n"
+            + "	INNER JOIN tblApartmentBuilding b ON a.buildingID=b.buildingID \n"
+            + "	INNER JOIN tblApartmentType t ON t.typeID = a.typeID\n"
+            + "	WHERE a.buildingID = ? \n";
+    
     
     public ApartmentDTO getApartment(String apartmentID) throws SQLException {
         ApartmentDTO apartment = null;
@@ -167,4 +173,71 @@ public class ApartmentDAO {
         return check;
     }
     
+    public boolean addApartment(String apartmentStatus , String typeName, int floor, String buildingName, float area) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(ADD_APARTMENT);
+                ptm.setString(1, apartmentStatus);
+                ptm.setNString(2, typeName);
+                ptm.setInt(3, floor);
+                ptm.setNString(4, buildingName);
+                ptm.setFloat(5, area);
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public ArrayList<ApartmentDTO> getApartmentListInABuilding(int buildingID) throws SQLException {
+        ArrayList<ApartmentDTO> list = new ArrayList<>();
+        ApartmentDTO apartment = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_APARTMENT_IN_A_BUILDING);
+                stm.setInt(1, buildingID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String apartmentID = rs.getString("apartmentID");
+                    String apartmentStatus = rs.getString("apartmentStatus");
+                    String typeName = rs.getNString("typeName");
+                    int floor = rs.getInt("floor");
+                    String userID = rs.getString("userID");
+                    String buildingName = rs.getNString("buildingName");
+                    float area = rs.getFloat("area");
+                    apartment = new ApartmentDTO(apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID);
+                    list.add(apartment);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
 }
