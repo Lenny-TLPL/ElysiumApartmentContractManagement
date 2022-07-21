@@ -153,7 +153,7 @@
 
                             <div class="input-field">
                                 <label>Date Sign  ${requestScope.UPDATE_CONTRACT_ERROR.dateSign}</label>
-                                <input name="dateSign" value="${param.dateSign}" type="date" placeholder="Enter DateSign" required>
+                                <input name="dateSign" value="${param.dateSign}" type="date" placeholder="Enter DateSign" required readonly="">
                             </div>
 
                             <%if (((ContractDTO) request.getAttribute("CONTRACT_DETAIL")).isStatus()) {%>
@@ -173,12 +173,12 @@
                                 </select>
                             </div>
                             <%}%>
-                            <%if(((ContractDTO) request.getAttribute("CONTRACT_DETAIL")).getContractType().equals("buying")){%>
+                            <%if (("buying amortization").contains(((ContractDTO) request.getAttribute("CONTRACT_DETAIL")).getContractType())) {%>
                             <div class="input-field">
-                                <label>Value   ${requestScope.UPDATE_CONTRACT_ERROR.value}</label>
+                                <label>Value ($)  ${requestScope.UPDATE_CONTRACT_ERROR.value}</label>
                                 <input name="value" value="${requestScope.CONTRACT_DETAIL.value}"($/month)  type="number" placeholder="Enter value" required readonly="">
                             </div>
-                            <%}else{%>
+                            <%} else {%>
                             <div class="input-field">
                                 <label>Value($/month)   ${requestScope.UPDATE_CONTRACT_ERROR.value}</label>
                                 <input name="value" value="${requestScope.CONTRACT_DETAIL.value}"($/month)  type="number" placeholder="Enter value" required readonly="">
@@ -196,18 +196,23 @@
                             <div class="input-field" id="amortization" >
                                 <label>Month(s) Of Debt</label>
                                 <select name="monthsOfDebt" value="${requestScope.CONTRACT_DETAIL.monthsOfDebt}">
+                                    <%if (((ContractDTO) request.getAttribute("CONTRACT_DETAIL")).getMonthsOfDebt() == 120) {%>           
+                                    <option value="120">10 years (120 months)</option> 
                                     <option value="60">5 years (60 months)</option>    
-                                    <option value="120">10 years (120 months)</option>                                
+                                    <%} else {%>
+                                    <option value="60">5 years (60 months)</option>    
+                                    <option value="120">10 years (120 months)</option>   
+                                    <%}%>
                                 </select>
                             </div>
 
                             <div class="input-field" id="leasing" >
                                 <label>Expiry Date  ${requestScope.UPDATE_CONTRACT_ERROR.expiryDate}</label>
-                                <input name="expiryDate" value="${requestScope.CONTRACT_DETAIL.expiryDate}" type="date" placeholder="Enter expiry date">
+                                <input name="expiryDate" value="${requestScope.CONTRACT_DETAIL.expiryDate}" readonly="" type="date" placeholder="Enter expiry date">
                             </div>   
 
                             <div class="input-field" id="leasing" >
-                                <label>Interest Rate/Month ${requestScope.UPDATE_CONTRACT_ERROR.interestRate}</label>
+                                <label>Interest Rate (%) ${requestScope.UPDATE_CONTRACT_ERROR.interestRate}</label>
                                 <input name="interestRate" value="${requestScope.CONTRACT_DETAIL.interestRate}" type="number" placeholder="Enter interestRate">
                             </div>
                             <%  } else if (((ContractDTO) request.getAttribute("CONTRACT_DETAIL")).getContractType().equals("leasing")) {%>
@@ -219,15 +224,16 @@
                             <div class="input-field"></div>
                             <div class="input-field"></div>
                             <%} else {
-                                    }%>
+                                }%>
                             <div class="input-field">
                                 <img id="myImg" style="width:264px; height: 148px" src="data:image/jpg;base64,${requestScope.CONTRACT_IMAGE}" alt="Contract Image" style="width:100%;max-width:300px">
 <!--                                <img src="data:image/jpg;base64,${requestScope.CONTRACT_IMAGE}" width="240" height="300"/>-->
                                 <label>Contract Image  ${requestScope.ADD_CONTRACT_ERROR.contractImage}</label>
-                                <input name="contractImage" id="contractImage" type="file" placeholder="Upload contract image" required accept="image/*">
+                                <input name="contractImage" id="contractImage" type="file" placeholder="Upload contract image"  accept="image/*">
                             </div>
 
-
+                                <input type="hidden" name="type" value="Contract"/>
+                                <input type="hidden" name="redirect" value="adminAddContractPage.jsp"/>
 
 
                         </div>

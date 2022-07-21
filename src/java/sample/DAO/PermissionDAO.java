@@ -17,13 +17,14 @@ import sample.utils.DBUtils;
  * @author Phi Long
  */
 public class PermissionDAO {
-    private static final String GET_LIST_PERMISSION = "	SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ? OR r.roleName LIKE ?";
+    private static final String GET_LIST_PERMISSION = "SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ? OR r.roleName LIKE ?";
     private static final String GET_LIST_PERMISSION_WITH_PRIORITY = "SELECT * FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE r.roleName LIKE ?";
     private static final String GET_LIST_PERMISSIONID_WITH_PRIORITY = "SELECT permissionID FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE r.roleName LIKE ?";
     private static final String GET_PERMISSION_BY_NAME="SELECT permissionID, permissionName, status, rolePriority, roleName FROM tblPermission p INNER JOIN tblRole r ON r.roleID = p.rolePriority WHERE permissionName LIKE ?";
     private static final String ADD_NEW_PERMISSION="INSERT INTO tblPermission (permissionName, status, rolePriority) VALUES (?, ?, ?) ";
     private static final String UPDATE_PERMISSION_STATUS="UPDATE tblPermission SET status = ? WHERE permissionID = ?";
     private static final String UPDATE_PERMISSION="UPDATE tblPermission SET permissionName = ?, rolePriority = ? WHERE permissionID = ?";
+    private static final String GET_LIST_AVAILABLE_PERMISSION = "SELECT permissionID FROM tblPermission p WHERE status = 1";
     
     public ArrayList<PermissionDTO> getListPermission(String search) throws SQLException {
         ArrayList<PermissionDTO> list = new ArrayList<>();
@@ -243,5 +244,36 @@ public class PermissionDAO {
             }
         }
         return check;
+    }
+    
+    public ArrayList<Integer> getListAvailablePermission() throws SQLException {
+        ArrayList<Integer> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_AVAILABLE_PERMISSION);
+                rs = stm.executeQuery();
+                while (rs.next()) { 
+                    int permissionID = rs.getInt("permissionID") ;
+                    list.add(permissionID);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 }

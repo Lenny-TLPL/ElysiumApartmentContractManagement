@@ -40,31 +40,31 @@
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Board Manager&action=Search&search=">
+                    <a href="adminBoardManagerPage.jsp" >
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Board Manager</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=HR Manager&action=Search&search=">
+                    <a href="adminHRManagerPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">HR Manager</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Employee&action=Search&search=">
+                    <a href="adminEmployeePage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Employee</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Resident&action=Search&search=">
+                    <a href="adminResidentPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Resident</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Customer&action=Search&search=">
+                    <a href="adminCustomerPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Customer</span>
                     </a>
@@ -122,8 +122,8 @@
         <section class="home-section">
             <nav>
                 <div class="sidebar-button">
-                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Dashboard</span>
+<!--                    <i class='bx bx-menu sidebarBtn'></i>
+                    <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
@@ -186,6 +186,8 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>DistrictName</th>
+                                    <th>Max Floor</th>
+                                    <th>Max Apartment</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
@@ -200,6 +202,8 @@
                                     <td> <input style="width:100%" type="text" name="buildingID" value="<%=buildingList.get(i).getBuildingID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="buildingName" value="<%=buildingList.get(i).getBuildingName()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="districtName" value="<%=buildingList.get(i).getDistrictName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="maxFloor" value="<%=buildingList.get(i).getMaxFloor()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="maxApartment" value="<%=buildingList.get(i).getMaxApartment()%>" readonly="readonly"/></td>
                                 <input type="hidden" name="status" value="<%=buildingList.get(i).isStatus()%>" readonly="readonly"/>
                                 <input type="hidden" name="type" value="Apartment Building" readonly="readonly"/>
                                 <%if (buildingList.get(i).isStatus()==true) {%>
@@ -275,6 +279,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Type</th>
+                                    <th>Area</th>
                                     <th>Floor</th>
                                     <th>Building</th>
                                     <th>UserID</th>
@@ -292,6 +297,7 @@
                                 <tr>
                                     <td> <input style="width:100%" type="text" name="apartmentID" value="<%=apartmentList.get(i).getApartmentID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="apartmentType" value="<%=apartmentList.get(i).getTypeName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="area" value="<%=apartmentList.get(i).getArea()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="number" name="floor" value="<%=apartmentList.get(i).getFloor()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="buildingName" value="<%=apartmentList.get(i).getBuildingName()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=apartmentList.get(i).getUserID()%>" readonly="readonly"/></td>

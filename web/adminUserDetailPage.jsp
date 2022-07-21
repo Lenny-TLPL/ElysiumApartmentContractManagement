@@ -152,7 +152,7 @@
                             <button class="sumbit" type="reset">
                                 <span class="btnText">Reset</span>
                             </button>     
-                            <button class="submit" type="submit">
+                            <button class="submit" type="submit" name="action" value="Update">
                                 <span class="btnText">Update</span>
                                 <i class="uil uil-navigator"></i>
                             </button>
@@ -207,7 +207,7 @@
                             <button class="submit" type="submit" name="action" value="Update">
                                 <span class="btnText">Update</span>
                                 <i class="uil uil-navigator"></i>
-                            </button> 
+                            </button>
                         </div>                      
                     </div> 
                 </div>

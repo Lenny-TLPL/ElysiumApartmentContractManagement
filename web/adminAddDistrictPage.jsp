@@ -37,30 +37,24 @@
             <form action="MainController" method="POST" enctype="multipart/form-data">
                 <div class="form first">
                     <div class="details personal">
-                        <span class="title">Service Details</span>
+                        <span class="title">District Details</span>
 
                         <div class="fields">
-                            <div class="input-field">
-                                <label>Service Name ${requestScope.ADD_SERVICE_ERROR.serviceName}</label>
-                                <input name="serviceName" type="text" class="form-control" placeholder="Enter service name" required="" value="${param.serviceName}" minlength="4" maxlength="60">     
+                            <div class="input-field" style="width:100%">
+                                <label>District Name ${requestScope.ADD_DISTRICT_ERROR.districtName}</label>
+                                <input name="districtName" type="text" class="form-control" placeholder="Enter district name" required="" value="${param.districtName}" minlength="4" maxlength="60">     
                             </div>
 
                             <div class="input-field">
-                                <label>Price  ${requestScope.ADD_SERVICE_ERROR.price}</label>
-                                <input type="number" name ="price" class="form-control" placeholder="Enter service price" required value="${param.price}" step="0.01">
+                                
                             </div>
                             
                             <div class="input-field">
-                                <label>Status  ${requestScope.ADD_SERVICE_ERROR.status}</label>
-                                <select required="" name="status" value="${param.status}">
-                                    <option value="true" >Enable</option>
-                                    <option value="false" >Disable</option>
-                                </select>
+                                
                             </div>
 
                             <div class="input-field">
-                                <label>Description  ${requestScope.ADD_SERVICE_ERROR.description}</label>
-                                <textarea style="width: 838px;height: 160px;" class="form-control" name="description" rows="6" cols="80" maxlength="1400">${param.description}</textarea>
+                               
                             </div>
                         </div>
                     </div>
@@ -68,8 +62,8 @@
                     <div class="details ID">
                        
                         <input type="hidden" name="type" value="${param.type}"/>
-                        ${requestScope.ADD_SERVICE_ERROR.errorMessage}
-                        ${requestScope.ADD_SERVICE_SUCCESS} 
+                        ${requestScope.ADD_DISTRICT_ERROR.errorMessage}
+                        ${requestScope.ADD_DISTRICT_SUCCESS} 
                         <div class="buttons">
                             <button class="sumbit" type="reset">
                                 <span class="btnText">Reset</span>
@@ -84,7 +78,7 @@
             </form>
             <button class="backButton">
                 <i class="uil uil-arrow-left"></i>
-                <span class="btnText"><a href="adminServicePage.jsp">Back to ${param.type} page</a></span>               
+                <span class="btnText"><a href="adminApartmentPage.jsp">Back to apartment page</a></span>               
             </button> 
         </div>
         <%}%>

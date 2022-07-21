@@ -4,11 +4,15 @@
     Author     : HPMT233
 --%> -->
 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!-- Designined by CodingLab | www.youtube.com/codinglabyt -->
-<html lang="en" dir="ltr">
+<!--=== Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
+<!--        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
         <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
@@ -35,25 +39,25 @@
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Board Manager&action=Search&search=">
+                    <a href="">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Contract</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=HR Manager&action=Search&search=">
+                    <a href="">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Payment Status</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?action=Search&type=Notification&search=">
+                    <a href="">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Notification</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Resident&action=Search&search=">
+                    <a href="">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">News</span>
                     </a>

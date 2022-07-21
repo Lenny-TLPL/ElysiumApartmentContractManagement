@@ -37,31 +37,31 @@
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Board Manager&action=Search&search=">
+                    <a href="adminBoardManagerPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Board Manager</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=HR Manager&action=Search&search=">
+                    <a href="adminHRManagerPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">HR Manager</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Employee&action=Search&search=">
+                    <a href="adminEmployeePage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Employee</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Resident&action=Search&search=">
+                    <a href="adminResidentPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Resident</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Customer&action=Search&search=">
+                    <a href="adminCustomerPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Customer</span>
                     </a>
@@ -119,8 +119,8 @@
         <section class="home-section">
             <nav>
                 <div class="sidebar-button">
-                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Dashboard</span>
+<!--                    <i class='bx bx-menu sidebarBtn'></i>
+                    <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
@@ -142,9 +142,9 @@
 
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title" style="float:left">SERVICE</div>
+                        <div class="title" style="float:left">MONTHLY FEE</div>
                         <a href="adminAddServicePage.jsp?type=Service"style="float:right" >
-                            <i class="bx  bx-plus-circle" >ADD</i>
+<!--                            <i class="bx  bx-plus-circle" >ADD</i>-->
                         </a>
                         <div class="title"></div>
                         <table border="1" id="table">
@@ -158,6 +158,8 @@
                                     <th>ContractFee</th>
                                     <th>ServiceFee</th>
                                     <th>Status</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,10 +172,10 @@
                                     <td> <input style="width:100%" type="text" name="monthlyFeeID" value="<%=monthlyFeeList.get(i).getMonthlyFeeID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=monthlyFeeList.get(i).getUserID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="apartmentID" value="<%=monthlyFeeList.get(i).getApartmentID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="waterFee" value="<%=monthlyFeeList.get(i).getWaterFee()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="electricityFee" value="<%=monthlyFeeList.get(i).getElectricityFee()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="contractFee" value="<%=monthlyFeeList.get(i).getContractFee()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="serviceFee" value="<%=monthlyFeeList.get(i).getServiceFee()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="waterFee" value="<%=monthlyFeeList.get(i).getWaterFee()%>" step="0.01" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="electricityFee" value="<%=monthlyFeeList.get(i).getElectricityFee()%>" step="0.01" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="contractFee" value="<%=monthlyFeeList.get(i).getContractFee()%>" step="0.01" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="serviceFee" value="<%=monthlyFeeList.get(i).getServiceFee()%>" step="0.01" readonly="readonly"/></td>
                                 <!--<input type="hidden" name="status" value="<%=monthlyFeeList.get(i).isStatus()%>" readonly="readonly"/>-->
                                 <input type="hidden" name="redirect" value="adminMonthlyFeeDetailPage.jsp" readonly="readonly"/>
                                 <input type="hidden" name="type" value="MonthlyFee" readonly="readonly"/>
@@ -184,11 +186,11 @@
                                     <%}%>
                                 <!--<td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td>--> 
                                     <%if (monthlyFeeList.get(i).isStatus()) {%>
-                                <!--<td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>-->
+                                <td style="width:6%"> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
                                     <%} else {%>
-                                <!--<td> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>-->
+                                <td style="width:6%"> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
                                     <%}%>
-
+                                <td style="width:4%"> <input style="width:100%" type="submit" name="action" value="Pay" readonly="readonly"/></td> 
                                 </tr>  
                             </form>
                             <%}

@@ -1,35 +1,36 @@
-package sample.DTO;
-
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package sample.DTO;
 
 /**
  *
- * @author Quang
+ * @author Phi Long
  */
-public class ApartmentDTO {
+public class ApartmentError {
+
     private String apartmentID;
-    private float area;
+    private String area;
     private String apartmentStatus;
     private String typeName;
-    private int floor;
+    private String floor;
     private String buildingName;
     private String userID;
-    
-    public ApartmentDTO(){
+    private String errorMessage;
+
+    public ApartmentError() {
         this.apartmentID = "";
-        this.area = 0;
+        this.area = "";
         this.apartmentStatus = "";
         this.typeName = "";
-        this.floor = 0;
+        this.floor = "";
         this.buildingName = "";
         this.userID = "";
+        this.errorMessage = "";
     }
 
-    public ApartmentDTO(String apartmentID, float area, String apartmentStatus, String typeName, int floor, String buildingName, String userID) {
+    public ApartmentError(String apartmentID, String area, String apartmentStatus, String typeName, String floor, String buildingName, String userID, String errorMessage) {
         this.apartmentID = apartmentID;
         this.area = area;
         this.apartmentStatus = apartmentStatus;
@@ -37,6 +38,7 @@ public class ApartmentDTO {
         this.floor = floor;
         this.buildingName = buildingName;
         this.userID = userID;
+        this.errorMessage = errorMessage;
     }
 
     public String getApartmentID() {
@@ -47,11 +49,11 @@ public class ApartmentDTO {
         this.apartmentID = apartmentID;
     }
 
-    public float getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(float area) {
+    public void setArea(String area) {
         this.area = area;
     }
 
@@ -71,11 +73,11 @@ public class ApartmentDTO {
         this.typeName = typeName;
     }
 
-    public int getFloor() {
+    public String getFloor() {
         return floor;
     }
 
-    public void setFloor(int floor) {
+    public void setFloor(String floor) {
         this.floor = floor;
     }
 
@@ -93,5 +95,14 @@ public class ApartmentDTO {
 
     public void setUserID(String userID) {
         this.userID = userID;
-    }              
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
 }

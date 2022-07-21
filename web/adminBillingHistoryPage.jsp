@@ -37,31 +37,31 @@
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Board Manager&action=Search&search=">
+                    <a href="adminBoardManagerPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Board Manager</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=HR Manager&action=Search&search=">
+                    <a href="adminHRManagerPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">HR Manager</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Employee&action=Search&search=">
+                    <a href="adminEmployeePage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Employee</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Resident&action=Search&search=">
+                    <a href="adminResidentPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Resident</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Customer&action=Search&search=">
+                    <a href="adminCustomerPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Customer</span>
                     </a>
@@ -119,8 +119,8 @@
         <section class="home-section">
             <nav>
                 <div class="sidebar-button">
-                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Dashboard</span>
+<!--                    <i class='bx bx-menu sidebarBtn'></i>
+                    <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
@@ -169,7 +169,7 @@
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=BillingList.get(i).getUserID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="apartmentID" value="<%=BillingList.get(i).getApartmentID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="date" name="payDate" value="<%=BillingList.get(i).getPayDate()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="value" value="<%=BillingList.get(i).getValue()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="value" value="<%=BillingList.get(i).getValue()%>" readonly="readonly" step="0.01"/></td>
                                     <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
                                 </tr>  
                             </form>

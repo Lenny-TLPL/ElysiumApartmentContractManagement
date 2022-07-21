@@ -15,19 +15,25 @@ public class ApartmentBuildingDTO {
     private String buildingName;
     private String districtName;
     private boolean status;
+    private int maxFloor;
+    private int maxApartment;
     
     public ApartmentBuildingDTO(){
         this.buildingID = 0;
         this.buildingName = "";
         this.districtName = "";
         this.status = false;
+        this.maxApartment = 0;
+        this.maxFloor = 0;
     }
 
-    public ApartmentBuildingDTO(int buildingID, String buildingName, String districtName, boolean status) {
+    public ApartmentBuildingDTO(int buildingID, String buildingName, String districtName, boolean status, int maxFloor, int maxApartment) {
         this.buildingID = buildingID;
         this.buildingName = buildingName;
         this.districtName = districtName;
         this.status = status;
+        this.maxFloor = maxFloor;
+        this.maxApartment = maxApartment;
     }
 
     public int getBuildingID() {
@@ -61,4 +67,21 @@ public class ApartmentBuildingDTO {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    public int getMaxFloor() {
+        return maxFloor;
+    }
+
+    public void setMaxFloor(int maxFloor) {
+        this.maxFloor = maxFloor;
+    }
+
+    public int getMaxApartment() {
+        return maxApartment;
+    }
+
+    public void setMaxApartment(int maxApartment) {
+        this.maxApartment = maxApartment;
+    }
+    
 }
