@@ -22,7 +22,8 @@ public class MonthlyFeeDAO {
     private static final String ADD_MONTHLY_FEE = "INSERT INTO tblMonthlyFee(userID, apartmentID, status) VALUES (?, ?, 1)";
     private static final String GET_MONTHLY_FEE_DETAIL_WITH_USERID_APARTMENTID = "SELECT * FROM tblMonthlyFee WHERE userID LIKE ?   OR apartmentID LIKE ?";
     private static final String MONTHLY_FEE_CALCULATE = "EXEC monthlyFeeCalculate ?";
-
+    private static final String GET_LIST_USER_MAIL_FOR_MONTHLY_MAILING="SELECT u.email FROM tblUser u INNER JOIN tblMonthlyFee m ON u.userID = m.userID WHERE m.status = 1 ";                    
+    
     public boolean addMonthly(String userID, String apartmentID) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -150,5 +151,36 @@ public class MonthlyFeeDAO {
             }
         }
         return check;
+    }
+    
+    public ArrayList<String> getUserMailForMonthlyMailing() throws SQLException {
+        ArrayList<String> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_USER_MAIL_FOR_MONTHLY_MAILING);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String email = rs.getNString("email");
+                    list.add(email);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 }

@@ -57,7 +57,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("LOGIN_USER", loginUser);
                 String roleName = roleDao.getUserRole(loginUser.getRoleID());
-                ArrayList<String> permission = userDao.getListLoginUserPermission(userID);
+                ArrayList<Integer> permission = userDao.getListLoginUserPermissionID(userID);
                 session.setAttribute("LOGIN_USER_ROLE", roleName);
                 session.setAttribute("LOGIN_USER_PERMISSION", permission);
                 if (CUS.equals(roleName) || RES.equals(roleName)) {
@@ -68,11 +68,13 @@ public class LoginController extends HttpServlet {
                     request.setAttribute("LOGIN_ERROR", "Role not supported");
                 }
             } else {
-                if (userDao.getUserByID(userID)!=null) {
-                    if(!userDao.getUserByID(userID).isStatus()){
-                      request.setAttribute("LOGIN_ERROR", "Your account has been blocked!");  
-                    }               
-                }else{
+                if (userDao.getUserByID(userID) != null) {
+                    if (!userDao.getUserByID(userID).isStatus()) {
+                        request.setAttribute("LOGIN_ERROR", "Your account has been blocked!");
+                    } else {
+                        request.setAttribute("LOGIN_ERROR", "Incorrect userID or password!");
+                    }
+                } else {
                     request.setAttribute("LOGIN_ERROR", "Incorrect userID or password!");
                 }
             }

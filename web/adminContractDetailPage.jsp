@@ -153,7 +153,7 @@
 
                             <div class="input-field">
                                 <label>Date Sign  ${requestScope.UPDATE_CONTRACT_ERROR.dateSign}</label>
-                                <input name="dateSign" value="${param.dateSign}" type="date" placeholder="Enter DateSign" required>
+                                <input name="dateSign" value="${param.dateSign}" type="date" placeholder="Enter DateSign" required readonly="">
                             </div>
 
                             <%if (((ContractDTO) request.getAttribute("CONTRACT_DETAIL")).isStatus()) {%>
@@ -208,7 +208,7 @@
 
                             <div class="input-field" id="leasing" >
                                 <label>Expiry Date  ${requestScope.UPDATE_CONTRACT_ERROR.expiryDate}</label>
-                                <input name="expiryDate" value="${requestScope.CONTRACT_DETAIL.expiryDate}" type="date" placeholder="Enter expiry date">
+                                <input name="expiryDate" value="${requestScope.CONTRACT_DETAIL.expiryDate}" readonly="" type="date" placeholder="Enter expiry date">
                             </div>   
 
                             <div class="input-field" id="leasing" >
@@ -229,10 +229,11 @@
                                 <img id="myImg" style="width:264px; height: 148px" src="data:image/jpg;base64,${requestScope.CONTRACT_IMAGE}" alt="Contract Image" style="width:100%;max-width:300px">
 <!--                                <img src="data:image/jpg;base64,${requestScope.CONTRACT_IMAGE}" width="240" height="300"/>-->
                                 <label>Contract Image  ${requestScope.ADD_CONTRACT_ERROR.contractImage}</label>
-                                <input name="contractImage" id="contractImage" type="file" placeholder="Upload contract image" required accept="image/*">
+                                <input name="contractImage" id="contractImage" type="file" placeholder="Upload contract image"  accept="image/*">
                             </div>
 
-
+                                <input type="hidden" name="type" value="Contract"/>
+                                <input type="hidden" name="redirect" value="adminAddContractPage.jsp"/>
 
 
                         </div>

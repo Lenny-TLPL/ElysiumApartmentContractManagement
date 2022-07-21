@@ -14,6 +14,7 @@ import sample.DAO.ApartmentBuildingDAO;
 import sample.DAO.ApartmentTypeDAO;
 import sample.DAO.DistrictDAO;
 import sample.DAO.PermissionDAO;
+import sample.DAO.ReportDAO;
 import sample.DAO.RoleDAO;
 import sample.DTO.ApartmentBuildingDTO;
 import sample.DTO.ApartmentTypeDTO;
@@ -37,7 +38,7 @@ public class GetMaterialController extends HttpServlet {
     private static final String APARTMENT_TYPE = "Apartment Type";
     private static final String APARTMENT = "Apartment";
     private static final String APARTMENT_BUILDING = "Apartment Building";
-    private static final String DISTRICT = "District";
+    private static final String VIEW_REPORT = "View Report";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -98,6 +99,37 @@ public class GetMaterialController extends HttpServlet {
                     DistrictDAO districtDao = new DistrictDAO();
                     ArrayList<DistrictDTO> districtList = districtDao.getDistrictList(search);
                     request.setAttribute("DISTRICT_LIST", districtList);
+                    url = SUCCESS;
+                    break;
+                case VIEW_REPORT:
+                    ReportDAO reportDao = new ReportDAO();
+                    ArrayList<Integer> dataValue = new ArrayList<>();
+                    int maxValueYColumn = ((reportDao.getUserQuantity()/10)+1)*10;
+                    dataValue.add(maxValueYColumn);
+//                    dataValue.add(reportDao.getUserQuantity());
+                    dataValue.add(reportDao.getBoardManagerQuantity());
+                    dataValue.add(reportDao.getHRManagerQuantity());
+                    dataValue.add(reportDao.getEmployeeQuantity());
+                    dataValue.add(reportDao.getResidentQuantity());
+                    dataValue.add(reportDao.getCustomerQuantity());
+                    dataValue.add(reportDao.getTotalApartment());
+                    dataValue.add(reportDao.getTotalAvailableApartment());
+                    dataValue.add(reportDao.getTotalRentedApartment());
+                    dataValue.add(reportDao.getTotalMaintenanceApartment());
+                    dataValue.add(((reportDao.getTotalContractSignedThisYear()/10)+1)*10);
+                    dataValue.add(reportDao.getTotalContractSignedThisYear1());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear2());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear3());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear4());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear5());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear6());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear7());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear8());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear9());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear10());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear11());
+                    dataValue.add(reportDao.getTotalContractSignedThisYear12());
+                    request.setAttribute("DATA_VALUE", dataValue);
                     url = SUCCESS;
                     break;
             }

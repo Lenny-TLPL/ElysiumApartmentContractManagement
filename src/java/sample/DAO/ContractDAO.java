@@ -28,6 +28,8 @@ public class ContractDAO {
     private static final String ADD_CONTRACT = "EXEC addContract ?, ?, ?, ?, ?, ?, ?, ?";
     private static final String GET_CONTRACT_DETAIL_WITHOUT_IMAGE = "SELECT contractID, dateSign, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status FROM tblContract WHERE contractID = ?";
     private static final String GET_CONTRACT_IMAGE = "SELECT contractImage FROM tblContract WHERE contractID = ?";
+    private static final String GET_LIST_DUE_CONTRACT = "SELECT userID,contractID, apartmentID FROM tblContract WHERE expiryDate = GETDATE() ";
+    private static final String MANAGE_DUE_CONTRACT = "EXEC checkValidContract ?, ?, ?";
 
     public ArrayList<ContractDTO> getListContract(String search) throws SQLException {
         ArrayList<ContractDTO> list = new ArrayList<>();
@@ -225,5 +227,67 @@ public class ContractDAO {
             }
         }
         return base64Image;
+    }
+
+    public ArrayList<ContractDTO> getListDueContract() throws SQLException {
+        ArrayList<ContractDTO> list = new ArrayList<>();
+        ContractDTO contract = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_DUE_CONTRACT);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int contractID = rs.getInt("contractID");
+                    String userID = rs.getString("userID");
+                    String apartmentID = rs.getString("apartmentID");
+                    contract = new ContractDTO(contractID, null, null, userID, apartmentID, 0, null, 0, 0, null, false);
+                    list.add(contract);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public boolean manageDueContract(String userID, int contractID, String apartmentID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(MANAGE_DUE_CONTRACT);
+                ptm.setString(1, userID);
+                ptm.setInt(2, contractID);
+                ptm.setString(3, apartmentID);
+
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }
