@@ -271,7 +271,7 @@ public class PermissionFilter implements Filter {
             if (uri.contains(".jpg") || uri.contains(".gif") || uri.contains(".png") || uri.endsWith(".css") || uri.endsWith(".js")) {
                 chain.doFilter(request, response);
             } else {
-                if (uri.contains("login.jsp") || uri.contains("MainController") || uri.contains("LoginController") || uri.contains(ERROR_PAGE) || uri.contains("UpdateController") || uri.endsWith("/")) {
+                if (uri.contains("login.jsp") || uri.contains("MainController") || uri.contains("LoginController") || uri.contains(ERROR_PAGE) || uri.contains("UpdateController") || uri.contains("ViewDetailController") || uri.endsWith("/")) {
 //                    req.getRequestDispatcher(resource).forward(request, response);
                     chain.doFilter(request, response);
                 } else {
@@ -289,8 +289,8 @@ public class PermissionFilter implements Filter {
                         UserDAO userDao = new UserDAO();
                         ArrayList<Integer> availablePermission = permissionDao.getListAvailablePermission();
                         boolean c = ADMIN_MANAGE_PERMISSION.contains(resource);
-                        boolean d = userPermission.contains(27);
-                        boolean e = availablePermission.contains(27);
+                        boolean d = userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_PERMISSION));
+                        boolean e = availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_PERMISSION));
 
                         if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_APARTMENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_APARTMENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_APARTMENT))) {
                             chain.doFilter(request, response);
@@ -343,7 +343,7 @@ public class PermissionFilter implements Filter {
                                     chain.doFilter(request, response);
                                 } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_NOTIFICATION.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION))) {
                                     chain.doFilter(request, response);
-                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_PERMISSION.contains(resource) && userPermission.contains(27) && availablePermission.contains(27)) {
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_PERMISSION.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_PERMISSION)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_PERMISSION))) {
                                     chain.doFilter(request, response);
                                 } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_RESIDENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT))) {
                                     chain.doFilter(request, response);
@@ -364,6 +364,7 @@ public class PermissionFilter implements Filter {
                 }
             }
         } catch (Exception e) {
+            log("Error at PermissionFilter: "+e.toString());
         } finally {
         }
     }

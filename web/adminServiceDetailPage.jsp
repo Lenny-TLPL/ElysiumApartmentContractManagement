@@ -71,7 +71,7 @@
                             <%}%>
 
                             <div class="input-field">
-                                <label>Description ${requestScope.UPDATE_SERVICE_ERROR.discription}</label>
+                                <label>Description ${requestScope.UPDATE_SERVICE_ERROR.description}</label>
                                 <textarea style="width: 838px;height: 160px;" class="form-control" name="description" rows="6" cols="80" maxlength="1400" >${requestScope.SERVICE_DETAIL.description}</textarea>
                             </div>
                         </div>
