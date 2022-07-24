@@ -289,9 +289,9 @@ public class PermissionFilter implements Filter {
                         UserDAO userDao = new UserDAO();
                         ArrayList<Integer> availablePermission = permissionDao.getListAvailablePermission();
                         boolean c = ADMIN_MANAGE_PERMISSION.contains(resource);
-                        boolean d = userPermission.contains(27) ;
+                        boolean d = userPermission.contains(27);
                         boolean e = availablePermission.contains(27);
-                        
+
                         if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_APARTMENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_APARTMENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_APARTMENT))) {
                             chain.doFilter(request, response);
                         } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_BILLING_HISTORY.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BILLING_HISTORY)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BILLING_HISTORY))) {
@@ -322,41 +322,42 @@ public class PermissionFilter implements Filter {
                             chain.doFilter(request, response);
                         } else if ((RES + " " + CUS).contains(roleName) && USER_FUNCTION.contains(resource)) {
                             chain.doFilter(request, response);
-                        if (userDao.getUserByID(loginUser.getUserID()).isStatus() == false) {
-                            res.sendRedirect(LOGIN_PAGE);
-                        } else {
-                            if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_APARTMENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_APARTMENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_APARTMENT))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_BILLING_HISTORY.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BILLING_HISTORY)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BILLING_HISTORY))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_BOARD_MANAGER.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BOARD_MANAGER)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BOARD_MANAGER))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_CONTRACT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_CONTRACT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_CONTRACT))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_CUSTOMER.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_CUSTOMER)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_CUSTOMER))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_EMPLOYEE.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_EMPLOYEE)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_EMPLOYEE))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_HR_MANAGER.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_HR_MANAGER)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_HR_MANAGER))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_MONTHLY_FEE.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_MONTHLY_FEE)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_MONTHLY_FEE))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_NOTIFICATION.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_PERMISSION.contains(resource) && userPermission.contains(27) && availablePermission.contains(27)) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_RESIDENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_SERVICE.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_SERVICE)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_SERVICE))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_VIEW_REPORT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_VIEW_REPORT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_VIEW_REPORT))) {
-                                chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_FUNCTION.contains(resource)) {
-                                chain.doFilter(request, response);
-                            } else if ((RES + " " + CUS).contains(roleName) && USER_FUNCTION.contains(resource)) {
-                                chain.doFilter(request, response);
+                            if (userDao.getUserByID(loginUser.getUserID()).isStatus() == false) {
+                                res.sendRedirect(LOGIN_PAGE);
                             } else {
-                                res.sendRedirect(ERROR_PAGE);
+                                if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_APARTMENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_APARTMENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_APARTMENT))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_BILLING_HISTORY.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BILLING_HISTORY)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BILLING_HISTORY))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_BOARD_MANAGER.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BOARD_MANAGER)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_BOARD_MANAGER))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_CONTRACT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_CONTRACT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_CONTRACT))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_CUSTOMER.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_CUSTOMER)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_CUSTOMER))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_EMPLOYEE.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_EMPLOYEE)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_EMPLOYEE))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_HR_MANAGER.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_HR_MANAGER)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_HR_MANAGER))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_MONTHLY_FEE.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_MONTHLY_FEE)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_MONTHLY_FEE))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_NOTIFICATION.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_PERMISSION.contains(resource) && userPermission.contains(27) && availablePermission.contains(27)) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_RESIDENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_SERVICE.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_SERVICE)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_SERVICE))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_VIEW_REPORT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_VIEW_REPORT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_VIEW_REPORT))) {
+                                    chain.doFilter(request, response);
+                                } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_FUNCTION.contains(resource)) {
+                                    chain.doFilter(request, response);
+                                } else if ((RES + " " + CUS).contains(roleName) && USER_FUNCTION.contains(resource)) {
+                                    chain.doFilter(request, response);
+                                } else {
+                                    res.sendRedirect(ERROR_PAGE);
+                                }
                             }
                         }
                     }
