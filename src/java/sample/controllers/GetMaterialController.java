@@ -35,7 +35,7 @@ public class GetMaterialController extends HttpServlet {
     private static final String EMPLOYEE = "Employee";
     private static final String HR_MANAGER = "HR Manager";
     private static final String BOARD_MANAGER = "Board Manager";
-    private static final String APARTMENT_TYPE = "Apartment Type";
+//    private static final String APARTMENT_TYPE = "Apartment Type";
     private static final String APARTMENT = "Apartment";
     private static final String APARTMENT_BUILDING = "Apartment Building";
     private static final String VIEW_REPORT = "View Report";

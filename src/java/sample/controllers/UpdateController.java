@@ -96,6 +96,7 @@ public class UpdateController extends HttpServlet {
                     String[] permissions = request.getParameterValues("permissions");
                     boolean check = true;
                     String phoneRegex = "^\\d{11}$";
+                    String phoneRegex2 = "^\\d{1}$";
 
                     UserPermissionDAO userPermissionDao = new UserPermissionDAO();
                     PermissionDAO permissionDao = new PermissionDAO();
@@ -314,6 +315,7 @@ public class UpdateController extends HttpServlet {
                     roleName = request.getParameter("roleName");
                     check = true;
                     phoneRegex = "^\\d{11}$";
+                    phoneRegex2 = "^\\d{10}$";
 
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
@@ -335,7 +337,7 @@ public class UpdateController extends HttpServlet {
                         check = false;
                     }
 
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex)&&!phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }

@@ -302,7 +302,7 @@ public class PermissionFilter implements Filter {
                             chain.doFilter(request, response);
                         } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_NOTIFICATION.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION))) {
                             chain.doFilter(request, response);
-                        } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_PERMISSION.contains(resource) && userPermission.contains(27) && availablePermission.contains(27)) {
+                        } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_PERMISSION.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_PERMISSION)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_PERMISSION))) {
                             chain.doFilter(request, response);
                         } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_RESIDENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT))) {
                             chain.doFilter(request, response);

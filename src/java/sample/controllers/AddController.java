@@ -131,7 +131,7 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -191,7 +191,7 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -251,7 +251,7 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -328,7 +328,7 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -422,7 +422,7 @@ public class AddController extends HttpServlet {
                     roleDao = new RoleDAO();
                     userError = new UserError();
                     contractError = new ContractError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
                         check = false;
                     }
@@ -442,7 +442,7 @@ public class AddController extends HttpServlet {
                         userError.setPassword("Invalid confirm");
                         check = false;
                     }
-                    if (!phone.matches(phoneRegex) || !phone.matches(phoneRegex2)) {
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
