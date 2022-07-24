@@ -116,19 +116,28 @@ public class GetMaterialController extends HttpServlet {
                     dataValue.add(reportDao.getTotalAvailableApartment());
                     dataValue.add(reportDao.getTotalRentedApartment());
                     dataValue.add(reportDao.getTotalMaintenanceApartment());
-                    dataValue.add(((reportDao.getTotalContractSignedThisYear()/10)+1)*10);
-                    dataValue.add(reportDao.getTotalContractSignedThisYear1());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear2());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear3());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear4());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear5());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear6());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear7());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear8());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear9());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear10());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear11());
-                    dataValue.add(reportDao.getTotalContractSignedThisYear12());
+//                    dataValue.add(((reportDao.getTotalContractSignedThisYear()/10)+1)*10);
+                    ArrayList<Integer> list = reportDao.getTotalContractSignedThisYearV1();
+                    for (int i = 0; i < list.size(); i++) {
+                        if(i==0){
+                            dataValue.add(((list.get(i)/10)+1)*10);
+                        }else{
+                            dataValue.add(list.get(i));
+                        }
+                        
+                    }
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear1());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear2());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear3());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear4());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear5());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear6());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear7());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear8());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear9());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear10());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear11());
+//                    dataValue.add(reportDao.getTotalContractSignedThisYear12());
                     request.setAttribute("DATA_VALUE", dataValue);
                     url = SUCCESS;
                     break;

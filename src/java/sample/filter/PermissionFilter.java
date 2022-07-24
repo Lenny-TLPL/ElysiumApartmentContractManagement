@@ -271,7 +271,7 @@ public class PermissionFilter implements Filter {
             if (uri.contains(".jpg") || uri.contains(".gif") || uri.contains(".png") || uri.endsWith(".css") || uri.endsWith(".js")) {
                 chain.doFilter(request, response);
             } else {
-                if (uri.contains("login.jsp") || uri.contains("MainController") || uri.contains("LoginController") || uri.contains(ERROR_PAGE) || uri.contains("UpdateController") || uri.endsWith("/")) {
+                if (uri.contains("login.jsp") || uri.contains("MainController") || uri.contains("LoginController") || uri.contains(ERROR_PAGE) || uri.contains("UpdateController") || uri.contains("GetMaterialController") || uri.contains("SearchController") || uri.contains("ViewController")  || uri.endsWith("/")) {
 //                    req.getRequestDispatcher(resource).forward(request, response);
                     chain.doFilter(request, response);
                 } else {
@@ -329,6 +329,7 @@ public class PermissionFilter implements Filter {
                 }
             }
         } catch (Exception e) {
+            log("Error at Filter : " + e.toString());
         } finally {
         }
     }

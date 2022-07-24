@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import sample.utils.DBUtils;
 
 /**
@@ -348,7 +349,398 @@ public class ReportDAO {
     }
     
     //CONTRACT
-    public int getTotalContractSignedThisYear() throws SQLException {
+//    public int getTotalContractSignedThisYear() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear1() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_1);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear2() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_2);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear3() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_3);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear4() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_4);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear5() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_5);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear6() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_6);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear7() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_7);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear8() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_8);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear9() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_9);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear10() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_10);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear11() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_11);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }   
+//    
+//    public int getTotalContractSignedThisYear12() throws SQLException {
+//        int quantity = 0;
+//        Connection conn = null;
+//        PreparedStatement stm = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = DBUtils.getConnection();
+//            if (conn != null) {
+//                stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_12);
+//                rs = stm.executeQuery();
+//                if (rs.next()) {
+//                    quantity = rs.getInt("quantity");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                rs.close();
+//            }
+//            if (stm != null) {
+//                stm.close();
+//            }
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//        return quantity;
+//    }  
+    
+    public ArrayList<Integer> getTotalContractSignedThisYearV1() throws SQLException {
+        ArrayList<Integer> list = new ArrayList<>();
         int quantity = 0;
         Connection conn = null;
         PreparedStatement stm = null;
@@ -361,366 +753,91 @@ public class ReportDAO {
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear1() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_1);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear2() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_2);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear3() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_3);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear4() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_4);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear5() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_5);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear6() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_6);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear7() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_7);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear8() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_8);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear9() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_9);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear10() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_10);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear11() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_11);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return quantity;
-    }   
-    
-    public int getTotalContractSignedThisYear12() throws SQLException {
-        int quantity = 0;
-        Connection conn = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
+                list.add(quantity);
+                
                 stm = conn.prepareStatement(GET_TOTAL_CONTRACT_SIGNED_THIS_YEAR_12);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     quantity = rs.getInt("quantity");
                 }
+                list.add(quantity);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -735,7 +852,7 @@ public class ReportDAO {
                 conn.close();
             }
         }
-        return quantity;
+        return list;
     }   
 
 }
