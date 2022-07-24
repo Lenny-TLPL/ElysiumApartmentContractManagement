@@ -364,7 +364,7 @@ public class PermissionFilter implements Filter {
                 }
             }
         } catch (Exception e) {
-            log("Error at PermissionFilter: "+e.toString());
+            log("Error at Filter : " + e.toString());
         } finally {
         }
     }
