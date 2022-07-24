@@ -57,6 +57,7 @@ public class SearchController extends HttpServlet {
     private static final String BILLING_HISTORY = "Billing History";
     private static final String MONTHLY_FEE = "MonthlyFee";
     private static final String PERMISSION = "Permission";
+    private static final String NEWS="News";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -79,6 +80,7 @@ public class SearchController extends HttpServlet {
             String type = request.getParameter("type");
             String search = request.getParameter("search");
             UserDAO dao = new UserDAO();
+            UserDTO loginUser =(UserDTO) session.getAttribute("LOGIN_USER");
             ArrayList<UserDTO> list = null;
             switch (type) {
                 case BOARD_MANAGER:
@@ -148,6 +150,9 @@ public class SearchController extends HttpServlet {
                         request.setAttribute("CONTRACT_LIST", contractList);
                         url = SUCCESS_ADMIN + type.replaceAll(" ", "") + "Page.jsp";
                     } else if (("Customer Resident").contains(roleName)) {
+                        ContractDAO contractDao = new ContractDAO();
+                        ArrayList<ContractDTO> contractList = contractDao.getListContractUser(search, loginUser.getUserID());
+                        request.setAttribute("CONTRACT_LIST", contractList);
                         url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";
                     }
                     break;
@@ -161,11 +166,17 @@ public class SearchController extends HttpServlet {
                         request.setAttribute("PRIVATE_NOTIFICATION_LIST", privateNotiList);
                         url = SUCCESS_ADMIN + type.replaceAll(" ", "") + "Page.jsp";
                     } else if (("Customer Resident").contains(roleName)) {
-                        NotificationDAO notiDao = new NotificationDAO();
+                        PrivateNotificationDAO privateNotiDao = new PrivateNotificationDAO();
+                        ArrayList<PrivateNotificationDTO> privateNotiList = privateNotiDao.getListPrivateNotification(loginUser.getUserID(), search);                 
+                        request.setAttribute("PRIVATE_NOTIFICATION_LIST", privateNotiList);
+                        url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";
+                    }
+                    break;
+                case NEWS:
+                    NotificationDAO notiDao = new NotificationDAO();
                         ArrayList<NotificationDTO> notiList = notiDao.getListNotification(search);                    
                         request.setAttribute("NOTIFICATION_LIST", notiList);
                         url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";
-                    }
                     break;
                 case PERMISSION:
                     if (("Board Manager HR Manager Employee").contains(roleName)) {
@@ -203,6 +214,9 @@ public class SearchController extends HttpServlet {
                         request.setAttribute("APARTMENT_LIST", apartmentList);
                         url = SUCCESS_ADMIN + type.replaceAll(" ", "") + "Page.jsp";
                     } else if (("Customer Resident").contains(roleName)) {
+                        ApartmentDAO apDao = new ApartmentDAO();
+                        ArrayList<ApartmentDTO> apartmentList = apDao.getUserApartmentList(search,loginUser.getUserID());
+                        request.setAttribute("APARTMENT_LIST", apartmentList);
                         url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";
                     }
                     break;
@@ -213,6 +227,9 @@ public class SearchController extends HttpServlet {
                         request.setAttribute("MONTHLY_FEE_LIST", monthlyFeeList);
                         url = SUCCESS_ADMIN + type.replaceAll(" ", "") + "Page.jsp";
                     } else if (("Customer Resident").contains(roleName)) {
+                        MonthlyFeeDAO monthlyFeeDao = new MonthlyFeeDAO();
+                        ArrayList<MonthlyFeeDTO> monthlyFeeList = monthlyFeeDao.getUserMonthlyFeeList(loginUser.getUserID(),search);
+                        request.setAttribute("MONTHLY_FEE_LIST", monthlyFeeList);
                         url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";
                     }
                     break;

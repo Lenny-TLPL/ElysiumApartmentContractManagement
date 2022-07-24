@@ -41,7 +41,9 @@ public class BillingHistoryDAO {
                     float value = rs.getFloat("value");
                     String userID = rs.getString("userID");
                     String apartmentID = rs.getString("apartmentID");
-                    billingHistory = new BillingHistoryDTO(billID, billName, payDate, userID, apartmentID, value);
+                    float receivedValue = rs.getFloat("receivedValue");
+                    float change = rs.getFloat("change");
+                    billingHistory = new BillingHistoryDTO(billID, billName, payDate, userID, apartmentID, value, receivedValue, change);
                     list.add(billingHistory);
                 }
             }

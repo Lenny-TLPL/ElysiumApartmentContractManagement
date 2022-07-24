@@ -124,7 +124,7 @@
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
-                        <input type="hidden" name="type" value="Service">
+                        <input type="hidden" name="type" value="MonthlyFee">
                         <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
                         <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
                     </div>

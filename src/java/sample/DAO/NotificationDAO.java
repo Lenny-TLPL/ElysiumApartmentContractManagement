@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import sample.DTO.NotificationDTO;
 import sample.utils.DBUtils;
@@ -61,6 +62,7 @@ public class NotificationDAO {
                 conn.close();
             }
         }
+        Collections.sort(list);
         return list;
     }
    

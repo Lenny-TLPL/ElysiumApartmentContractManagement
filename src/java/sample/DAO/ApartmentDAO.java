@@ -35,7 +35,10 @@ public class ApartmentDAO {
             + "	INNER JOIN tblApartmentBuilding b ON a.buildingID=b.buildingID \n"
             + "	INNER JOIN tblApartmentType t ON t.typeID = a.typeID\n"
             + "	WHERE a.buildingID = ? \n";
-    
+    private static final String GET_LIST_USER_APARTMENT = "SELECT apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID FROM tblApartment a \n"
+            + "	INNER JOIN tblApartmentBuilding b ON a.buildingID=b.buildingID \n"
+            + "	INNER JOIN tblApartmentType t ON t.typeID = a.typeID\n"
+            + "	WHERE (apartmentID LIKE ? OR typeName LIKE ? OR buildingName LIKE ?) AND userID LIKE ?  AND apartmentStatus LIKE 'rented'\n";
     
     public ApartmentDTO getApartment(String apartmentID) throws SQLException {
         ApartmentDTO apartment = null;
@@ -219,6 +222,48 @@ public class ApartmentDAO {
                     String typeName = rs.getNString("typeName");
                     int floor = rs.getInt("floor");
                     String userID = rs.getString("userID");
+                    String buildingName = rs.getNString("buildingName");
+                    float area = rs.getFloat("area");
+                    apartment = new ApartmentDTO(apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID);
+                    list.add(apartment);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    
+    public ArrayList<ApartmentDTO> getUserApartmentList(String search, String userID) throws SQLException {
+        ArrayList<ApartmentDTO> list = new ArrayList<>();
+        ApartmentDTO apartment = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_USER_APARTMENT);
+                stm.setString(1, "%" + search + "%");
+                stm.setString(4, userID);
+                stm.setNString(2, "%" + search + "%");
+                stm.setNString(3, "%" + search + "%");
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String apartmentID = rs.getString("apartmentID");
+                    String apartmentStatus = rs.getString("apartmentStatus");
+                    String typeName = rs.getNString("typeName");
+                    int floor = rs.getInt("floor");
                     String buildingName = rs.getNString("buildingName");
                     float area = rs.getFloat("area");
                     apartment = new ApartmentDTO(apartmentID, area, apartmentStatus, typeName, floor, buildingName, userID);

@@ -25,12 +25,17 @@ import sample.utils.DBUtils;
 public class ContractDAO {
 
     private static final String GET_LIST_CONTRACT = "SELECT contractID, dateSign, userID, apartmentID, contractType, status FROM tblContract WHERE apartmentID LIKE ? OR userID LIKE ?";
+    private static final String GET_LIST_CONTRACT_USER = "SELECT contractID, dateSign, userID, apartmentID, contractType, status FROM tblContract WHERE apartmentID LIKE ? AND userID LIKE ?";
     private static final String ADD_CONTRACT = "EXEC addContract ?, ?, ?, ?, ?, ?, ?, ?";
     private static final String GET_CONTRACT_DETAIL_WITHOUT_IMAGE = "SELECT contractID, dateSign, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status FROM tblContract WHERE contractID = ?";
     private static final String GET_CONTRACT_IMAGE = "SELECT contractImage FROM tblContract WHERE contractID = ?";
     private static final String GET_LIST_DUE_CONTRACT = "SELECT userID,contractID, apartmentID FROM tblContract WHERE expiryDate = GETDATE() ";
     private static final String MANAGE_DUE_CONTRACT = "EXEC checkValidContract ?, ?, ?";
-
+    private static final String GET_LIST_USER_MAIL_ALMOST_DUE_CONTRACT = "SELECT  DISTINCT u.email FROM tblContract c INNER JOIN tblUser u ON c.userID = u.userID\n" +
+"WHERE YEAR(expiryDate) = YEAR(GETDATE()) AND MONTH(expiryDate)=MONTH(GETDATE()) AND DAY(expiryDate)-DAY(GETDATE()) = ?";
+    private static final String GET_LIST_USER_ID_ALMOST_DUE_CONTRACT = "SELECT  DISTINCT u.usesrID FROM tblContract c INNER JOIN tblUser u ON c.userID = u.userID\n" +
+"WHERE YEAR(expiryDate) = YEAR(GETDATE()) AND MONTH(expiryDate)=MONTH(GETDATE()) AND DAY(expiryDate)-DAY(GETDATE()) = ?";
+    
     public ArrayList<ContractDTO> getListContract(String search) throws SQLException {
         ArrayList<ContractDTO> list = new ArrayList<>();
         ContractDTO contract = null;
@@ -56,6 +61,57 @@ public class ContractDAO {
 //                        contractImage=null;
 //                    }
                     String userID = rs.getString("userID");
+                    String apartmentID = rs.getString("apartmentID");
+//                    float value = rs.getFloat("value");
+//                    Date expiryDate = rs.getDate("expiryDate");
+//                    int monthsOfDebt = rs.getInt("monthsOfDebt");
+//                    float interestRate= rs.getFloat("interestRate");
+                    String contractType = rs.getString("contractType");
+                    boolean status = rs.getBoolean("status");
+                    contract = new ContractDTO(contractID, dateSign, null, userID, apartmentID, 0, null, 0, 0, contractType, status);
+                    list.add(contract);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    
+    public ArrayList<ContractDTO> getListContractUser(String search, String userID) throws SQLException {
+        ArrayList<ContractDTO> list = new ArrayList<>();
+        ContractDTO contract = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_CONTRACT_USER);
+                stm.setString(1, "%" + search + "%");
+                stm.setString(2, userID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int contractID = rs.getInt("contractID");
+                    Date dateSign = rs.getDate("dateSign");
+//                    Blob contractImage=rs.getBlob("contractImage");
+//                    if(rs.getBytes("contracImage")!=null){
+//                        byte[] img = rs.getBytes("contractImage");
+//                    ImageIcon image = new ImageIcon(img);
+//                    contractImage = image.getImage();    
+//                    }else{
+//                        contractImage=null;
+//                    }
                     String apartmentID = rs.getString("apartmentID");
 //                    float value = rs.getFloat("value");
 //                    Date expiryDate = rs.getDate("expiryDate");
@@ -289,5 +345,73 @@ public class ContractDAO {
             }
         }
         return check;
+    }
+    
+    public ArrayList<String> getListUserEMailAlmostDueContract(int diffDate) throws SQLException {
+        ArrayList<String> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_USER_MAIL_ALMOST_DUE_CONTRACT);
+                stm.setInt(1, diffDate );
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String email = rs.getNString("email");
+                    if(email != null){
+                        list.add(email);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    
+    public ArrayList<String> getListUserIDAlmostDueContract(int diffDate) throws SQLException {
+        ArrayList<String> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_USER_ID_ALMOST_DUE_CONTRACT);
+                stm.setInt(1, diffDate );
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    String userID = rs.getNString("userID");
+                    if(userID != null){
+                        list.add(userID);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 }

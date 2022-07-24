@@ -39,9 +39,14 @@ public class UserDAO {
     private static final String GET_USER_DETAIL_BY_USERID_AND_ROLE = "SELECT fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, password FROM tblUser \n"
             + "WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? AND roleID = ?";
     private static final String UPDATE_USER_STATUS = "UPDATE tblUser SET status = ? WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
-    private static final String UPDATE_USER = "UPDATE tblUser SET fullName=?, email=?, phone=?, address=?, birthday=?, citizenID=?, gender=?, status=?, roleID=? WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
+    private static final String UPDATE_USER = "UPDATE tblUser SET fullName=?, email=?, phone=?, address=?, birthday=?, citizenID=?, gender=?, status=?, roleID=?, password=? WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
     private static final String GET_USER_BY_ID = "SELECT fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID, password FROM tblUser  WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ?";
     private static final String UPDATE_USER_ROLE = "UPDATE tblUser SET roleID=? WHERE userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? ";
+    private static final String CHECK_DUPLICATE_EMAIL_USER = "SELECT userID, citizenID FROM tblUser WHERE tblUser.email COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND tblUser.roleID NOT IN(1,2,3)";
+    private static final String CHECK_DUPLICATE_EMAIL_ADMIN = "SELECT userID, citizenID FROM tblUser WHERE tblUser.email COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND tblUser.roleID NOT IN(4,5)";
+    private static final String CHECK_DUPLICATE_PHONE_USER = "SELECT userID, citizenID FROM tblUser WHERE tblUser.phone COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND tblUser.roleID NOT IN(1,2,3)";
+    private static final String CHECK_DUPLICATE_PHONE_ADMIN = "SELECT userID, citizenID FROM tblUser WHERE tblUser.phone COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND tblUser.roleID NOT IN(4,5)";
+    
     
     public UserDTO checkLogin(String userID, String password) throws SQLException {
         UserDTO user = null;
@@ -545,6 +550,7 @@ public class UserDAO {
                 ptm.setBoolean(8, user.isStatus());
                 ptm.setInt(9, user.getRoleID());
                 ptm.setString(10, user.getUserID());
+                ptm.setString(11, user.getPassword());
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }
         } catch (Exception e) {
@@ -617,6 +623,264 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
+    public boolean checkDuplicateEmailUser(String email) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_EMAIL_USER);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean checkDuplicateEmailAdmin(String email) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_EMAIL_ADMIN);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    check = true;
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean checkDuplicateEmailUserV2(String email, String userID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_EMAIL_USER);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    if (!userID.equals(rs.getString("userID"))) {
+                        check = true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean checkDuplicateEmailAdminV2(String email, String userID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_EMAIL_ADMIN);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    if (!userID.equals(rs.getString("userID"))) {
+                        check = true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
+    public boolean checkDuplicatePhoneUser(String phone) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_PHONE_USER);
+                ptm.setString(1, phone);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean checkDuplicatePhoneAdmin(String email) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_PHONE_ADMIN);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    check = true;
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean checkDuplicatePhoneUserV2(String phone, String userID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_PHONE_USER);
+                ptm.setString(1, phone);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    if (!userID.equals(rs.getString("userID"))) {
+                        check = true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean checkDuplicatePhoneAdminV2(String phone, String userID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_PHONE_ADMIN);
+                ptm.setString(1, phone);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    if (!userID.equals(rs.getString("userID"))) {
+                        check = true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
             if (ptm != null) {
                 ptm.close();
             }

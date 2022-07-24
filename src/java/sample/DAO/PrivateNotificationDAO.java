@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import sample.DTO.PrivateNotificationDTO;
 import sample.utils.DBUtils;
@@ -23,6 +24,7 @@ public class PrivateNotificationDAO {
     private static final String ADD_NEW_PRIVATE_NOTIFICATION ="	INSERT INTO tblPrivateNotification (notiHeader, notiContent, notiDate,userID, status) VALUES (?, ?, ?, ?, ?)";
     private static final String GET_PRIVATE_NOTIFICATION_BY_ID = "SELECT notiID, notiHeader, notiContent, notiDate, status, userID FROM tblPrivateNotification WHERE notiID = ?";
     private static final String UPDATE_PRIVATE_NOTIFICATION="UPDATE tblPrivateNotification SET notiHeader = ?, notiContent = ?, notiDate = ?, userID = ? WHERE notiID = ?";
+    private static final String GET_LIST_USER_PRIVATE_NOTIFICATION="SELECT * FROM tblPrivateNotification WHERE (notiHeader LIKE ? OR notiContent LIKE ?) AND userID LIKE ?";
     
     public ArrayList<PrivateNotificationDTO> getListPrivateNotification( String search) throws SQLException {
         ArrayList<PrivateNotificationDTO> list = new ArrayList<>();
@@ -62,6 +64,7 @@ public class PrivateNotificationDAO {
                 conn.close();
             }
         }
+        Collections.sort(list);
         return list;
     }
     
@@ -156,5 +159,46 @@ public class PrivateNotificationDAO {
             }
         }
         return check;
+    }
+    
+    public ArrayList<PrivateNotificationDTO> getListPrivateNotification(String userID, String search) throws SQLException {
+        ArrayList<PrivateNotificationDTO> list = new ArrayList<>();
+        PrivateNotificationDTO noti = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_USER_PRIVATE_NOTIFICATION);
+                stm.setString(1, "%"+search+"%");
+                stm.setString(2, "%"+search+"%");  
+                stm.setString(3, userID);  
+                rs = stm.executeQuery();
+                while (rs.next()) { 
+                    int notiID = rs.getInt("notiID");
+                    String notiHeader = rs.getNString("notiHeader");
+                    String notiContent = rs.getNString("notiContent");
+                    Date notiDate = rs.getDate("notiDate");
+                    boolean status = rs.getBoolean("status");
+                    noti = new PrivateNotificationDTO(notiID, notiHeader, notiContent, notiDate, userID, status);
+                    list.add(noti);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        Collections.sort(list);
+        return list;
     }
 }

@@ -13,7 +13,7 @@ import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
-import sample.hiddenJobs.MonthlyFeeMailing;
+import sample.hiddenJobs.MonthlyMailing;
 
 /**
  *
@@ -27,7 +27,7 @@ public class QuartzScheduler implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
-//            JobDetail job1 = JobBuilder.newJob(MonthlyFeeMailing.class)
+//            JobDetail job1 = JobBuilder.newJob(MonthlyMailing.class)
 //                    .withIdentity("job1", "group1").build();
 //
 //            Trigger trigger1 = TriggerBuilder.newTrigger()

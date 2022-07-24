@@ -148,7 +148,6 @@
                         <table border="1" id="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Header</th> 
                                     <th>Date</th>
                                     <th>Status</th>
@@ -163,7 +162,7 @@
                                             for (int i = 0; i < notificationList.size(); i++) {%>
                             <form action="MainController" method="POST">
                                 <tr>
-                                    <td> <input style="width:100%" type="number" name="notiID" value="<%=notificationList.get(i).getNotiID()%>" readonly="readonly"/></td>
+                                     <input style="width:100%" type="hidden" name="notiID" value="<%=notificationList.get(i).getNotiID()%>" readonly="readonly"/>
                                     <td> <input style="width:100%" type="text" name="notiHeader" value="<%=notificationList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="date" name="notiDate" value="<%=notificationList.get(i).getNotiDate()%>" readonly="readonly"/></td>
                                 <input type="hidden" name="notiStatus" value="<%=notificationList.get(i).isStatus()%>" readonly="readonly"/>
@@ -200,7 +199,6 @@
                         <table border="1" id="table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>USER ID</th> 
                                     <th>Header</th> 
                                     <th>Date</th>
@@ -215,7 +213,7 @@
                                             for (int i = 0; i < PrivateNotiList.size(); i++) {%>
                             <form action="MainController" method="POST">
                                 <tr>
-                                    <td> <input style="width:100%" type="text" name="notiID" value="<%=PrivateNotiList.get(i).getNotiID()%>" readonly="readonly"/></td>
+                                    <input style="width:100%" type="hidden" name="notiID" value="<%=PrivateNotiList.get(i).getNotiID()%>" readonly="readonly"/>
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=PrivateNotiList.get(i).getUserID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="notiHeader" value="<%=PrivateNotiList.get(i).getNotiHeader()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="date" name="notiDate" value="<%=PrivateNotiList.get(i).getNotiDate()%>" readonly="readonly"/></td>

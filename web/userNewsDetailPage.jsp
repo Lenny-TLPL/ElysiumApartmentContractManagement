@@ -26,7 +26,7 @@
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp"style="text-decoration: none">
+                    <a href="adminMainPage.jsp" style="text-decoration: none">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
@@ -63,13 +63,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="userNotificationPage.jsp" class="active">
+                    <a href="userNotificationPage.jsp" >
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Notification</span>
                     </a>
                 </li>
                 <li>
-                    <a href="userNewsPage.jsp">
+                    <a href="userNewsPage.jsp"class="active">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">News</span>
                     </a>
@@ -87,13 +87,9 @@
                 <div class="">
                     <button class="" style="border: none; background-color: #fff;text-decoration: none">
                         <i style="font-size: large" class="bx bx-arrow-back"></i>
-                        <span class="btnText"><a style="text-decoration: none; font-size: large" href="userNotificationPage.jsp">Back to notification page</a></span>               
+                        <span class="btnText"><a style="text-decoration: none; font-size: large" href="userNewsPage.jsp">Back to news page</a></span>               
                     </button> 
                     
-                </div>
-                <div class="sidebar-button">
-<!--                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
@@ -113,7 +109,7 @@
             <div class="home-content">
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <%  NotificationDTO noti = (NotificationDTO) request.getAttribute("PRIVATE_NOTIFICATION_DETAIL");
+                        <%  NotificationDTO noti = (NotificationDTO) request.getAttribute("NOTIFICATION_DETAIL");
                             if (noti != null) {
                         %>
                                 <div class="title"><%= noti.getNotiHeader() %></div>

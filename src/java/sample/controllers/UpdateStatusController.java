@@ -9,12 +9,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sample.DAO.ApartmentBuildingDAO;
 import sample.DAO.ApartmentDAO;
 import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
 import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
+import sample.DTO.UserDTO;
 
 /**
  *
@@ -55,6 +57,8 @@ public class UpdateStatusController extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         String type = request.getParameter("type");
         String url = ERROR;
+        HttpSession session = request.getSession();
+        UserDTO loginUser =(UserDTO) session.getAttribute("LOGIN_USER");
 //        if (("Board Manager HR Manager Employee Customer Resident").contains(type)) {
 //            url = "admin" + type.replaceAll(" ", "") + "Page.jsp";
 //        }
@@ -65,6 +69,9 @@ public class UpdateStatusController extends HttpServlet {
                     Boolean status = Boolean.parseBoolean(request.getParameter("status"));
                     UserDAO userDao = new UserDAO();
                     Boolean checkUpdate = userDao.updateUserStatus(userID, !status);
+                    if(userID.equals( loginUser.getUserID())){
+                        response.sendRedirect("login.jsp");
+                    }
                     if (checkUpdate) {
                         url = "admin" + type.replaceAll(" ", "") + "Page.jsp";
                     }
@@ -74,6 +81,9 @@ public class UpdateStatusController extends HttpServlet {
                     status = Boolean.parseBoolean(request.getParameter("status"));
                     userDao = new UserDAO();
                     checkUpdate = userDao.updateUserStatus(userID, !status);
+                    if(userID.equals( loginUser.getUserID())){
+                        response.sendRedirect("login.jsp");
+                    }
                     if (checkUpdate) {
                         url = "admin" + type.replaceAll(" ", "") + "Page.jsp";
                     }
@@ -83,6 +93,9 @@ public class UpdateStatusController extends HttpServlet {
                     status = Boolean.parseBoolean(request.getParameter("status"));
                     userDao = new UserDAO();
                     checkUpdate = userDao.updateUserStatus(userID, !status);
+                    if(userID.equals( loginUser.getUserID())){
+                        response.sendRedirect("login.jsp");
+                    }
                     if (checkUpdate) {
                         url = "admin" + type.replaceAll(" ", "") + "Page.jsp";
                     }

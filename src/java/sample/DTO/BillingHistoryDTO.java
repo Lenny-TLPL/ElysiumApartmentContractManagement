@@ -19,6 +19,8 @@ public class BillingHistoryDTO {
     private String userID;
     private String apartmentID;
     private float value;
+    private float receivedValue;
+    private float change;
 
     public BillingHistoryDTO() {
         this.billID = 0;
@@ -27,15 +29,19 @@ public class BillingHistoryDTO {
         this.userID = "";
         this.apartmentID = "";
         this.value = 0;
+        this.receivedValue = 0;
+        this.change=0;
     }
 
-    public BillingHistoryDTO(int billID, String billName, Date payDate, String userID, String apartmentID, float value) {
+    public BillingHistoryDTO(int billID, String billName, Date payDate, String userID, String apartmentID, float value, float receivedValue, float change) {
         this.billID = billID;
         this.billName = billName;
         this.payDate = payDate;
         this.userID = userID;
         this.apartmentID = apartmentID;
         this.value = value;
+        this.receivedValue = receivedValue;
+        this.change = change;
     }
 
     public int getBillID() {
@@ -84,5 +90,21 @@ public class BillingHistoryDTO {
 
     public void setValue(float value) {
         this.value = value;
+    }
+
+    public float getReceivedValue() {
+        return receivedValue;
+    }
+
+    public void setReceivedValue(float receivedValue) {
+        this.receivedValue = receivedValue;
+    }
+
+    public float getChange() {
+        return change;
+    }
+
+    public void setChange(float change) {
+        this.change = change;
     }
 }

@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author Quang
  */
-public class PrivateNotificationDTO extends NotificationDTO {
+public class PrivateNotificationDTO extends NotificationDTO  {
 
     private String userID;
     
@@ -34,5 +34,5 @@ public class PrivateNotificationDTO extends NotificationDTO {
     public void setUserID(String userID) {
         this.userID = userID;
     }
-
+    
 }
