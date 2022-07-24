@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author Quang
  */
-public class NotificationDTO {
+public class NotificationDTO implements Comparable<NotificationDTO> {
     private int notiID;
     private String notiHeader;
     private String notiContent;
@@ -75,4 +75,11 @@ public class NotificationDTO {
     public void setStatus(boolean status) {
         this.status = status;
     }  
+    
+    @Override
+    public int compareTo(NotificationDTO o) {
+        if (notiDate.after(o.notiDate) ) return -1;
+        else if(notiDate.before(o.notiDate)) return 1;
+        return 0;
+    }
 }

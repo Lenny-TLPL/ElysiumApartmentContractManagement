@@ -40,7 +40,7 @@
         <div class="container">
             <header>${requestScope.USER_DETAIL.fullName}</header>
 
-            <form action="MainController" method="POST" enctype="multipart/form-data">
+            <form action="MainController" method="POST" enctype="multipart/form-data" onsubmit="submitPermission()">
                 <div class="form first">
                     <div class="details personal">
                         <span class="title">Personal Details</span>
@@ -53,7 +53,7 @@
                             <%if (("Board Manager HR Manager Employee").contains((String) (request.getAttribute("ROLE_NAME")))) {%>
                             <div class="input-field">
                                 <label>Role Name ${requestScope.UPDATE_USER_ERROR.roleName}  </label>
-                                <select required="" name="roleName">
+                                <select id="roleName" required="" name="roleName"  onchange="showPermission(this)">
                                     <option value="${requestScope.ROLE_NAME}">${requestScope.ROLE_NAME}</option>
                                     <option value="Board Manager">Board Manager</option>
                                     <option value="HR Manager">HR Manager</option>
@@ -69,11 +69,11 @@
                                     <option value="Customer">Customer</option>
                                 </select>
                             </div>
-                            
-<!--                            <div class="input-field">
-                                <label>RoleName </label>    
-                                <input name="roleName" readonly="" type="text" class="form-control" required="" value="${requestScope.ROLE_NAME}" minlength="4" maxlength="60">     
-                            </div>-->
+
+                            <!--                            <div class="input-field">
+                                                            <label>RoleName </label>    
+                                                            <input name="roleName" readonly="" type="text" class="form-control" required="" value="${requestScope.ROLE_NAME}" minlength="4" maxlength="60">     
+                                                        </div>-->
                             <%}%>
                             <div class="input-field">
                                 <label>Full Name ${requestScope.UPDATE_USER_ERROR.fullName} </label>
@@ -162,7 +162,7 @@
                             <button class="sumbit" type="reset">
                                 <span class="btnText">Reset</span>
                             </button>     
-                            <button class="nextBtn" type="button">
+                            <button class="nextBtn" type="button" >
                                 <span class="btnText">Next</span>
                                 <i class="uil uil-navigator"></i>
                             </button>
@@ -176,12 +176,36 @@
                     <div class="details address">
                         <span class="title">Permission</span>
 
-                        <div  >
+                         <div id="default">
                             <%  ArrayList<PermissionDTO> permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
                                 ArrayList<PermissionDTO> userPermissionList = (ArrayList<PermissionDTO>) request.getAttribute("USER_PERMISSION_LIST");
                                 if (permissionList != null) {
                                     if (permissionList.size() > 0) {
                                         for (int i = 0; i < permissionList.size(); i++) {
+                                            if (userPermissionList.contains(permissionList.get(i).getPermissionName()) && request.getAttribute("ROLE_NAME").equals("Board Manager")) {%>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%"><input type="checkbox" checked="" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            </div>
+                            <%} else if (userPermissionList.contains(permissionList.get(i).getPermissionName()) && !request.getAttribute("ROLE_NAME").equals("Board Manager") && request.getAttribute("ROLE_NAME").equals(permissionList.get(i).getRoleNamePriority()) ) {%>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%"><input type="checkbox" checked="" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            </div>
+                            <%} else if(!userPermissionList.contains(permissionList.get(i).getPermissionName()) && !request.getAttribute("ROLE_NAME").equals("Board Manager") && request.getAttribute("ROLE_NAME").equals(permissionList.get(i).getRoleNamePriority())){%>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%" ><input type="checkbox"  name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            </div>
+                            <%}
+                                        }
+                                    }
+                                }%>
+                        </div> 
+                        <div id="Board Manager" style="display:none">
+                            <%  permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
+                                userPermissionList = (ArrayList<PermissionDTO>) request.getAttribute("USER_PERMISSION_LIST");
+                                if (permissionList != null) {
+                                    if (permissionList.size() > 0) {
+                                        for (int i = 0; i < permissionList.size(); i++) {
+
                                             if (userPermissionList.contains(permissionList.get(i).getPermissionName())) {%>
                             <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
                                 <label style="width:90%"><input type="checkbox" checked="" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
@@ -191,11 +215,53 @@
                                 <label style="width:90%" ><input type="checkbox"  name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
                             </div>
                             <%}
+
                                         }
                                     }
                                 }%>
                         </div>
+                        <div id="HR Manager" style="display:none">
+                            <%  permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
+                                userPermissionList = (ArrayList<PermissionDTO>) request.getAttribute("USER_PERMISSION_LIST");
+                                if (permissionList != null) {
+                                    if (permissionList.size() > 0) {
+                                        for (int i = 0; i < permissionList.size(); i++) {
+                                            if (permissionList.get(i).getRoleNamePriority().equals("HR Manager") && userPermissionList.contains(permissionList.get(i).getPermissionName())) {
+                            %>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%"><input type="checkbox" checked="" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            </div>
+                            <%} else if (permissionList.get(i).getRoleNamePriority().equals("HR Manager")) {%>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%" ><input type="checkbox"  name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            </div>
+                            <%}
 
+                                        }
+                                    }
+                                }%>
+                        </div>
+                        <div id="Employee" style="display:none">
+                            <%  permissionList = (ArrayList<PermissionDTO>) request.getAttribute("PERMISSION_LIST");
+                                userPermissionList = (ArrayList<PermissionDTO>) request.getAttribute("USER_PERMISSION_LIST");
+                                if (permissionList != null) {
+                                    if (permissionList.size() > 0) {
+                                        for (int i = 0; i < permissionList.size(); i++) {
+                                            if (permissionList.get(i).getRoleNamePriority().equals("Employee") && userPermissionList.contains(permissionList.get(i).getPermissionName())) {
+                            %>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%"><input type="checkbox" checked="" name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            </div>
+                            <%} else if (permissionList.get(i).getRoleNamePriority().equals("Employee")) {%>
+                            <div class="fields" id="permissionColumn" style="display:flex; flex-direction: row; float:left; width:30%">
+                                <label style="width:90%" ><input type="checkbox"  name="permissions" value="<%=permissionList.get(i).getPermissionID()%>">  <%=permissionList.get(i).getPermissionName()%></label>
+                            </div>
+                            <%}
+
+                                        }
+                                    }
+                                }%>
+                        </div>
                         <div class="buttons" style="width: 200%">
                             <div class="backBtn">
                                 <i class="uil uil-navigator"></i>
@@ -204,7 +270,7 @@
                             <button class="sumbit" type="reset">
                                 <span class="btnText">Reset</span>
                             </button>       
-                            <button class="submit" type="submit" name="action" value="Update">
+                            <button class="submit" type="submit" name="action" value="Update" >
                                 <span class="btnText">Update</span>
                                 <i class="uil uil-navigator"></i>
                             </button>
@@ -221,7 +287,9 @@
         <%}%>
         <script src="js/addjavascript.js"></script>
         <script src="js/addUserJS.js"></script>
-        <script>function showColor(element)
+        <script>
+             Console.log(employee);
+        function showColor(element)
                                     {
                                         if (element.value == "true") {
                                             document.getElementById('status').style.backgroundColor = "#669c19";
@@ -229,7 +297,70 @@
                                             document.getElementById('status').style.backgroundColor = "#d3190d";
                                         }
 
-                                    }</script>
+                                    }
+                                    function submitPermission()
+                                    {
+                                        if(document.getElementById('roleName').value == "Board Manager"){
+                                            document.getElementById('Board Manager').style.display = "block";
+                                            document.getElementById('HR Manager').style.display = "none";
+                                            document.getElementById('HR Manager').innerHTML = "X";  
+                                            document.getElementById('Employee').style.display = "none";
+                                            document.getElementById('Employee').innerHTML = "X";                                          
+                                            document.getElementById('default').style.display = "none";
+                                            document.getElementById('default').innerHTML = "X";       
+                                        } else if(document.getElementById('roleName').value == "HR Manager"){
+                                            document.getElementById('Board Manager').style.display = "none";
+                                            document.getElementById('Board Manager').innerHTML = "X";  
+                                            document.getElementById('HR Manager').style.display = "block";
+                                            document.getElementById('Employee').style.display = "none";
+                                            document.getElementById('Employee').innerHTML = "X";                                           
+                                            document.getElementById('default').style.display = "none";
+                                            document.getElementById('default').innerHTML = "X"; 
+                                        } else if(document.getElementById('roleName').value == "Employee"){
+                                            document.getElementById('Board Manager').style.display = "none";
+                                            document.getElementById('Board Manager').innerHTML = "X"; 
+                                            document.getElementById('HR Manager').style.display = "none";
+                                            document.getElementById('HR Manager').innerHTML = "X";  
+                                            document.getElementById('Employee').style.display = "block"; 
+                                            document.getElementById('default').style.display = "none";
+                                            document.getElementById('default').innerHTML = "X"; 
+                                        }
+//                                        if (element.value == "Board Manager") {
+//                                            document.getElementById('Board Manager').style.display = "block";
+//                                            document.getElementById('HR Manager').style.display = "none";
+//                                            document.getElementById('Employee').style.display = "none";
+//                                            document.getElementById('default').style.display = "none";
+//                                        } else if (element.value == "HR Manager") {
+//                                            document.getElementById('Board Manager').style.display = "none";
+//                                            document.getElementById('HR Manager').style.display = "block";
+//                                            document.getElementById('Employee').style.display = "none";
+//                                            document.getElementById('default').style.display = "none";
+//                                        } else if (element.value == "Employee") {
+//                                            document.getElementById('Board Manager').style.display = "none";
+//                                            document.getElementById('HR Manager').style.display = "none";
+//                                            document.getElementById('Employee').style.display = "block";
+//                                            document.getElementById('default').style.display = "none";
+//                                        }
+                                    }
+                                    function showPermission(element){
+                                        if (element.value == "Board Manager") {
+                                            document.getElementById('Board Manager').style.display = "block";
+                                            document.getElementById('HR Manager').style.display = "none";
+                                            document.getElementById('Employee').style.display = "none";
+                                            document.getElementById('default').style.display = "none";
+                                        } else if (element.value == "HR Manager") {
+                                            document.getElementById('Board Manager').style.display = "none";
+                                            document.getElementById('HR Manager').style.display = "block";
+                                            document.getElementById('Employee').style.display = "none";
+                                            document.getElementById('default').style.display = "none";
+                                        } else if (element.value == "Employee") {
+                                            document.getElementById('Board Manager').style.display = "none";
+                                            document.getElementById('HR Manager').style.display = "none";
+                                            document.getElementById('Employee').style.display = "block";
+                                            document.getElementById('default').style.display = "none";
+                                        }
+                                    }
+        </script>
     </body>
 </html>
 

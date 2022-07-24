@@ -124,7 +124,7 @@
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
-                        <input type="hidden" name="type" value="Permission">
+                        <input type="hidden" name="type" value="Billing History">
                         <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
                         <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
                     </div>
@@ -154,7 +154,9 @@
                                     <th>ApartmentID</th>
                                     <th>Pay Date</th>
                                     <th>Value</th>
-                                    <th>View Detail</th>
+                                    <th>Received Value</th>
+                                    <th>Change</th>
+                                    <th>Update</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,6 +172,8 @@
                                     <td> <input style="width:100%" type="text" name="apartmentID" value="<%=BillingList.get(i).getApartmentID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="date" name="payDate" value="<%=BillingList.get(i).getPayDate()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="number" name="value" value="<%=BillingList.get(i).getValue()%>" readonly="readonly" step="0.01"/></td>
+                                    <td> <input style="width:100%" type="number" name="value" value="<%=BillingList.get(i).getReceivedValue()%>" readonly="readonly" step="0.01"/></td>
+                                    <td> <input style="width:100%" type="number" name="value" value="<%=BillingList.get(i).getChange()%>" readonly="readonly" step="0.01"/></td>
                                     <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
                                 </tr>  
                             </form>

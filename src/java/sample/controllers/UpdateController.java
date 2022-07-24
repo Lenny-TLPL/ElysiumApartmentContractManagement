@@ -20,6 +20,7 @@ import sample.DAO.ServiceDAO;
 import sample.DAO.UserDAO;
 import sample.DAO.UserPermissionDAO;
 import sample.DTO.NotificationDTO;
+import sample.DTO.NotificationError;
 import sample.DTO.PermissionDTO;
 import sample.DTO.PermissionError;
 import sample.DTO.PrivateNotificationDTO;
@@ -93,18 +94,23 @@ public class UpdateController extends HttpServlet {
                     Date birthday = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("birthday"));
                     Boolean status = Boolean.parseBoolean(request.getParameter("status"));
                     String roleName = request.getParameter("roleName");
+                    String password = request.getParameter("password");
                     String[] permissions = request.getParameterValues("permissions");
                     boolean check = true;
                     String phoneRegex = "^\\d{11}$";
-                    String phoneRegex2 = "^\\d{1}$";
+                    String phoneRegex2 = "^\\d{10}$";
 
                     UserPermissionDAO userPermissionDao = new UserPermissionDAO();
                     PermissionDAO permissionDao = new PermissionDAO();
                     UserDAO userDao = new UserDAO();
                     RoleDAO roleDao = new RoleDAO();
                     UserError userError = new UserError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneAdminV2(phone, userID)){
+                        userError.setPhone("Duplicate phone");
                         check = false;
                     }
                     if (userDao.checkDuplicateAdminV2(citizenID, userID)) {
@@ -115,12 +121,16 @@ public class UpdateController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
+                    if (userDao.checkDuplicateEmailAdminV2(email, userID)) {
+                        userError.setEmail("Duplicate email");
+                        check = false;
+                    }
                     if (!DateUtils.checkValidDate(birthday)) {
                         userError.setBirthday("Invalid birthday");
                         check = false;
                     }
 
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2) ) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -139,7 +149,7 @@ public class UpdateController extends HttpServlet {
                     }
 
                     if (check) {
-                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, null, null, status, roleDao.getUserRoleID(roleName)));
+                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, password, null, status, roleDao.getUserRoleID(roleName)));
                         userPermissionDao.deleteUserPermission(userID);
                         for (String permisson : permissions) {
                             userPermissionDao.addUser(userID, Integer.parseInt(permisson));
@@ -167,17 +177,23 @@ public class UpdateController extends HttpServlet {
                     birthday = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("birthday"));
                     status = Boolean.parseBoolean(request.getParameter("status"));
                     roleName = request.getParameter("roleName");
+                    password = request.getParameter("password");
                     permissions = request.getParameterValues("permissions");
                     check = true;
                     phoneRegex = "^\\d{11}$";
+                    phoneRegex2 = "^\\d{10}$";
 
                     userPermissionDao = new UserPermissionDAO();
                     permissionDao = new PermissionDAO();
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneAdminV2(phone, userID)){
+                        userError.setPhone("Duplicate phone");
                         check = false;
                     }
                     if (userDao.checkDuplicateAdminV2(citizenID, userID)) {
@@ -188,12 +204,16 @@ public class UpdateController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
+                    if (userDao.checkDuplicateEmailAdminV2(email, userID)) {
+                        userError.setEmail("Duplicate email");
+                        check = false;
+                    }
                     if (!DateUtils.checkValidDate(birthday)) {
                         userError.setBirthday("Invalid birthday");
                         check = false;
                     }
 
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -212,7 +232,7 @@ public class UpdateController extends HttpServlet {
                     }
 
                     if (check) {
-                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, null, null, status, roleDao.getUserRoleID(roleName)));
+                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, password, null, status, roleDao.getUserRoleID(roleName)));
                         userPermissionDao.deleteUserPermission(userID);
                         for (String permisson : permissions) {
                             userPermissionDao.addUser(userID, Integer.parseInt(permisson));
@@ -240,17 +260,23 @@ public class UpdateController extends HttpServlet {
                     birthday = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("birthday"));
                     status = Boolean.parseBoolean(request.getParameter("status"));
                     roleName = request.getParameter("roleName");
+                    password = request.getParameter("password");
                     permissions = request.getParameterValues("permissions");
                     check = true;
                     phoneRegex = "^\\d{11}$";
+                    phoneRegex2 = "^\\d{10}$";
 
                     userPermissionDao = new UserPermissionDAO();
                     permissionDao = new PermissionDAO();
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneAdminV2(phone, userID)){
+                        userError.setPhone("Duplicate phone");
                         check = false;
                     }
                     if (userDao.checkDuplicateAdminV2(citizenID, userID)) {
@@ -261,12 +287,17 @@ public class UpdateController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
+
+                    if (userDao.checkDuplicateEmailAdminV2(email, userID)) {
+                        userError.setEmail("Duplicate email");
+                        check = false;
+                    }
                     if (!DateUtils.checkValidDate(birthday)) {
                         userError.setBirthday("Invalid birthday");
                         check = false;
                     }
 
-                    if (!phone.matches(phoneRegex)) {
+                    if (!phone.matches(phoneRegex) &&!phone.matches(phoneRegex2) ) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -285,7 +316,7 @@ public class UpdateController extends HttpServlet {
                     }
 
                     if (check) {
-                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, null, null, status, roleDao.getUserRoleID(roleName)));
+                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, password, null, status, roleDao.getUserRoleID(roleName)));
                         userPermissionDao.deleteUserPermission(userID);
                         for (String permisson : permissions) {
                             userPermissionDao.addUser(userID, Integer.parseInt(permisson));
@@ -313,6 +344,7 @@ public class UpdateController extends HttpServlet {
                     birthday = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("birthday"));
                     status = Boolean.parseBoolean(request.getParameter("status"));
                     roleName = request.getParameter("roleName");
+                    password = request.getParameter("password");
                     check = true;
                     phoneRegex = "^\\d{11}$";
                     phoneRegex2 = "^\\d{10}$";
@@ -320,8 +352,12 @@ public class UpdateController extends HttpServlet {
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneUserV2(phone, userID)){
+                        userError.setPhone("Duplicate phone");
                         check = false;
                     }
                     if (userDao.checkDuplicateUserV2(citizenID, userID)) {
@@ -332,12 +368,16 @@ public class UpdateController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
+                    if(userDao.checkDuplicateEmailUserV2(email, userID)){
+                        userError.setEmail("Duplicate email");
+                        check = false;
+                    }
                     if (!DateUtils.checkValidDate(birthday)) {
                         userError.setBirthday("Invalid birthday");
                         check = false;
                     }
 
-                    if (!phone.matches(phoneRegex)&&!phone.matches(phoneRegex2)) {
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -346,7 +386,7 @@ public class UpdateController extends HttpServlet {
                         check = false;
                     }
                     if (check) {
-                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, null, null, status, roleDao.getUserRoleID(roleName)));
+                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, password, null, status, roleDao.getUserRoleID(roleName)));
 
                         if (checkUpdate) {
                             request.setAttribute("UPDATE_USER_SUCCESS", "Update successfully.");
@@ -371,14 +411,20 @@ public class UpdateController extends HttpServlet {
                     birthday = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("birthday"));
                     status = Boolean.parseBoolean(request.getParameter("status"));
                     roleName = request.getParameter("roleName");
+                    password = request.getParameter("password");
                     check = true;
                     phoneRegex = "^\\d{11}$";
+                    phoneRegex2 = "^\\d{10}$";
 
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneUserV2(phone, userID)){
+                        userError.setPhone("Duplicate phone");
                         check = false;
                     }
                     if (userDao.checkDuplicateUserV2(citizenID, userID)) {
@@ -389,12 +435,16 @@ public class UpdateController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
+                    if(userDao.checkDuplicateEmailUserV2(email, userID)){
+                        userError.setEmail("Duplicate email");
+                        check = false;
+                    }
                     if (!DateUtils.checkValidDate(birthday)) {
                         userError.setBirthday("Invalid birthday");
                         check = false;
                     }
-
-                    if (!phone.matches(phoneRegex)) {
+                    
+                    if (!phone.matches(phoneRegex) && !phone.matches(phoneRegex2)) {
                         userError.setPhone("Invalid phone number");
                         check = false;
                     }
@@ -403,7 +453,7 @@ public class UpdateController extends HttpServlet {
                         check = false;
                     }
                     if (check) {
-                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, null, null, status, roleDao.getUserRoleID(roleName)));
+                        boolean checkUpdate = userDao.updateUser(new UserDTO(userID, fullName, email, phone, address, birthday, citizenID, gender, password, null, status, roleDao.getUserRoleID(roleName)));
 
                         if (checkUpdate) {
                             request.setAttribute("UPDATE_USER_SUCCESS", "Update successfully.");
@@ -429,11 +479,14 @@ public class UpdateController extends HttpServlet {
                     ServiceDTO service = null;
                     ServiceError serviceError = new ServiceError();
 
-                    if (serviceName.length() > 60 || serviceName.length() < 4) {
+                    if (serviceName.length() > 60 || serviceName.length() < 4 || serviceName.trim().equals("")) {
                         serviceError.setServiceName("Name must be from 4 to 60 chars");
                         check = false;
                     }
-
+                    if(price <=0){
+                        serviceError.setPrice("Price must be >0");
+                        check = false;
+                    }
                     if (serviceDao.getServiceByName(serviceName) != null && serviceDao.getServiceByName(serviceName).getServiceID() != serviceID) {
                         serviceError.setServiceName("Duplicate service name");
                         check = false;
@@ -459,9 +512,20 @@ public class UpdateController extends HttpServlet {
                     String notiContent = request.getParameter("notiContent");
                     status = Boolean.parseBoolean(request.getParameter("status"));
                     check = true;
-
+                    
                     NotificationDAO notiDao = new NotificationDAO();
                     NotificationDTO notification = new NotificationDTO(notiID, notiHeader, notiContent, null, status);
+                    
+                    NotificationError notiError = new NotificationError();
+                    if(notiHeader.trim().equals("")){
+                        notiError.setNotiHeader("Header can not be null");
+                        check = false;
+                    }
+                    if(notiContent.trim().equals("")){
+                        notiError.setNotiContent("Content can not be null");
+                        check = false;
+                    }
+                    
                     if (check) {
                         boolean checkUpdate = notiDao.updateNotification(notification);
                         if (checkUpdate) {
@@ -485,7 +549,16 @@ public class UpdateController extends HttpServlet {
                     PrivateNotificationDAO privateNotiDao = new PrivateNotificationDAO();
                     PrivateNotificationDTO privateNotification = new PrivateNotificationDTO(notiID, notiHeader, notiContent, null, userID, true);
                     userDao = new UserDAO();
-
+                    
+                    if(notiHeader.trim().equals("")){
+                        privateNotiError.setNotiHeader("Header can not be null");
+                        check = false;
+                    }
+                    if(notiContent.trim().equals("")){
+                        privateNotiError.setNotiContent("Content can not be null");
+                        check = false;
+                    }
+                    
                     if (userDao.getUserByIDAndStatus(userID, true) == null) {
                         privateNotiError.setNotiID("Invalid userID");
                     }
@@ -514,7 +587,7 @@ public class UpdateController extends HttpServlet {
                     PermissionDTO permission = null;
                     PermissionError permissionError = new PermissionError();
 
-                    if (permissionName.length() > 60 || permissionName.length() < 4) {
+                    if (permissionName.length() > 60 || permissionName.length() < 4 || permissionName.trim().equals("")) {
                         permissionError.setPermissionName("Name must be from 4 to 60 chars");
                         check = false;
                     }

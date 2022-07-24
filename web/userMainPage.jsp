@@ -39,25 +39,37 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="userContractPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Contract</span>
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="userApartmentPage.jsp">
                         <i class='bx bx-user' ></i>
-                        <span class="links_name">Payment Status</span>
+                        <span class="links_name">Apartment</span>
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="userMonthlyFeePage.jsp">
+                        <i class='bx bx-user' ></i>
+                        <span class="links_name">Monthly Fee</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="userBillingHistoryPage.jsp">
+                        <i class='bx bx-user' ></i>
+                        <span class="links_name">Billing History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="userNotificationPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Notification</span>
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="userNewsPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">News</span>
                     </a>

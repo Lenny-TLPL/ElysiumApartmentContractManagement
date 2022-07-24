@@ -35,6 +35,7 @@ import sample.DTO.ApartmentTypeError;
 import sample.DTO.ContractDTO;
 import sample.DTO.ContractError;
 import sample.DTO.DistrictError;
+import sample.DTO.NotificationError;
 import sample.DTO.PermissionDTO;
 import sample.DTO.PermissionError;
 import sample.DTO.PrivateNotificationError;
@@ -111,12 +112,20 @@ public class AddController extends HttpServlet {
                     UserDAO userDao = new UserDAO();
                     RoleDAO roleDao = new RoleDAO();
                     UserError userError = new UserError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
                         check = false;
                     }
                     if (userDao.checkDuplicateAdmin(citizenID)) {
                         userError.setCitizenID("Duplicate citizenID");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicateEmailAdmin(email)){
+                        userError.setEmail("Duplicate email");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneAdmin(phone)){
+                        userError.setPhone("Duplicate phone");
                         check = false;
                     }
                     if (!(citizenID.length() == 12)) {
@@ -171,7 +180,7 @@ public class AddController extends HttpServlet {
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
                         check = false;
                     }
@@ -181,6 +190,14 @@ public class AddController extends HttpServlet {
                     }
                     if (!(citizenID.length() == 12)) {
                         userError.setCitizenID("Invalid citizenID");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneAdmin(phone)){
+                        userError.setPhone("Duplicate phone");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicateEmailAdmin(email)){
+                        userError.setEmail("Duplicate email");
                         check = false;
                     }
                     if (!DateUtils.checkValidDate(birthday)) {
@@ -231,7 +248,7 @@ public class AddController extends HttpServlet {
                     userDao = new UserDAO();
                     roleDao = new RoleDAO();
                     userError = new UserError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
                         check = false;
                     }
@@ -241,6 +258,14 @@ public class AddController extends HttpServlet {
                     }
                     if (!(citizenID.length() == 12)) {
                         userError.setCitizenID("Invalid citizenID");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneAdmin(phone)){
+                        userError.setPhone("Duplicate phone");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicateEmailAdmin(email)){
+                        userError.setEmail("Duplicate email");
                         check = false;
                     }
                     if (!DateUtils.checkValidDate(birthday)) {
@@ -308,7 +333,7 @@ public class AddController extends HttpServlet {
                     roleDao = new RoleDAO();
                     userError = new UserError();
                     ContractError contractError = new ContractError();
-                    if (fullName.length() > 60 || fullName.length() < 4) {
+                    if (fullName.length() > 60 || fullName.length() < 4 || fullName.trim().equals("")) {
                         userError.setFullName("FullName needs to be between 4 and 60 characters.");
                         check = false;
                     }
@@ -318,6 +343,14 @@ public class AddController extends HttpServlet {
                     }
                     if (!(citizenID.length() == 12)) {
                         userError.setCitizenID("Invalid citizenID");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicatePhoneUser(phone)){
+                        userError.setPhone("Duplicate phone");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicateEmailUser(email)){
+                        userError.setEmail("Duplicate email");
                         check = false;
                     }
                     if (!DateUtils.checkValidDate(birthday)) {
@@ -434,6 +467,14 @@ public class AddController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
+                    if(userDao.checkDuplicatePhoneUser(phone)){
+                        userError.setPhone("Duplicate phone");
+                        check = false;
+                    }
+                    if(userDao.checkDuplicateEmailUser(email)){
+                        userError.setEmail("Duplicate email");
+                        check = false;
+                    }
                     if (!DateUtils.checkValidDate(birthday)) {
                         userError.setBirthday("Invalid birthday");
                         check = false;
@@ -512,12 +553,16 @@ public class AddController extends HttpServlet {
                     ServiceDTO service = null;
                     ServiceError serviceError = new ServiceError();
 
-                    if (serviceName.length() > 60 || serviceName.length() < 4) {
+                    if (serviceName.length() > 60 || serviceName.length() < 4 || serviceName.trim().equals("")) {
                         serviceError.setServiceName("Name must be from 4 to 60 chars");
                         check = false;
                     }
                     if (serviceDao.getServiceByName(serviceName) != null) {
                         serviceError.setServiceName("Duplicate service name");
+                        check = false;
+                    }
+                    if(price <=0){
+                        serviceError.setPrice("Price must be >0");
                         check = false;
                     }
                     if (check) {
@@ -535,11 +580,20 @@ public class AddController extends HttpServlet {
                     }
                     break;
                 case NOTIFICATION:
-
+                        
                     String notiHeader = request.getParameter("notiHeader");
                     String notiContent = request.getParameter("notiContent");
                     check = true;
-
+                    NotificationError notiError = new NotificationError();
+                    if(notiHeader.trim().equals("")){
+                        notiError.setNotiHeader("Header can not be null");
+                        check = false;
+                    }
+                    if(notiContent.trim().equals("")){
+                        notiError.setNotiContent("Content can not be null");
+                        check = false;
+                    }
+                    
                     NotificationDAO notiDao = new NotificationDAO();
 
                     if (check) {
@@ -567,6 +621,14 @@ public class AddController extends HttpServlet {
                         privateNotiError.setNotiID("Invalid userID");
                         check = false;
                     }
+                    if(notiHeader.trim().equals("")){
+                        privateNotiError.setNotiHeader("Header can not be null");
+                        check = false;
+                    }
+                    if(notiContent.trim().equals("")){
+                        privateNotiError.setNotiContent("Content can not be null");
+                        check = false;
+                    }
                     if (check) {
                         boolean checkAdd = privateNotiDao.addPrivateNotification(notiHeader, notiContent, userID);
                         if (checkAdd) {
@@ -591,7 +653,7 @@ public class AddController extends HttpServlet {
                     PermissionDTO permission = null;
                     PermissionError permissionError = new PermissionError();
 
-                    if (permissionName.length() > 60 || permissionName.length() < 4) {
+                    if (permissionName.length() > 60 || permissionName.length() < 4 || permissionName.trim().equals("")) {
                         permissionError.setPermissionName("Name must be from 4 to 60 chars");
                         check = false;
                     }
@@ -705,6 +767,10 @@ public class AddController extends HttpServlet {
                     DistrictDAO districtDao = new DistrictDAO();
                     DistrictError districtError = new DistrictError();
                     check = true;
+                    if(districtName.trim().equals("")){
+                        districtError.setDistrictName("Name can not be null");
+                        check = false;
+                    }
                     if (districtDao.checkDuplicate(districtName)) {
                         districtError.setDistrictName("Duplicate district name.");
                         check = false;
@@ -730,7 +796,11 @@ public class AddController extends HttpServlet {
 
                     ApartmentBuildingDAO apBuildingDao = new ApartmentBuildingDAO();
                     ApartmentBuildingError apBuildingError = new ApartmentBuildingError();
-
+                    
+                    if(buildingName.trim().equals("")){
+                        apBuildingError.setBuildingName("Name can not be null");
+                        check = false;
+                    }
                     if (apBuildingDao.checkDuplicate(buildingName, districtID)) {
                         apBuildingError.setBuildingName("Duplicate building name");
                         check = false;
@@ -756,7 +826,11 @@ public class AddController extends HttpServlet {
                     ApartmentTypeDAO typeDao = new ApartmentTypeDAO();
                     ApartmentTypeError typeError = new ApartmentTypeError();
                     check = true;
-
+                    
+                    if(typeName.trim().equals("")){
+                        typeError.setTypeName("Name can not be null");
+                        check = false;
+                    }
                     if (typeDao.checkDuplicate(typeName)) {
                         typeError.setTypeName("Duplicate type name");
                         check = false;
@@ -811,9 +885,16 @@ public class AddController extends HttpServlet {
                     }
 
                     if (check) {
-                        boolean checkAdd = apartmentDao.addApartment(apartmentStatus, typeName, floor, buildingName, area);
-                        if (checkAdd) {
-                            ArrayList<ApartmentDTO> apList = apartmentDao.getApartmentListInABuilding(apBuilding.getBuildingID());
+                        ArrayList<ApartmentDTO> apList = apartmentDao.getApartmentListInABuilding(apBuilding.getBuildingID());
+                        boolean checkAdd=true;
+                        if(apList.size()==apBuilding.getMaxApartment()){
+                            apError.setBuildingName("Building is full");
+                            apBuildingDao.updateApartmentBuildingStatus(apBuilding.getBuildingID(), !apBuilding.isStatus());
+                        }else{
+                            checkAdd = apartmentDao.addApartment(apartmentStatus, typeName, floor, buildingName, area);
+                        }
+                        if (checkAdd) {        
+                            apList = apartmentDao.getApartmentListInABuilding(apBuilding.getBuildingID());
                             if(apList.size()==apBuilding.getMaxApartment()){
                                 apBuildingDao.updateApartmentBuildingStatus(apBuilding.getBuildingID(), !apBuilding.isStatus());
                             }

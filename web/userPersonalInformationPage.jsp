@@ -41,31 +41,43 @@
             </div>
             <ul class="nav-links">
                 <li>
-                    <a href="residentPersonalInformationPage.jsp" class="active">
+                    <a href="userPersonalInformationPage.jsp" class="active">
                         <i class='bx bx-grid-alt' ></i>
                         <span class="links_name">Personal Information</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Board Manager&action=Search&search=">
+                    <a href="userContractPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Contract</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=HR Manager&action=Search&search=">
+                    <a href="userApartmentPage.jsp">
                         <i class='bx bx-user' ></i>
-                        <span class="links_name">Payment Status</span>
+                        <span class="links_name">Apartment</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Employee&action=Search&search=">
+                    <a href="userMonthlyFeePage.jsp">
+                        <i class='bx bx-user' ></i>
+                        <span class="links_name">Monthly Fee</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="userBillingHistoryPage.jsp">
+                        <i class='bx bx-user' ></i>
+                        <span class="links_name">Billing History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="userNotificationPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Notification</span>
                     </a>
                 </li>
                 <li>
-                    <a href="MainController?type=Resident&action=Search&search=">
+                    <a href="userNewsPage.jsp">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">News</span>
                     </a>
@@ -103,47 +115,66 @@
                                 <span class="title">&nbsp;</span>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
+                                        <label>UserID </label>
+                                        <input type="text" name="userID" class="form-control" value="${sessionScope.LOGIN_USER.userID}" readonly="">     
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label>Full Name </label>
-                                        <input type="text" name="fullName" class="form-control" placeholder="${sessionScope.LOGIN_USER.fullName}" disabled>     
+                                        <input type="text" name="fullName" class="form-control" value="${sessionScope.LOGIN_USER.fullName}" >     
                                     </div>
 
                                     <div class="form-group col-md-4">
                                         <label>Date of Birth  </label>
-                                        <input type="date" name="birthday" class="form-control" placeholder="${sessionScope.LOGIN_USER.birthDay}" disabled>
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label>Email  </label>
-                                        <input type="email" name="email" class="form-control" placeholder="${sessionScope.LOGIN_USER.email}" disabled>
+                                        <input type="date" name="birthday" class="form-control" value="${sessionScope.LOGIN_USER.birthDay}" >
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                    <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label>Email  </label>
+                                        <input type="email" name="email" class="form-control" value="${sessionScope.LOGIN_USER.email}" >
+                                    </div>
+                                
+                                
                                     <div class="form-group col-md-4">
                                         <label>Phone Number  </label>
-                                        <input type="text" name="phone" class="form-control" placeholder="${sessionScope.LOGIN_USER.phone}" disabled>
+                                        <input type="text" name="phone" class="form-control" value="${sessionScope.LOGIN_USER.phone}" >
                                     </div>
 
                                     <div class="form-group col-md-4">
                                         <label>Gender  </label>
-                                        <input type="text" name="gender" class="form-control" placeholder="${sessionScope.LOGIN_USER.gender}" disabled>
+                                        <input type="text" name="gender" class="form-control" value="${sessionScope.LOGIN_USER.gender}" readonly>
                                     </div>
-
+</div>
+                                    <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label>Address  </label>
-                                        <input type="text" name="address" class="form-control" placeholder="${sessionScope.LOGIN_USER.address}" disabled>
+                                        <input type="text" name="address" class="form-control" value="${sessionScope.LOGIN_USER.address}" >
                                     </div>   
-                                </div>
-                                <div class="form-group">
+                                
+                                <div class="form-group col-md-4">
                                     <label>CitizenID </label>
-                                    <input type="text" name="citizenID" class="form-control" placeholder="${sessionScope.LOGIN_USER.citizenID}" disabled>
-                                </div>                               
+                                    <input type="text" name="citizenID" class="form-control" value="${sessionScope.LOGIN_USER.citizenID}" readonly>
+                                </div>  
+                                <div class="form-group col-md-4">
+                                    <label>Date Join </label>
+                                    <input type="date" name="dateJoin" class="form-control" value="${sessionScope.LOGIN_USER.dateJoin}" readonly>
+                                </div>  
+                                    </div>
+                                <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Password </label>
+                                    <input type="password" name="password" class="form-control" value="${sessionScope.LOGIN_USER.password}" >
+                                </div>  
+                                <div class="form-group col-md-4">
+                                    <label>Confirm Password </label>
+                                    <input type="password" name="confirmPassword" class="form-control" value="${sessionScope.LOGIN_USER.password}" >
+                                </div> 
+                                </div>
                                 <div class="form-row"  >
                                     <div class="col-auto my-1">
-                                        <button type="submit" class="btn btn-dark">Edit</button>
+                                        <button type="submit" name="action" value="Update" class="btn btn-dark">Edit</button>
                                     </div>
-                                    <div class="col-auto my-1">
-                                        <button type="button" class="btn btn-dark">Details</button>
-                                    </div>
+                                   
                                 </div>
                             </div>                           
                         </div>

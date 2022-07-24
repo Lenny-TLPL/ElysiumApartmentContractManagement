@@ -21,12 +21,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <%if (request.getAttribute("NOTIFICATION_LIST") == null) {
+                response.sendRedirect("MainController?action=Search&type=News&search=");
+            }%>
         <div class="sidebar">
             <div class="logo-details">
                 <i class='bx bxl-c-plus-plus'></i>
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp"style="text-decoration: none">
+                    <a href="userMainPage.jsp"style="text-decoration: none">
                         <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
                     </a>
                 </span>
@@ -63,13 +66,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="userNotificationPage.jsp" class="active">
+                    <a href="userNotificationPage.jsp" >
                         <i class='bx bx-user' ></i>
                         <span class="links_name">Notification</span>
                     </a>
                 </li>
                 <li>
-                    <a href="userNewsPage.jsp">
+                    <a href="userNewsPage.jsp"class="active">
                         <i class='bx bx-user' ></i>
                         <span class="links_name">News</span>
                     </a>
@@ -84,22 +87,15 @@
         </div>
         <section class="home-section">
             <nav>
-                <div class="">
-                    <button class="" style="border: none; background-color: #fff;text-decoration: none">
-                        <i style="font-size: large" class="bx bx-arrow-back"></i>
-                        <span class="btnText"><a style="text-decoration: none; font-size: large" href="userNotificationPage.jsp">Back to notification page</a></span>               
-                    </button> 
-                    
-                </div>
                 <div class="sidebar-button">
 <!--                    <i class='bx bx-menu sidebarBtn'></i>
                     <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
-<!--                        <input type="hidden" name="type" value="Notification">
+                        <input type="hidden" name="type" value="News">
                         <input class="search-box" style="width:96.5%"type="text" name="search"  placeholder="Search...." value="${param.search}">
-                        <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>-->
+                        <button type="submit" name="action" value="Search"><i class='bx bx-search' ></i> </button>
                     </div>
                 </form>
 
@@ -113,19 +109,27 @@
             <div class="home-content">
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <%  NotificationDTO noti = (NotificationDTO) request.getAttribute("PRIVATE_NOTIFICATION_DETAIL");
-                            if (noti != null) {
-                        %>
-                                <div class="title"><%= noti.getNotiHeader() %></div>
-                                <div class="notification"><%= new SimpleDateFormat("dd/MM/yyyy").format( noti.getNotiDate())%></div>
+                        <div class="title">NEWS</div>
+                                <%  ArrayList<NotificationDTO> notificationList = (ArrayList<NotificationDTO>) request.getAttribute("NOTIFICATION_LIST");
+                                    if (notificationList != null) {
+                                        if (notificationList.size() > 0) {
+                                            for (int i = 0; i < notificationList.size(); i++) {%>
                                 <div class="notification">
-                                    <span><%= noti.getNotiContent() %></span>
+                                    <em class="date"><%=new SimpleDateFormat("dd/MM/yyyy").format( notificationList.get(i).getNotiDate() )%> - </em>
+                                    <input type="hidden" name="redirect" value="userNewsDetailPage.jsp" readonly="readonly"/>
+                                    <input type="hidden" name="type" value="Notification" readonly="readonly"/>
+                                    <a href="MainController?action=View Detail&type=Notification&redirect=userNewsDetailPage.jsp&notiID=<%=notificationList.get(i).getNotiID()%>" class="header"><%= notificationList.get(i).getNotiHeader() %></a>
                                 </div>
-                        <%
-                            }
-                        %>
+                            <%}
+                                    }
+                                }%>
+
+                            </tbody>
+                        </table>
                     </div>                    
                 </div>
+                <br>
+                
             </div>
         </section>
 
