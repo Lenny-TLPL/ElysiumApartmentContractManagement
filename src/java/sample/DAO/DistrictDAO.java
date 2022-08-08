@@ -21,7 +21,8 @@ public class DistrictDAO {
     private static final String GET_DISTRICT_LIST = "SELECT districtID, districtName FROM tblDistrict WHERE districtName LIKE ?";
     private static final String ADD_NEW_DISTRICT = "INSERT INTO tblDistrict(districtName) VALUES(?)";
     private static final String CHECK_DUPLICATE = "SELECT districtID FROM tblDistrict WHERE districtName LIKE ?";
-
+    private static final String UPDATE_DISTRICT = "UPDATE tblDistrict SET districtName = ? WHERE districtID = ?";
+    
     public ArrayList<DistrictDTO> getDistrictList(String search) throws SQLException {
         ArrayList<DistrictDTO> list = new ArrayList<>();
         DistrictDTO district = null;
@@ -112,5 +113,63 @@ public class DistrictDAO {
             }
         }
         return false;
+    }
+    
+    public boolean checkDuplicate(String districtName, int districtID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(CHECK_DUPLICATE);
+                stm.setNString(1, districtName);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int id = rs.getInt("districtID");
+                    if (districtID != id) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return false;
+    }
+    
+    public boolean updateDistrict(String districtName, int districtID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_DISTRICT);
+                ptm.setNString(1, districtName);
+                ptm.setInt(2,districtID);
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

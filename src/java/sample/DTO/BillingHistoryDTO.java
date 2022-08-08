@@ -14,32 +14,40 @@ import java.util.Date;
 public class BillingHistoryDTO {
 
     private int billID;
-    private String billName;
     private Date payDate;
     private String userID;
     private String apartmentID;
-    private float value;
+    private float contractFee;
+    private float serviceFee;
+    private float waterFee;
+    private float electricityFee;
+    private float otherFee;
     private float receivedValue;
     private float change;
 
     public BillingHistoryDTO() {
         this.billID = 0;
-        this.billName = "";
         this.payDate = null;
         this.userID = "";
         this.apartmentID = "";
-        this.value = 0;
+        this.contractFee = 0;
+        this.serviceFee = 0;
+        this.waterFee = 0;
+        this.electricityFee = 0;
         this.receivedValue = 0;
-        this.change=0;
+        this.change = 0;
     }
 
-    public BillingHistoryDTO(int billID, String billName, Date payDate, String userID, String apartmentID, float value, float receivedValue, float change) {
+    public BillingHistoryDTO(int billID, Date payDate, String userID, String apartmentID, float contractFee, float serviceFee, float waterFee, float electrictyFee, float otherFee, float receivedValue, float change) {
         this.billID = billID;
-        this.billName = billName;
         this.payDate = payDate;
         this.userID = userID;
         this.apartmentID = apartmentID;
-        this.value = value;
+        this.contractFee = contractFee;
+        this.serviceFee = serviceFee;
+        this.waterFee = waterFee;
+        this.electricityFee = electrictyFee;
+        this.otherFee = otherFee;
         this.receivedValue = receivedValue;
         this.change = change;
     }
@@ -50,14 +58,6 @@ public class BillingHistoryDTO {
 
     public void setBillID(int billID) {
         this.billID = billID;
-    }
-
-    public String getBillName() {
-        return billName;
-    }
-
-    public void setBillName(String billName) {
-        this.billName = billName;
     }
 
     public Date getPayDate() {
@@ -84,12 +84,44 @@ public class BillingHistoryDTO {
         this.apartmentID = apartmentID;
     }
 
-    public float getValue() {
-        return value;
+    public float getContractFee() {
+        return contractFee;
     }
 
-    public void setValue(float value) {
-        this.value = value;
+    public void setContractFee(float contractFee) {
+        this.contractFee = contractFee;
+    }
+
+    public float getServiceFee() {
+        return serviceFee;
+    }
+
+    public void setServiceFee(float serviceFee) {
+        this.serviceFee = serviceFee;
+    }
+
+    public float getWaterFee() {
+        return waterFee;
+    }
+
+    public void setWaterFee(float waterFee) {
+        this.waterFee = waterFee;
+    }
+
+    public float getElectricityFee() {
+        return electricityFee;
+    }
+
+    public void setElectricityFee(float electricityFee) {
+        this.electricityFee = electricityFee;
+    }
+
+    public float getOtherFee() {
+        return otherFee;
+    }
+
+    public void setOtherFee(float otherFee) {
+        this.otherFee = otherFee;
     }
 
     public float getReceivedValue() {
@@ -107,4 +139,5 @@ public class BillingHistoryDTO {
     public void setChange(float change) {
         this.change = change;
     }
+
 }

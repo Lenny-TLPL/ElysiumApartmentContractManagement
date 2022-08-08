@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import sample.DAO.ApartmentBuildingDAO;
 import sample.DAO.ApartmentTypeDAO;
 import sample.DAO.DistrictDAO;
+import sample.DAO.MonthlyFeeDAO;
 import sample.DAO.PermissionDAO;
 import sample.DAO.ReportDAO;
 import sample.DAO.RoleDAO;
 import sample.DTO.ApartmentBuildingDTO;
 import sample.DTO.ApartmentTypeDTO;
 import sample.DTO.DistrictDTO;
+import sample.DTO.MonthlyFeeDTO;
 import sample.DTO.PermissionDTO;
 import sample.DTO.RoleDTO;
 
@@ -35,7 +37,7 @@ public class GetMaterialController extends HttpServlet {
     private static final String EMPLOYEE = "Employee";
     private static final String HR_MANAGER = "HR Manager";
     private static final String BOARD_MANAGER = "Board Manager";
-    private static final String APARTMENT_TYPE = "Apartment Type";
+    private static final String MONTHLY_FEE = "MonthlyFee";
     private static final String APARTMENT = "Apartment";
     private static final String APARTMENT_BUILDING = "Apartment Building";
     private static final String VIEW_REPORT = "View Report";
@@ -117,7 +119,7 @@ public class GetMaterialController extends HttpServlet {
                     dataValue.add(reportDao.getTotalRentedApartment());
                     dataValue.add(reportDao.getTotalMaintenanceApartment());
 //                    dataValue.add(((reportDao.getTotalContractSignedThisYear()/10)+1)*10);
-                    ArrayList<Integer> list = reportDao.getTotalContractSignedThisYearV1();
+                    ArrayList<Integer> list = reportDao.getTotalContractSignedThisYear();
                     for (int i = 0; i < list.size(); i++) {
                         if(i==0){
                             dataValue.add(((list.get(i)/10)+1)*10);
@@ -140,6 +142,16 @@ public class GetMaterialController extends HttpServlet {
 //                    dataValue.add(reportDao.getTotalContractSignedThisYear12());
                     request.setAttribute("DATA_VALUE", dataValue);
                     url = SUCCESS;
+                    break;
+                case MONTHLY_FEE:
+                    String userID = request.getParameter("userID");
+                    String apartmentID = request.getParameter("apartmentID");
+                    MonthlyFeeDAO monthlyFeeDao = new MonthlyFeeDAO();
+                    MonthlyFeeDTO monthlyFee = monthlyFeeDao. getUserMonthlyFeeDetail(userID, apartmentID);
+                    request.setAttribute("USER_MONTHLY_FEE", monthlyFee);
+                    url=SUCCESS;
+                    break;
+                default:
                     break;
             }
         } catch (Exception e) {

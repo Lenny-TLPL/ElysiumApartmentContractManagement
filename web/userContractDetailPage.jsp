@@ -19,6 +19,7 @@
 
         <!----======== CSS ======== -->
         <link rel="stylesheet" href="css/addcss.css">
+        <link rel="icon" type="image/png" sizes="21x21" href="images/logo1.png">
 
         <!----===== Iconscout CSS ===== -->
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
@@ -228,8 +229,8 @@
                             <div class="input-field">
                                 <img id="myImg" style="width:264px; height: 148px" src="data:image/jpg;base64,${requestScope.CONTRACT_IMAGE}" alt="Contract Image" style="width:100%;max-width:300px">
 <!--                                <img src="data:image/jpg;base64,${requestScope.CONTRACT_IMAGE}" width="240" height="300"/>-->
-                                <label>Contract Image  ${requestScope.ADD_CONTRACT_ERROR.contractImage}</label>
-                                <input name="contractImage" id="contractImage" type="file" placeholder="Upload contract image"  accept="image/*">
+<!--                                <label>Contract Image  ${requestScope.ADD_CONTRACT_ERROR.contractImage}</label>
+                                <input name="contractImage" id="contractImage" type="file" placeholder="Upload contract image"  accept="image/*">-->
                             </div>
 
                                 <input type="hidden" name="type" value="Contract"/>

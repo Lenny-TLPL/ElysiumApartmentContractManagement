@@ -25,7 +25,7 @@
 <!--                <i class='bx bxl-c-plus-plus'></i>-->
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp" style="text-decoration: none;display: flex; justify-content: center">
+                    <a href="userMainPage.jsp" style="text-decoration: none;display: flex; justify-content: center">
                         <img src="images/logo1.png" style="width:21%;" alt="homepage" class="dark-logo" />
                         <span style="color:#FFF; text-decoration: none;margin-bottom: auto; margin-top: 20px;margin-right: 80px">ELYSIUM</span> 
                     </a>
@@ -33,88 +33,52 @@
             </div>
             <ul class="nav-links">
                 <li>
-                    <a href="adminDashBoardPage.jsp" >
+                    <a href="userPersonalInformationPage.jsp" >
                         <i class='bx bx-grid-alt' ></i>
-                        <span class="links_name">Dashboard</span>
+                        <span class="links_name">Personal Information</span>
                     </a>
                 </li>
                 <li>
-                    <a href="adminBoardManagerPage.jsp">
+                    <a href="userContractPage.jsp" >
                         <i class='bx bx-user' ></i>
-                        <span class="links_name">Board Manager</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminHRManagerPage.jsp">
-                        <i class='bx bx-user' ></i>
-                        <span class="links_name">HR Manager</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminEmployeePage.jsp">
-                        <i class='bx bx-user' ></i>
-                        <span class="links_name">Employee</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminResidentPage.jsp">
-                        <i class='bx bx-user' ></i>
-                        <span class="links_name">Resident</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminCustomerPage.jsp">
-                        <i class='bx bx-user' ></i>
-                        <span class="links_name">Customer</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminServicePage.jsp">
-                        <i class='bx bx-book-alt' ></i>
-                        <span class="links_name">Service</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminContractPage.jsp">
-                        <i class='bx bx-book-alt' ></i>
                         <span class="links_name">Contract</span>
                     </a>
                 </li>
                 <li>
-                    <a href="adminApartmentPage.jsp">
-                        <i class='bx bx-book-alt' ></i>
+                    <a href="userApartmentPage.jsp">
+                        <i class='bx bx-user' ></i>
                         <span class="links_name">Apartment</span>
                     </a>
                 </li>
                 <li>
-                    <a href="adminNotificationPage.jsp">
-                        <i class='bx bx-message' ></i>
+                    <a href="userMonthlyFeePage.jsp">
+                        <i class='bx bx-user' ></i>
+                        <span class="links_name">Monthly Fee</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="userBillingHistoryPage.jsp" class="active">
+                        <i class='bx bx-user' ></i>
+                        <span class="links_name">Billing History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="userNotificationPage.jsp">
+                        <i class='bx bx-user' ></i>
                         <span class="links_name">Notification</span>
                     </a>
                 </li>
                 <li>
-                    <a href="adminMonthlyFeePage.jsp">
-                        <i class='bx bx-coin-stack' ></i>
-                        <span class="links_name">Monthly fee</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminBillingHistoryPage.jsp" class="active">
-                        <i class='bx bx-coin-stack' ></i>
-                        <span class="links_name">Billing history</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminPermissionPage.jsp">
-                        <i class='bx bx-key' ></i>
-                        <span class="links_name">Permission</span>
+                    <a href="userNewsPage.jsp">
+                        <i class='bx bx-user' ></i>
+                        <span class="links_name">News</span>
                     </a>
                 </li>
                 <li class="log_out">
                     <a href="MainController?action=Logout">
                         <i class='bx bx-log-out'></i>
                         <span class="links_name">Log out</span>
-                    </a>
+                    </a>                  
                 </li>
             </ul>
         </div>
@@ -143,9 +107,9 @@
                 <div class="sales-boxes">
                     <div class="recent-sales box">
                         <div class="title" style="float:left">BILLING HISTORY</div>
-                        <a href="#"style="float:right" >
+<!--                        <a href="#"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
-                        </a>
+                        </a>-->
                         <div class="title"></div>
                         <table border="1" id="table">
                             <thead>

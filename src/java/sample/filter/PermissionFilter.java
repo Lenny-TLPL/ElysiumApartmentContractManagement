@@ -74,6 +74,7 @@ public class PermissionFilter implements Filter {
         USER_FUNCTION.add("userNewsPage.jsp");
         USER_FUNCTION.add("userMonthlyFeePage.jsp");
         USER_FUNCTION.add("userPersonalInformationPage.jsp");
+        USER_FUNCTION.add("userBillingHistoryPage.jsp");
 
         ADMIN_FUNCTION = new ArrayList<>();
         ADMIN_MANAGE_APARTMENT = new ArrayList<>();
@@ -140,6 +141,7 @@ public class PermissionFilter implements Filter {
         ADMIN_MANAGE_BOARD_MANAGER.add("adminUserDetailPage.jsp");
 
         ADMIN_MANAGE_BILLING_HISTORY.add("adminBillingHistoryPage.jsp");
+        ADMIN_MANAGE_BILLING_HISTORY.add("adminAddBillingHistoryPage.jsp");
 
         ADMIN_MANAGE_RESIDENT.add("adminResidentPage.jsp");
         ADMIN_MANAGE_RESIDENT.add("adminAddUserPage.jsp");
@@ -281,7 +283,6 @@ public class PermissionFilter implements Filter {
                     if (session == null || session.getAttribute("LOGIN_USER") == null) {
                         res.sendRedirect(LOGIN_PAGE);
                     } else {
-                        String filter = "true";
                         UserDTO loginUser = (UserDTO) session.getAttribute("LOGIN_USER");
                         String roleName = (String) session.getAttribute("LOGIN_USER_ROLE");
                         ArrayList<Integer> userPermission = (ArrayList<Integer>) session.getAttribute("LOGIN_USER_PERMISSION");
@@ -309,7 +310,7 @@ public class PermissionFilter implements Filter {
                                 chain.doFilter(request, response);
                             } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_NOTIFICATION.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_NOTIFICATION))) {
                                 chain.doFilter(request, response);
-                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_PERMISSION.contains(resource) && userPermission.contains(27) && availablePermission.contains(27)) {
+                            } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_PERMISSION.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_PERMISSION)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_PERMISSION))) {
                                 chain.doFilter(request, response);
                             } else if ((EM + " " + HR + " " + BM).contains(roleName) && ADMIN_MANAGE_RESIDENT.contains(resource) && userPermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT)) && availablePermission.contains(adminFunction.indexOf(ADMIN_MANAGE_RESIDENT))) {
                                 chain.doFilter(request, response);

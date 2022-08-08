@@ -10,6 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Error Page</title>
+                <link rel="icon" type="image/png" sizes="21x21" href="images/logo1.png">
+
     </head>
     <body>
         <h1>THERE IS ERROR OCCURS WHILE HANDLING YOUR REQUEST.</h1>

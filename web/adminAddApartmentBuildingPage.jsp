@@ -22,7 +22,7 @@
 
         <!----===== Iconscout CSS ===== -->
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-
+        <link rel="icon" type="image/png" sizes="21x21" href="images/logo1.png">
         <!--<title>Responsive Regisration Form </title>--> 
     </head>
     <body>

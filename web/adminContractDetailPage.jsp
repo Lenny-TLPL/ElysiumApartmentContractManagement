@@ -22,6 +22,7 @@
 
         <!----===== Iconscout CSS ===== -->
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+        <link rel="icon" type="image/png" sizes="21x21" href="images/logo1.png">
 
         <!--<title>Responsive Regisration Form </title>--> 
         <style>
@@ -143,17 +144,17 @@
                         <div class="fields">
                             <div class="input-field">
                                 <label>UserID  ${requestScope.UPDATE_CONTRACT_ERROR.userID}</label>
-                                <input name="userID" value="${requestScope.CONTRACT_DETAIL.userID}" type="text" placeholder="Enter userID" required >
+                                <input name="userID" value="${requestScope.CONTRACT_DETAIL.userID}" type="text" readonly="" placeholder="Enter userID" required >
                             </div>
 
                             <div class="input-field">
                                 <label>ApartmentID  ${requestScope.UPDATE_CONTRACT_ERROR.apartmentID}</label>
-                                <input name="apartmentID" value="${requestScope.CONTRACT_DETAIL.apartmentID}" type="text" placeholder="Enter apartmentID" required>
+                                <input name="apartmentID" value="${requestScope.CONTRACT_DETAIL.apartmentID}" readonly="" type="text" placeholder="Enter apartmentID" required>
                             </div>
 
                             <div class="input-field">
                                 <label>Date Sign  ${requestScope.UPDATE_CONTRACT_ERROR.dateSign}</label>
-                                <input name="dateSign" value="${param.dateSign}" type="date" placeholder="Enter DateSign" required readonly="">
+                                <input name="dateSign" value="${param.dateSign}" type="date" placeholder="Enter DateSign" required >
                             </div>
 
                             <%if (((ContractDTO) request.getAttribute("CONTRACT_DETAIL")).isStatus()) {%>
@@ -161,7 +162,7 @@
                                 <label>Status  </label>
                                 <select id="status" required="" name="status" onchange="showColor(this)" style="color:#000; background-color: #669c19 " >
                                     <option value="true" style="color:#000; background-color: #669c19 ">Valid</option>
-                                    <option value="false" style="color:#000; background-color: #d3190d ">Invalid</option>
+<!--                                    <option value="false" style="color:#000; background-color: #d3190d ">Invalid</option>-->
                                 </select>
                             </div>
                             <%} else {%>
@@ -169,19 +170,19 @@
                                 <label>Status  </label>
                                 <select id="status" required="" name="status" onchange="showColor(this)" style="color:#000; background-color: #d3190d " >
                                     <option value="false" style="color:#000; background-color: #d3190d ">Invalid</option>
-                                    <option value="true" style="color:#000; background-color: #669c19 ">Valid</option>
+<!--                                    <option value="true" style="color:#000; background-color: #669c19 ">Valid</option>-->
                                 </select>
                             </div>
                             <%}%>
                             <%if (("buying amortization").contains(((ContractDTO) request.getAttribute("CONTRACT_DETAIL")).getContractType())) {%>
                             <div class="input-field">
                                 <label>Value ($)  ${requestScope.UPDATE_CONTRACT_ERROR.value}</label>
-                                <input name="value" value="${requestScope.CONTRACT_DETAIL.value}"($/month)  type="number" placeholder="Enter value" required readonly="">
+                                <input name="value" value="${requestScope.CONTRACT_DETAIL.value}" type="number" placeholder="Enter value" required >
                             </div>
                             <%} else {%>
                             <div class="input-field">
                                 <label>Value($/month)   ${requestScope.UPDATE_CONTRACT_ERROR.value}</label>
-                                <input name="value" value="${requestScope.CONTRACT_DETAIL.value}"($/month)  type="number" placeholder="Enter value" required readonly="">
+                                <input name="value" value="${requestScope.CONTRACT_DETAIL.value}" type="number" placeholder="Enter value" required >
                             </div>
                             <%}%>
                             <div class="input-field">
@@ -208,7 +209,7 @@
 
                             <div class="input-field" id="leasing" >
                                 <label>Expiry Date  ${requestScope.UPDATE_CONTRACT_ERROR.expiryDate}</label>
-                                <input name="expiryDate" value="${requestScope.CONTRACT_DETAIL.expiryDate}" readonly="" type="date" placeholder="Enter expiry date">
+                                <input name="expiryDate" value="${requestScope.CONTRACT_DETAIL.expiryDate}"  type="date" placeholder="Enter expiry date">
                             </div>   
 
                             <div class="input-field" id="leasing" >
@@ -233,7 +234,7 @@
                             </div>
 
                                 <input type="hidden" name="type" value="Contract"/>
-                                <input type="hidden" name="redirect" value="adminAddContractPage.jsp"/>
+                                <input type="hidden" name="contractID" value="${requestScope.CONTRACT_DETAIL.contractID}"/>
 
 
                         </div>

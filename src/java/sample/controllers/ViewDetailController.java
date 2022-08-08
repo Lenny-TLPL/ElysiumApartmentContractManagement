@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sample.DAO.ContractDAO;
 import sample.DAO.NotificationDAO;
 import sample.DAO.PermissionDAO;
@@ -154,7 +155,7 @@ public class ViewDetailController extends HttpServlet {
                     url = SUCCESS;
                     break;
                 case NOTIFICATION:
-                    int notiID =Integer.parseInt(request.getParameter("notiID")) ;
+                    int notiID = Integer.parseInt(request.getParameter("notiID"));
 
                     NotificationDAO notificationDao = new NotificationDAO();
                     NotificationDTO noti = notificationDao.getNotificationByID(notiID);
@@ -164,15 +165,23 @@ public class ViewDetailController extends HttpServlet {
 
                 case PRIVATE_NOTIFICATION:
                     notiID =Integer.parseInt(request.getParameter("notiID")) ;
+                    HttpSession session = request.getSession();
+                    String roleName = (String) session.getAttribute("LOGIN_USER_ROLE");
+                    
+                    if (("Resident Customer").contains(roleName)) {
+                        notiID = Integer.parseInt(request.getParameter("notiID"));
+                    }
 
                     PrivateNotificationDAO privateNotificationDao = new PrivateNotificationDAO();
-                    PrivateNotificationDTO privatenoti = privateNotificationDao.getPrivateNotificationByID(notiID);
-                    request.setAttribute("PRIVATE_NOTIFICATION_DETAIL", privatenoti);
+                    PrivateNotificationDTO privateNoti = privateNotificationDao.getPrivateNotificationByID(notiID);
+                    privateNoti.setStatus(true);
+                    privateNotificationDao.updatePrivateNotificationUser(privateNoti);
+                    request.setAttribute("PRIVATE_NOTIFICATION_DETAIL", privateNoti);
                     url = SUCCESS;
                     break;
-                    
-                case SERVICE:                   
-                    int serviceID =Integer.parseInt(request.getParameter("serviceID")) ;
+
+                case SERVICE:
+                    int serviceID = Integer.parseInt(request.getParameter("serviceID"));
 
                     ServiceDAO serviceDao = new ServiceDAO();
                     ServiceDTO service = serviceDao.getServiceByID(serviceID);
@@ -181,23 +190,23 @@ public class ViewDetailController extends HttpServlet {
                     break;
                 case CONTRACT:
                     int contractID = Integer.parseInt(request.getParameter("contractID"));
-                    
+
                     ContractDAO contractDao = new ContractDAO();
                     ContractDTO contract = contractDao.getContractDetail(contractID);
                     String contractImage = contractDao.getContractImage(contractID);
                     request.setAttribute("CONTRACT_DETAIL", contract);
                     request.setAttribute("CONTRACT_IMAGE", contractImage);
-                    url=SUCCESS;
+                    url = SUCCESS;
                     break;
                 case PERMISSION:
                     int permissionID = Integer.parseInt(request.getParameter("permissionID"));
-                    
+
                     UserPermissionDAO uPermissionDao = new UserPermissionDAO();
                     ArrayList<String> userList = uPermissionDao.getListUsersHaveGivenPermission(permissionID);
-                    
+
                     request.setAttribute("PERMISSION_DETAIL_LIST", userList);
-                    url=SUCCESS;
-                    
+                    url = SUCCESS;
+
                     break;
                 default:
                     break;

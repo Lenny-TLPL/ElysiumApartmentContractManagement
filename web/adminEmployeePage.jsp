@@ -20,7 +20,9 @@
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo1.png">
+        <link rel="icon" type="image/png" sizes="21x21" href="images/logo1.png">
+
+        
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
@@ -29,11 +31,12 @@
             }%>
         <div class="sidebar">
             <div class="logo-details">
-                <i class='bx bxl-c-plus-plus'></i>
+<!--                <i class='bx bxl-c-plus-plus'></i>-->
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp"  style="text-decoration: none">
-                        <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
+                    <a href="adminMainPage.jsp" style="text-decoration: none;display: flex; justify-content: center">
+                        <img src="images/logo1.png" style="width:21%;" alt="homepage" class="dark-logo" />
+                        <span style="color:#FFF; text-decoration: none;margin-bottom: auto; margin-top: 20px;margin-right: 80px">ELYSIUM</span> 
                     </a>
                 </span>
             </div>

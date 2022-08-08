@@ -94,7 +94,7 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
-    <!--    <context-param>
+    <context-param>
         <param-name>quartz:shutdown-on-unload</param-name>
         <param-value>true</param-value>
     </context-param>
@@ -113,5 +113,5 @@
 
     <listener>
         <listener-class>sample.scheduler.QuartzScheduler</listener-class>
-    </listener>-->
+    </listener>
 </web-app>

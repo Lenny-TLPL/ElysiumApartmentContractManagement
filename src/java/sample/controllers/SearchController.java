@@ -174,7 +174,7 @@ public class SearchController extends HttpServlet {
                     break;
                 case NEWS:
                     NotificationDAO notiDao = new NotificationDAO();
-                        ArrayList<NotificationDTO> notiList = notiDao.getListNotification(search);                    
+                        ArrayList<NotificationDTO> notiList = notiDao.getListNotificationUser(search);                    
                         request.setAttribute("NOTIFICATION_LIST", notiList);
                         url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";
                     break;
@@ -195,6 +195,9 @@ public class SearchController extends HttpServlet {
                         request.setAttribute("BILLING_HISTORY_LIST", billList);
                         url = SUCCESS_ADMIN + type.replaceAll(" ", "") + "Page.jsp";
                     } else if (("Customer Resident").contains(roleName)) {
+                        BillingHistoryDAO billDao = new BillingHistoryDAO();
+                        ArrayList<BillingHistoryDTO> billList = billDao.getListBilling(loginUser.getUserID(),search);
+                        request.setAttribute("BILLING_HISTORY_LIST", billList);
                         url = SUCCESS_USER + type.replaceAll(" ", "") + "Page.jsp";
                     }
                     break;

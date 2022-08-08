@@ -5,14 +5,15 @@
 <!--=== Coding by CodingLab | www.codinglabweb.com === -->
 <html lang="en">
     <head>
-<!--        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <!--        <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--<title> Responsiive Admin Dashboard | CodingLab </title>-->
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo1.png">
+        <link rel="icon" type="image/png" sizes="21x21" href="images/logo1.png">
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
@@ -21,11 +22,12 @@
             }%>
         <div class="sidebar">
             <div class="logo-details">
-                <i class='bx bxl-c-plus-plus'></i>
+<!--                <i class='bx bxl-c-plus-plus'></i>-->
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp"  style="text-decoration: none">
-                        <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
+                    <a href="adminMainPage.jsp" style="text-decoration: none;display: flex; justify-content: center">
+                        <img src="images/logo1.png" style="width:21%;" alt="homepage" class="dark-logo" />
+                        <span style="color:#FFF; text-decoration: none;margin-bottom: auto; margin-top: 20px;margin-right: 80px">ELYSIUM</span> 
                     </a>
                 </span>
             </div>
@@ -119,8 +121,8 @@
         <section class="home-section">
             <nav>
                 <div class="sidebar-button">
-<!--                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Dashboard</span>-->
+                    <!--                    <i class='bx bx-menu sidebarBtn'></i>
+                                        <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
@@ -142,9 +144,9 @@
 
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title" style="float:left">MONTHLY FEE</div>
+                        <div class="title" style="float:left">MONTHLY FEE ${requestScope.UPDATE_MONTHLY_FEE_SUCCESS} ${requestScope.UPDATE_MONTHLY_FEE_ERROR}</div>
                         <a href="adminAddServicePage.jsp?type=Service"style="float:right" >
-<!--                            <i class="bx  bx-plus-circle" >ADD</i>-->
+                            <!--                            <i class="bx  bx-plus-circle" >ADD</i>-->
                         </a>
                         <div class="title"></div>
                         <table border="1" id="table">
@@ -160,6 +162,7 @@
                                     <th>Status</th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -169,15 +172,15 @@
                                             for (int i = 0; i < monthlyFeeList.size(); i++) {%>
                             <form action="MainController" method="POST">
                                 <tr>
-                                    <td> <input style="width:100%" type="text" name="monthlyFeeID" value="<%=monthlyFeeList.get(i).getMonthlyFeeID()%>" readonly="readonly"/></td>
+                                    <td style="width:4%"> <input style="width:100%" type="text" name="monthlyFeeID" value="<%=monthlyFeeList.get(i).getMonthlyFeeID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="userID" value="<%=monthlyFeeList.get(i).getUserID()%>" readonly="readonly"/></td>
                                     <td> <input style="width:100%" type="text" name="apartmentID" value="<%=monthlyFeeList.get(i).getApartmentID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="waterFee" value="<%=monthlyFeeList.get(i).getWaterFee()%>" step="0.01" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="electricityFee" value="<%=monthlyFeeList.get(i).getElectricityFee()%>" step="0.01" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="contractFee" value="<%=monthlyFeeList.get(i).getContractFee()%>" step="0.01" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="serviceFee" value="<%=monthlyFeeList.get(i).getServiceFee()%>" step="0.01" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="number" name="waterFee" value="<%=monthlyFeeList.get(i).getWaterFee()%>" step="0.01"/></td>
+                                    <td> <input style="width:100%" type="number" name="electricityFee" value="<%=monthlyFeeList.get(i).getElectricityFee()%>" step="0.01"/></td>
+                                    <td> <input style="width:100%" type="number" name="contractFee" value="<%=monthlyFeeList.get(i).getContractFee()%>" step="0.01" /></td>
+                                    <td> <input style="width:100%" type="number" name="serviceFee" value="<%=monthlyFeeList.get(i).getServiceFee()%>" step="0.01" /></td>
                                 <!--<input type="hidden" name="status" value="<%=monthlyFeeList.get(i).isStatus()%>" readonly="readonly"/>-->
-                                <input type="hidden" name="redirect" value="adminMonthlyFeeDetailPage.jsp" readonly="readonly"/>
+                                
                                 <input type="hidden" name="type" value="MonthlyFee" readonly="readonly"/>
                                 <%if (monthlyFeeList.get(i).isStatus()) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Enable" readonly="readonly"/></td>
@@ -185,12 +188,18 @@
                                 <td> <input style="width:100%; background-color: #d3190d" type="text" value="Disable" readonly="readonly"/></td>
                                     <%}%>
                                 <!--<td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td>--> 
-                                    <%if (monthlyFeeList.get(i).isStatus()) {%>
+                                <%if (monthlyFeeList.get(i).isStatus()) {%>
                                 <td style="width:6%"> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
                                     <%} else {%>
                                 <td style="width:6%"> <input style="width:100%" type="submit" name="action" value="Enable" readonly="readonly"/></td>
                                     <%}%>
-                                <td style="width:4%"> <input style="width:100%" type="submit" name="action" value="Pay" readonly="readonly"/></td> 
+                                <td style="width:4%"> 
+                                    <button style="width: 100%">
+                                        <span class="btnText"><a style="text-decoration: none; color: #000" href="GetMaterialController?type=Billing History&require=MonthlyFee&redirect=adminAddBillingHistoryPage.jsp&userID=<%=monthlyFeeList.get(i).getUserID()%>&apartmentID=<%=monthlyFeeList.get(i).getApartmentID()%>">Pay</a></span>
+                                        <i class="uil uil-navigator"></i>
+                                    </button>
+                                </td>
+                                <td style="width:8%"> <input style="width:100%" type="submit" name="action" value="Update" readonly="readonly"/></td>
                                 </tr>  
                             </form>
                             <%}

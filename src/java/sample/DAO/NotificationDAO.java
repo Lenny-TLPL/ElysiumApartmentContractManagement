@@ -25,6 +25,7 @@ public class NotificationDAO {
     private static final String GET_NOTIFICATION_BY_ID = "SELECT notiID, notiHeader, notiContent, notiDate, status FROM tblNotification WHERE notiID = ?";
     private static final String UPDATE_NOTIFICATION_STATUS = "UPDATE tblNotification SET status = ? WHERE notiID = ? ";
     private static final String UPDATE_NOTIFICATION="UPDATE tblNotification SET notiHeader = ?, notiContent = ?, notiDate = ?, status = ? WHERE notiID = ?";
+    private static final String GET_LIST_NOTIFICATION_USER="SELECT * FROM tblNotification WHERE status = 1 AND( notiHeader LIKE ? OR notiContent LIKE ?)";
     
     public ArrayList<NotificationDTO> getListNotification( String search) throws SQLException {
         ArrayList<NotificationDTO> list = new ArrayList<>();
@@ -183,4 +184,43 @@ public class NotificationDAO {
         return check;
     }
     
+    public ArrayList<NotificationDTO> getListNotificationUser( String search) throws SQLException {
+        ArrayList<NotificationDTO> list = new ArrayList<>();
+        NotificationDTO noti = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_LIST_NOTIFICATION_USER);
+                stm.setString(1, "%"+search+"%");
+                stm.setString(2, "%"+search+"%");            
+                rs = stm.executeQuery();
+                while (rs.next()) { 
+                    int notiID = rs.getInt("notiID");
+                    String notiHeader = rs.getNString("notiHeader");
+                    String notiContent = rs.getNString("notiContent");
+                    Date notiDate = rs.getDate("notiDate");
+                    boolean status = rs.getBoolean("status");
+                    noti = new NotificationDTO(notiID, notiHeader, notiContent, notiDate, status);
+                    list.add(noti);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        Collections.sort(list);
+        return list;
+    }
 }

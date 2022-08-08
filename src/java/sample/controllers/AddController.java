@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 import sample.DAO.ApartmentBuildingDAO;
 import sample.DAO.ApartmentDAO;
 import sample.DAO.ApartmentTypeDAO;
+import sample.DAO.BillingHistoryDAO;
 import sample.DAO.ContractDAO;
 import sample.DAO.DistrictDAO;
 import sample.DAO.MonthlyFeeDAO;
@@ -32,6 +33,8 @@ import sample.DTO.ApartmentBuildingError;
 import sample.DTO.ApartmentDTO;
 import sample.DTO.ApartmentError;
 import sample.DTO.ApartmentTypeError;
+import sample.DTO.BillingHistoryDTO;
+import sample.DTO.BillingHistoryError;
 import sample.DTO.ContractDTO;
 import sample.DTO.ContractError;
 import sample.DTO.DistrictError;
@@ -66,7 +69,6 @@ public class AddController extends HttpServlet {
     private static final String APARTMENT_BUILDING = "Apartment Building";
     private static final String DISTRICT = "District";
     private static final String BILLING_HISTORY = "Billing History";
-    private static final String MONTHLY_FEE = "MonthlyFee";
     private static final String PERMISSION = "Permission";
 
     /**
@@ -120,11 +122,11 @@ public class AddController extends HttpServlet {
                         userError.setCitizenID("Duplicate citizenID");
                         check = false;
                     }
-                    if(userDao.checkDuplicateEmailAdmin(email)){
+                    if (userDao.checkDuplicateEmailAdmin(email)) {
                         userError.setEmail("Duplicate email");
                         check = false;
                     }
-                    if(userDao.checkDuplicatePhoneAdmin(phone)){
+                    if (userDao.checkDuplicatePhoneAdmin(phone)) {
                         userError.setPhone("Duplicate phone");
                         check = false;
                     }
@@ -192,11 +194,11 @@ public class AddController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
-                    if(userDao.checkDuplicatePhoneAdmin(phone)){
+                    if (userDao.checkDuplicatePhoneAdmin(phone)) {
                         userError.setPhone("Duplicate phone");
                         check = false;
                     }
-                    if(userDao.checkDuplicateEmailAdmin(email)){
+                    if (userDao.checkDuplicateEmailAdmin(email)) {
                         userError.setEmail("Duplicate email");
                         check = false;
                     }
@@ -260,11 +262,11 @@ public class AddController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
-                    if(userDao.checkDuplicatePhoneAdmin(phone)){
+                    if (userDao.checkDuplicatePhoneAdmin(phone)) {
                         userError.setPhone("Duplicate phone");
                         check = false;
                     }
-                    if(userDao.checkDuplicateEmailAdmin(email)){
+                    if (userDao.checkDuplicateEmailAdmin(email)) {
                         userError.setEmail("Duplicate email");
                         check = false;
                     }
@@ -311,12 +313,12 @@ public class AddController extends HttpServlet {
                     Part contractImageFilePart = request.getPart("contractImage");
                     String apartmentID = request.getParameter("apartmentID");
                     String contractType = request.getParameter("contractType");
-                    float interestRate = 0; 
+                    float interestRate = 0;
 //                    Blob contractImage = imageFilePart.getInputStream();
                     Date expiryDate = null;
                     int monthsOfDebt = 0;
                     if (contractType.equals("amortization")) {
-                        interestRate = Float.parseFloat(request.getParameter("interestRate")) ;
+                        interestRate = Float.parseFloat(request.getParameter("interestRate"));
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
                         expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                     } else if (contractType.equals("leasing")) {
@@ -345,11 +347,11 @@ public class AddController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
-                    if(userDao.checkDuplicatePhoneUser(phone)){
+                    if (userDao.checkDuplicatePhoneUser(phone)) {
                         userError.setPhone("Duplicate phone");
                         check = false;
                     }
-                    if(userDao.checkDuplicateEmailUser(email)){
+                    if (userDao.checkDuplicateEmailUser(email)) {
                         userError.setEmail("Duplicate email");
                         check = false;
                     }
@@ -438,7 +440,7 @@ public class AddController extends HttpServlet {
                     expiryDate = null;
                     monthsOfDebt = 0;
                     if (contractType.equals("amortization")) {
-                        interestRate = Float.parseFloat(request.getParameter("interestRate")) ;
+                        interestRate = Float.parseFloat(request.getParameter("interestRate"));
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
                         expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                     } else if (contractType.equals("leasing")) {
@@ -467,11 +469,11 @@ public class AddController extends HttpServlet {
                         userError.setCitizenID("Invalid citizenID");
                         check = false;
                     }
-                    if(userDao.checkDuplicatePhoneUser(phone)){
+                    if (userDao.checkDuplicatePhoneUser(phone)) {
                         userError.setPhone("Duplicate phone");
                         check = false;
                     }
-                    if(userDao.checkDuplicateEmailUser(email)){
+                    if (userDao.checkDuplicateEmailUser(email)) {
                         userError.setEmail("Duplicate email");
                         check = false;
                     }
@@ -561,7 +563,7 @@ public class AddController extends HttpServlet {
                         serviceError.setServiceName("Duplicate service name");
                         check = false;
                     }
-                    if(price <=0){
+                    if (price <= 0) {
                         serviceError.setPrice("Price must be >0");
                         check = false;
                     }
@@ -580,20 +582,20 @@ public class AddController extends HttpServlet {
                     }
                     break;
                 case NOTIFICATION:
-                        
+
                     String notiHeader = request.getParameter("notiHeader");
                     String notiContent = request.getParameter("notiContent");
                     check = true;
                     NotificationError notiError = new NotificationError();
-                    if(notiHeader.trim().equals("")){
+                    if (notiHeader.trim().equals("")) {
                         notiError.setNotiHeader("Header can not be null");
                         check = false;
                     }
-                    if(notiContent.trim().equals("")){
+                    if (notiContent.trim().equals("")) {
                         notiError.setNotiContent("Content can not be null");
                         check = false;
                     }
-                    
+
                     NotificationDAO notiDao = new NotificationDAO();
 
                     if (check) {
@@ -621,11 +623,11 @@ public class AddController extends HttpServlet {
                         privateNotiError.setNotiID("Invalid userID");
                         check = false;
                     }
-                    if(notiHeader.trim().equals("")){
+                    if (notiHeader.trim().equals("")) {
                         privateNotiError.setNotiHeader("Header can not be null");
                         check = false;
                     }
-                    if(notiContent.trim().equals("")){
+                    if (notiContent.trim().equals("")) {
                         privateNotiError.setNotiContent("Content can not be null");
                         check = false;
                     }
@@ -686,7 +688,7 @@ public class AddController extends HttpServlet {
                     monthsOfDebt = 0;
                     interestRate = 0;
                     if (contractType.equals("amortization")) {
-                        interestRate = Float.parseFloat(request.getParameter("interestRate")) ;
+                        interestRate = Float.parseFloat(request.getParameter("interestRate"));
                         monthsOfDebt = Integer.parseInt(request.getParameter("monthsOfDebt"));
                         expiryDate = DateUtils.plusMonths(dateSign, monthsOfDebt);
                     } else if (contractType.equals("leasing")) {
@@ -767,7 +769,7 @@ public class AddController extends HttpServlet {
                     DistrictDAO districtDao = new DistrictDAO();
                     DistrictError districtError = new DistrictError();
                     check = true;
-                    if(districtName.trim().equals("")){
+                    if (districtName.trim().equals("")) {
                         districtError.setDistrictName("Name can not be null");
                         check = false;
                     }
@@ -796,8 +798,8 @@ public class AddController extends HttpServlet {
 
                     ApartmentBuildingDAO apBuildingDao = new ApartmentBuildingDAO();
                     ApartmentBuildingError apBuildingError = new ApartmentBuildingError();
-                    
-                    if(buildingName.trim().equals("")){
+
+                    if (buildingName.trim().equals("")) {
                         apBuildingError.setBuildingName("Name can not be null");
                         check = false;
                     }
@@ -826,8 +828,8 @@ public class AddController extends HttpServlet {
                     ApartmentTypeDAO typeDao = new ApartmentTypeDAO();
                     ApartmentTypeError typeError = new ApartmentTypeError();
                     check = true;
-                    
-                    if(typeName.trim().equals("")){
+
+                    if (typeName.trim().equals("")) {
                         typeError.setTypeName("Name can not be null");
                         check = false;
                     }
@@ -878,24 +880,24 @@ public class AddController extends HttpServlet {
                         apError.setFloor("Invalid floor");
                         check = false;
                     }
-                    
-                    if((int)floor != floor){
+
+                    if ((int) floor != floor) {
                         apError.setFloor("Floor is integer");
                         check = false;
                     }
 
                     if (check) {
                         ArrayList<ApartmentDTO> apList = apartmentDao.getApartmentListInABuilding(apBuilding.getBuildingID());
-                        boolean checkAdd=true;
-                        if(apList.size()==apBuilding.getMaxApartment()){
+                        boolean checkAdd = true;
+                        if (apList.size() == apBuilding.getMaxApartment()) {
                             apError.setBuildingName("Building is full");
                             apBuildingDao.updateApartmentBuildingStatus(apBuilding.getBuildingID(), !apBuilding.isStatus());
-                        }else{
+                        } else {
                             checkAdd = apartmentDao.addApartment(apartmentStatus, typeName, floor, buildingName, area);
                         }
-                        if (checkAdd) {        
+                        if (checkAdd) {
                             apList = apartmentDao.getApartmentListInABuilding(apBuilding.getBuildingID());
-                            if(apList.size()==apBuilding.getMaxApartment()){
+                            if (apList.size() == apBuilding.getMaxApartment()) {
                                 apBuildingDao.updateApartmentBuildingStatus(apBuilding.getBuildingID(), !apBuilding.isStatus());
                             }
                             request.setAttribute("ADD_APARTMENT_SUCCESS", "New apartment has been added.");
@@ -909,6 +911,114 @@ public class AddController extends HttpServlet {
                     }
 
                     break;
+                case BILLING_HISTORY:
+                    userID = request.getParameter("userID");
+                    apartmentID = request.getParameter("apartmentID");
+                    float contractFee = 0;
+                    float serviceFee = 0;
+                    float electricityFee = 0;
+                    float waterFee = 0;
+                    float otherFee = 0;
+                    float receivedValue = 0;
+                    float change = 0;
+                    if (request.getParameter("contractFee") != null) {
+                        contractFee = Float.parseFloat(request.getParameter("contractFee"));
+                    }
+                    if (request.getParameter("serviceFee") != null) {
+                        serviceFee = Float.parseFloat(request.getParameter("serviceFee"));
+                    }
+                    if (request.getParameter("electricityFee") != null) {
+                        electricityFee = Float.parseFloat(request.getParameter("electricityFee"));
+                    }
+                    if (request.getParameter("waterFee") != null) {
+                        waterFee = Float.parseFloat(request.getParameter("waterFee"));
+                    }
+                    if (request.getParameter("otherFee") != null && request.getParameter("otherFeeRadio") != null) {
+                        otherFee = Float.parseFloat(request.getParameter("otherFee"));
+                    }
+                    if (request.getParameter("receivedValue") != null) {
+                        receivedValue = Float.parseFloat(request.getParameter("receivedValue"));
+                    }
+                    if (request.getParameter("change") != null) {
+                        change = Float.parseFloat(request.getParameter("change"));
+                    }
+                    check = true;
+
+                    BillingHistoryError billError = new BillingHistoryError();
+                    BillingHistoryDAO billDao = new BillingHistoryDAO();
+                    monthlyFeeDao = new MonthlyFeeDAO();
+                    userDao = new UserDAO();
+                    apartmentDao = new ApartmentDAO();
+
+                    if (userDao.getUserByID(userID) == null) {
+                        billError.setUserID("Invalid userID");
+                        check = false;
+                    }
+                    if (apartmentDao.getApartment(apartmentID) == null) {
+                        billError.setApartmentID("Invalid apartmentID");
+                        check = false;
+                    }
+                    if (monthlyFeeDao.getUserMonthlyFeeDetail(userID, apartmentID) == null) {
+                        billError.setUserID("Invalid userID");
+                        billError.setApartmentID("Invalid apartmentID");
+                        check = false;
+                    }
+                    if (contractFee < 0) {
+                        billError.setContractFee("Contract Fee must be >=0");
+                        check = false;
+                    } else if (contractFee == 0) {
+                        contractFee = -1;
+                    }
+                    if (serviceFee < 0) {
+                        billError.setServiceFee("Service Fee must be >=0");
+                        check = false;
+                    } else if (serviceFee == 0) {
+                        serviceFee = -1;
+                    }
+                    if (waterFee < 0) {
+                        billError.setWaterFee("Water Fee must be >=0");
+                        check = false;
+                    } else if (waterFee == 0) {
+                        waterFee = -1;
+                    }
+                    if (electricityFee < 0) {
+                        billError.setElectricityFee("Electricity Fee must be >=0");
+                        check = false;
+                    } else if (electricityFee == 0) {
+                        electricityFee = -1;
+                    }
+                    if (otherFee < 0) {
+                        billError.setOtherFee("Other Fee must be >=0");
+                        check = false;
+                    } else if (otherFee == 0) {
+                        otherFee = -1;
+                    }
+                    if (receivedValue <= 0) {
+                        billError.setReceivedValue("Received value is not enough");
+                        check = false;
+                    }
+                    if (check) {
+                        BillingHistoryDTO billingHistory = null;
+                        if (otherFee > -1) {
+                            billingHistory = new BillingHistoryDTO(0, null, userID, apartmentID, contractFee, serviceFee, waterFee, electricityFee, otherFee, receivedValue, change);
+                            billDao.addBillingHistory(billingHistory);
+                        } else {
+                            billingHistory = new BillingHistoryDTO(0, null, userID, apartmentID, contractFee, serviceFee, waterFee, electricityFee, otherFee, receivedValue, change);
+                            boolean checkAdd = monthlyFeeDao.updateMonthlyFee(userID, apartmentID, billingHistory);
+                            if (checkAdd) {
+                                billDao.addBillingHistory(billingHistory);
+                                request.setAttribute("ADD_BILLING_SUCCESS", "New billing history has been added.");
+                            } else {
+                                billError.setErrorMessage("Fail to add new billing history");
+                                request.setAttribute("ADD_BILLING_ERROR", billError);
+                            }
+                        }
+                    } else {
+                        billError.setErrorMessage("Fail to add new billing history");
+                        request.setAttribute("ADD_BILLING_ERROR", billError);
+                    }
+                    break;
+
                 default:
                     break;
 

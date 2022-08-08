@@ -19,7 +19,7 @@ import sample.utils.DBUtils;
  */
 public class UserDAO {
 
-    private static final String LOGIN = "SELECT fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID FROM tblUser  WHERE (userID COLLATE SQL_Latin1_General_CP1_CS_AS = ? or phone = ?) AND password COLLATE SQL_Latin1_General_CP1_CS_AS = ? AND status = 1";
+    private static final String LOGIN = "SELECT fullName, email, phone, address, birthday, citizenID, gender, dateJoin, status, roleID FROM tblUser  WHERE (userID COLLATE SQL_Latin1_General_CP1_CS_AS = ?) AND password COLLATE SQL_Latin1_General_CP1_CS_AS = ? AND status = 1";
     private static final String CHECK_DUPLICATE_USER = "SELECT userID, citizenID FROM tblUser WHERE tblUser.citizenID COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND tblUser.roleID NOT IN(1,2,3)";
     private static final String CHECK_DUPLICATE_ADMIN = "SELECT userID, citizenID FROM tblUser WHERE tblUser.citizenID COLLATE SQL_Latin1_General_CP1_CS_AS = ?  AND tblUser.roleID NOT IN(4,5)";
     private static final String ADD_USER = "EXEC addUser ?, ?, ?, ?, ?, ?, ?, ?, ?";
@@ -58,8 +58,7 @@ public class UserDAO {
             if (conn != null) {
                 stm = conn.prepareStatement(LOGIN);
                 stm.setString(1, userID);
-                stm.setString(2, userID);
-                stm.setString(3, password);
+                stm.setString(2, password);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     String fullName = rs.getNString("fullName");
@@ -549,8 +548,8 @@ public class UserDAO {
                 ptm.setString(7, user.getGender());
                 ptm.setBoolean(8, user.isStatus());
                 ptm.setInt(9, user.getRoleID());
-                ptm.setString(10, user.getUserID());
-                ptm.setString(11, user.getPassword());
+                ptm.setString(11, user.getUserID());
+                ptm.setString(10, user.getPassword());
                 check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
             }
         } catch (Exception e) {

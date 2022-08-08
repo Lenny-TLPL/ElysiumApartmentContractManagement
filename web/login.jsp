@@ -22,6 +22,8 @@
         <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
         <link rel="stylesheet" href="css/fl-bigmug-line.css">
         <link href="css/login_stye.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" type="image/png" sizes="21x21" href="images/logo1.png">
+
         <title>Login Page</title>
 
     </head>
@@ -36,8 +38,8 @@
                                     <div class="card-body p-md-5 mx-md-4">
 
                                         <div class="text-center">
-                                            <img src=""
-                                                 style="width: 185px;" alt="logo">
+                                            <img src="images/logo4.png"
+                                                 style="width: 150px;" alt="logo">
                                             <h4 class="mt-1 mb-5 pb-1">Welcome to Elysium</h4>
                                         </div>
 
@@ -46,7 +48,7 @@
 
                                             <div class="form-outline mb-4">
                                                 <input name="userID" type="text" id="form2Example11" class="form-control" required=""
-                                                       placeholder="UserID or phone number" value="${param.userID}" />                            
+                                                       placeholder="UserID  " value="${param.userID}" />                            
                                             </div>
 
                                             <div class="form-outline mb-4">
@@ -56,11 +58,11 @@
                                             ${requestScope.LOGIN_ERROR}
                                             <div class="text-center pt-1 mb-5 pb-1">                           
                                                 <button  class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" value="Login" name="action">Login</button> 
-                                                <a class="text-muted" href="#!">Forgot password?</a>
+<!--                                                <a class="text-muted" href="#!">Forgot password?</a>-->
                                             </div>  
-
+                                            </br>
                                             <div class="d-flex align-items-center justify-content-center pb-4">
-                                                <p class="mb-0 me-2">Hotline</p>
+                                                <p class="mb-0 me-2">Hotline: 0971407775 </br>Email: ElysiumApartmentCo@gmail.com</p> 
                                             </div>
 
                                         </form>
@@ -70,9 +72,7 @@
                                 <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
                                     <div class="text-white px-3 py-4 p-md-5 mx-md-4">
                                         <h4 class="mb-4">We are more than just a company</h4>
-                                        <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                        <p class="small mb-0"> Here at Elysium we always seek the best for our customers. We are one big family. We do not provide houses, we provide homes.</p>
                                     </div>
                                 </div>
                             </div>

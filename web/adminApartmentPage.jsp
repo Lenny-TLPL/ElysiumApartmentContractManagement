@@ -15,7 +15,8 @@
         <link rel="stylesheet" href="css/admincss.css">
         <!-- Boxicons CDN Link -->
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo1.png">
+        <link rel="icon" type="image/png" sizes="21x21" href="images/logo1.png">
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
@@ -24,11 +25,12 @@
             }%>
         <div class="sidebar">
             <div class="logo-details">
-                <i class='bx bxl-c-plus-plus'></i>
+<!--                <i class='bx bxl-c-plus-plus'></i>-->
                 <!--      <img src="assets/images/logo1.png" style="width:10%" alt="homepage" class="dark-logo" />-->
                 <span class="logo_name">
-                    <a href="adminMainPage.jsp" style="text-decoration: none">
-                        <span style="color:#FFF; text-decoration: none;">ELYSIUM</span> 
+                    <a href="adminMainPage.jsp" style="text-decoration: none;display: flex; justify-content: center">
+                        <img src="images/logo1.png" style="width:21%;" alt="homepage" class="dark-logo" />
+                        <span style="color:#FFF; text-decoration: none;margin-bottom: auto; margin-top: 20px;margin-right: 80px">ELYSIUM</span> 
                     </a>
                 </span>
             </div>
@@ -122,8 +124,8 @@
         <section class="home-section">
             <nav>
                 <div class="sidebar-button">
-<!--                    <i class='bx bx-menu sidebarBtn'></i>
-                    <span class="dashboard">Dashboard</span>-->
+                    <!--                    <i class='bx bx-menu sidebarBtn'></i>
+                                        <span class="dashboard">Dashboard</span>-->
                 </div>
                 <form action="MainController"class="search-box">
                     <div>
@@ -142,7 +144,7 @@
             <div class="home-content">
                 <div class="sales-boxes">
                     <div class="recent-sales box">
-                        <div class="title" style="float:left">APARTMENT LOCATION</div>
+                        <div class="title" style="float:left">APARTMENT LOCATION  ${requestScope.UPDATE_DISTRICT_SUCCESS} ${requestScope.UPDATE_DISTRICT_ERROR.errorMessage} ${requestScope.UPDATE_DISTRICT_ERROR.districtName}</div>
                         <a href="adminAddDistrictPage.jsp?type=District"style="float:right" >
                             <i class="bx  bx-plus-circle" >ADD</i>
                         </a>
@@ -151,6 +153,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>NAME</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -161,7 +164,10 @@
                             <form action="MainController" method="POST">
                                 <tr>
                                     <td> <input style="width:100%" type="text" name="districtID" value="<%=districtList.get(i).getDistrictID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="districtName" value="<%=districtList.get(i).getDistrictName()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="districtName" value="<%=districtList.get(i).getDistrictName()%>" /></td>
+                                    <td> <input style="width:100%" type="submit" name="action" value="Update" readonly="readonly"/></td>
+                                <input style="width:100%" type="hidden" name="type" value="District" />
+
                                 </tr>  
                             </form>
                             <%}
@@ -193,6 +199,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <%!int districtID = 0;%>
                                 <%  ArrayList<ApartmentBuildingDTO> buildingList = (ArrayList<ApartmentBuildingDTO>) request.getAttribute("APARTMENT_BUILDING_LIST");
                                     if (buildingList != null) {
                                         if (buildingList.size() > 0) {
@@ -200,13 +207,29 @@
                             <form action="MainController" method="POST">
                                 <tr>
                                     <td> <input style="width:100%" type="text" name="buildingID" value="<%=buildingList.get(i).getBuildingID()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="buildingName" value="<%=buildingList.get(i).getBuildingName()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="text" name="districtName" value="<%=buildingList.get(i).getDistrictName()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="maxFloor" value="<%=buildingList.get(i).getMaxFloor()%>" readonly="readonly"/></td>
-                                    <td> <input style="width:100%" type="number" name="maxApartment" value="<%=buildingList.get(i).getMaxApartment()%>" readonly="readonly"/></td>
+                                    <td> <input style="width:100%" type="text" name="buildingName" value="<%=buildingList.get(i).getBuildingName()%>"/></td>
+                                    <input style="width:100%" type="hidden" name="districtName" value="<%=buildingList.get(i).getDistrictName()%>" readonly="readonly"/>
+                                    <td><select  style="width:100%"  name="districtID">
+                                            
+                                            <option value="<%=buildingList.get(i).getDistrictName()%>"><%=buildingList.get(i).getDistrictName()%></option>
+                                            <%
+                                                if (districtList != null) {
+                                                    if (districtList.size() > 0) {
+                                                        for (int j = 0; j < districtList.size(); j++) {
+                                            %>
+                                            <option value="<%=districtList.get(j).getDistrictID()%>"><%=districtList.get(j).getDistrictName()%></option>
+                                            <%
+                                                        }
+                                                    }
+
+                                                }
+                                            %>
+                                        </select></td>
+                                    <td> <input style="width:100%" type="number" name="maxFloor" value="<%=buildingList.get(i).getMaxFloor()%>"/></td>
+                                    <td> <input style="width:100%" type="number" name="maxApartment" value="<%=buildingList.get(i).getMaxApartment()%>" /></td>
                                 <input type="hidden" name="status" value="<%=buildingList.get(i).isStatus()%>" readonly="readonly"/>
                                 <input type="hidden" name="type" value="Apartment Building" readonly="readonly"/>
-                                <%if (buildingList.get(i).isStatus()==true) {%>
+                                <%if (buildingList.get(i).isStatus() == true) {%>
                                 <td> <input style="width:100%; background-color: #669c19" type="text"value="Available" readonly="readonly"/></td>
                                     <%} else {%>
                                 <td> <input style="width:100%; background-color: #d3190d" type="text" value="Full" readonly="readonly"/></td>
@@ -309,7 +332,7 @@
                                 <td> <input style="width:100%; background-color: #d3190d" type="text" value="<%=apartmentList.get(i).getApartmentStatus()%>" readonly="readonly"/></td>
                                     <%}%>
                                 <td> <input style="width:100%" type="submit" name="action" value="View Detail" readonly="readonly"/></td> 
-                                  
+
                                 <%if (("available").contains(apartmentList.get(i).getApartmentStatus())) {%>
                                 <td> <input style="width:100%" type="submit" name="action" value="Disable" readonly="readonly"/></td>
                                     <%} else if (("maintenance").contains(apartmentList.get(i).getApartmentStatus())) {%>

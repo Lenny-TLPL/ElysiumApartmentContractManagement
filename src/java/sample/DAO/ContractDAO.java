@@ -29,12 +29,16 @@ public class ContractDAO {
     private static final String ADD_CONTRACT = "EXEC addContract ?, ?, ?, ?, ?, ?, ?, ?";
     private static final String GET_CONTRACT_DETAIL_WITHOUT_IMAGE = "SELECT contractID, dateSign, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status FROM tblContract WHERE contractID = ?";
     private static final String GET_CONTRACT_IMAGE = "SELECT contractImage FROM tblContract WHERE contractID = ?";
-    private static final String GET_LIST_DUE_CONTRACT = "SELECT userID,contractID, apartmentID FROM tblContract WHERE expiryDate = GETDATE() ";
+    private static final String GET_LIST_DUE_CONTRACT = "SELECT userID,contractID, apartmentID FROM tblContract WHERE DAY(expiryDate) =  DAY(GETDATE()) AND MONTH(expiryDate) =  MONTH(GETDATE()) AND YEAR(expiryDate) =  YEAR(GETDATE()) ";
     private static final String MANAGE_DUE_CONTRACT = "EXEC checkValidContract ?, ?, ?";
     private static final String GET_LIST_USER_MAIL_ALMOST_DUE_CONTRACT = "SELECT  DISTINCT u.email FROM tblContract c INNER JOIN tblUser u ON c.userID = u.userID\n" +
 "WHERE YEAR(expiryDate) = YEAR(GETDATE()) AND MONTH(expiryDate)=MONTH(GETDATE()) AND DAY(expiryDate)-DAY(GETDATE()) = ?";
-    private static final String GET_LIST_USER_ID_ALMOST_DUE_CONTRACT = "SELECT  DISTINCT u.usesrID FROM tblContract c INNER JOIN tblUser u ON c.userID = u.userID\n" +
+    private static final String GET_LIST_USER_ID_ALMOST_DUE_CONTRACT = "SELECT  DISTINCT u.userID FROM tblContract c INNER JOIN tblUser u ON c.userID = u.userID\n" +
 "WHERE YEAR(expiryDate) = YEAR(GETDATE()) AND MONTH(expiryDate)=MONTH(GETDATE()) AND DAY(expiryDate)-DAY(GETDATE()) = ?";
+    private static final String GET_CONTRACT_DETAIL_WITH_USERID_APARTMENTID = "SELECT contractID, dateSign, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status FROM tblContract WHERE userID = ? AND apartmentID = ? AND status = 1";
+    private static final String UPDATE_CONTRACT_STATUS="UPDATE tblContract SET status = ? WHERE contractID = ?";
+    private static final String UPDATE_CONTRACT = "UPDATE tblContract SET dateSign = ?, contractImage = ?, expiryDate = ?, monthsOfDebt = ?, interestRate = ?, value = ? WHERE contractID = ?";
+    private static final String UPDATE_CONTRACT_WITHOUT_IMAGE="UPDATE tblContract SET dateSign = ?,  expiryDate = ?, monthsOfDebt = ?, interestRate = ?, value = ? WHERE contractID = ?";
     
     public ArrayList<ContractDTO> getListContract(String search) throws SQLException {
         ArrayList<ContractDTO> list = new ArrayList<>();
@@ -393,7 +397,7 @@ public class ContractDAO {
                 stm.setInt(1, diffDate );
                 rs = stm.executeQuery();
                 while (rs.next()) {
-                    String userID = rs.getNString("userID");
+                    String userID = rs.getString("userID");
                     if(userID != null){
                         list.add(userID);
                     }
@@ -413,5 +417,152 @@ public class ContractDAO {
             }
         }
         return list;
+    }
+    
+    public ContractDTO getContractDetail(String userID, String apartmentID) throws SQLException {
+        ContractDTO contract = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                stm = conn.prepareStatement(GET_CONTRACT_DETAIL_WITH_USERID_APARTMENTID);
+                stm.setString(1, userID);
+                stm.setString(2, apartmentID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    Date dateSign = rs.getDate("dateSign");
+//                    Blob contractImage=rs.getBlob("contractImage");
+//                    if(rs.getBytes("contracImage")!=null){
+//                        byte[] img = rs.getBytes("contractImage");
+//                    ImageIcon image = new ImageIcon(img);
+//                    contractImage = image.getImage();    
+//                    }else{
+//                        contractImage=null;
+//                    }
+                    int contractID = rs.getInt("contractID");
+                    boolean status = rs.getBoolean("status");
+                    String contractType = rs.getString("contractType");
+                    float value = rs.getFloat("value");
+                    if (contractType.equals("buying")) {
+                        contract = new ContractDTO(contractID, dateSign, null, userID, apartmentID, value, null, 0, 0, contractType, status);
+                    } else if (contractType.equals("amortization")) {
+                        Date expiryDate = rs.getDate("expiryDate");
+                        int monthsOfDebt = rs.getInt("monthsOfDebt");
+                        float interestRate = rs.getFloat("interestRate");
+                        contract = new ContractDTO(contractID, dateSign, null, userID, apartmentID, value, expiryDate, monthsOfDebt, interestRate, contractType, status);
+                    } else if (contractType.equals("leasing")) {
+                        Date expiryDate = rs.getDate("expiryDate");
+                        contract = new ContractDTO(contractID, dateSign, null, userID, apartmentID, value, expiryDate, 0, 0, contractType, status);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return contract;
+    }
+    
+    public boolean updateContractStatus(int contractID, boolean status) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_CONTRACT_STATUS);
+                ptm.setBoolean(1, status);
+                ptm.setInt(2, contractID);
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
+    public boolean updateContract(ContractDTO contract, Part imageFilePart) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_CONTRACT);
+                ptm.setDate(1, new java.sql.Date(contract.getDateSign().getTime()));
+                ptm.setBlob(2, imageFilePart.getInputStream());
+                if (contract.getExpiryDate() != null) {
+                    ptm.setDate(3, new java.sql.Date(contract.getExpiryDate().getTime()));
+                } else {
+                    ptm.setDate(3, null);
+                }
+                ptm.setFloat(4, contract.getMonthsOfDebt());
+                ptm.setFloat(5, contract.getInterestRate());
+                ptm.setFloat(6, contract.getValue());
+                ptm.setInt(7, contract.getContractID());
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+    
+    public boolean updateContract(ContractDTO contract) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_CONTRACT_WITHOUT_IMAGE);
+                ptm.setDate(1, new java.sql.Date(contract.getDateSign().getTime()));
+                if (contract.getExpiryDate() != null) {
+                    ptm.setDate(2, new java.sql.Date(contract.getExpiryDate().getTime()));
+                } else {
+                    ptm.setDate(2, null);
+                }
+                ptm.setFloat(3, contract.getMonthsOfDebt());
+                ptm.setFloat(4, contract.getInterestRate());
+                ptm.setFloat(5, contract.getValue());
+                ptm.setInt(6, contract.getContractID());
+                check = ptm.executeUpdate() > 0 ? true : false; //execute update dung cho insert,delete
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

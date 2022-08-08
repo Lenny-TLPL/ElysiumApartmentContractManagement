@@ -42,12 +42,9 @@ public class UpdateStatusController extends HttpServlet {
     private static final String CONTRACT = "Contract";
     private static final String SERVICE = "Service";
     private static final String NOTIFICATION = "Notification";
-    private static final String PRIVATE_NOTIFICATION = "Private Notification";
     private static final String APARTMENT_TYPE = "Apartment Type";
     private static final String APARTMENT = "Apartment";
     private static final String APARTMENT_BUILDING = "Apartment Building";
-    private static final String DISTRICT = "District";
-    private static final String BILLING_HISTORY = "Billing History";
     private static final String MONTHLY_FEE = "MonthlyFee";
     private static final String PERMISSION = "Permission";
 

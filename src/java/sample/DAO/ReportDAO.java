@@ -739,7 +739,7 @@ public class ReportDAO {
 //        return quantity;
 //    }  
     
-    public ArrayList<Integer> getTotalContractSignedThisYearV1() throws SQLException {
+    public ArrayList<Integer> getTotalContractSignedThisYear() throws SQLException {
         ArrayList<Integer> list = new ArrayList<>();
         int quantity = 0;
         Connection conn = null;
